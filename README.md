@@ -1,7 +1,5 @@
 # Dotfiles
 
-[![Mentioned in Awesome Claude Code](https://awesome.re/mentioned-badge.svg)](https://github.com/hesreallyhim/awesome-claude-code)
-
 ## Installation
 
 1. Install Deno: https://docs.deno.com/runtime/getting_started/installation/
