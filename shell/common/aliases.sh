@@ -35,7 +35,7 @@ if [ -n "$ZSH_VERSION" ]; then
     # ZSH-specific aliases
     alias vv='vzsh'
     alias ss='szsh'
-    alias vzsh='edit ~/Development/development-workspace/dotfiles'
+    alias vzsh='edit ~/dev/dotfiles'
     alias szsh='source ~/.zshrc'
 elif [ -n "$BASH_VERSION" ]; then
     # Bash-specific aliases
@@ -50,15 +50,8 @@ alias vrc='edit ~/.$(basename $SHELL)rc'
 alias src='source ~/.$(basename $SHELL)rc'
 
 # Directory navigation
-alias ddd='edit ~/Development/development-workspace'
-alias dev='cd ~/Development'
-alias will='cd ~'
-alias n='edit /Users/tzdanows/Development/development-workspace/notes'
-alias cs='edit /Users/tzdanows/Development/csgo-config'
-alias mn='cd /Users/tzdanows/Development/manning'
-alias oss='cd /Users/tzdanows/Development/oss'
-alias lab='edit /Users/tzdanows/Development/development-workspace/anton'
-
+alias dev='cd ~/dev'
+alias tom='cd ~'
 # Modern CLI tool replacements
 alias cat='bat --paging=never'
 alias find='fd'
@@ -106,7 +99,6 @@ alias gm='git merge'
 alias gca='git commit --amend --no-edit'
 alias gcl='git clone'
 alias gco='git checkout'
-alias gcb='git checkout'
 alias gd='git diff'
 alias gds='gd --stat'
 alias gfd='git clean -fd'
@@ -118,7 +110,7 @@ alias gpu='eval git push -u origin $(git rev-parse --abbrev-ref HEAD)'
 alias gpr='git pull --rebase'
 alias gpro='git pull --rebase origin master'
 alias gpo='git pull --rebase origin master'
-alias gpw='git pull --rebase origin will'
+alias gpt='git pull --rebase origin tom'
 alias gr='git revert'
 alias gri='git rebase -i origin/master'
 alias grco='git rebase --continue'
