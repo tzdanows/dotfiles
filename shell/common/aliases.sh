@@ -29,6 +29,7 @@ alias g='gemini'
 alias x='claude'
 alias xs'claude --model sonnet'
 alias xx='cd ~/Development/development-workspace'
+alias lfg='claude --model opusplan --dangerously-skip-permissions'
 
 # Shell-agnostic aliases - detect current shell and use appropriate config
 if [ -n "$ZSH_VERSION" ]; then
@@ -119,6 +120,7 @@ alias gsw='git switch -c'
 alias gbddd='git branch | grep -v "main" | xargs git branch -d'
 alias hawk="git add . && git commit -m 'nit'"
 alias tuah="git push"
+alias lg="lazygit"
 
 ##############################################################################
 # 03. Programming                                                            #
