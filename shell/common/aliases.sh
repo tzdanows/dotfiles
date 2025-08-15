@@ -56,8 +56,6 @@ alias tom='cd ~'
 # Modern CLI tool replacements
 alias cat='bat --paging=never'
 alias find='fd'
-alias ls='exa'
-alias l='exa -l'
 
 # File operations
 alias listdir='find ${1:-.} -type f -not -path "*/.*/*" -print0 | xargs -0 -I {} bash -c '\''echo "$(dirname "{}")/$(basename "{}")"'\'' | sort -t/ -k2 -k3'
