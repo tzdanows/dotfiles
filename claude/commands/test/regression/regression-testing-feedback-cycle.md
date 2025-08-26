@@ -37,30 +37,158 @@ CONTINUE FIXING (if tests fail)
 
 ## Automatic Setup
 
-I'll automatically set up the regression testing feedback cycle for your project. Just tell me your test commands!
+I'll detect your test setup and configure the regression testing feedback cycle automatically.
 
-## Your Task
+## Setup Process
 
-Please provide your test commands, or let me detect them automatically:
+### Phase 1: Detection
 
-**Option 1: Tell me your test commands**
+I'll detect your test configuration:
 
-- QUICK tests command: (e.g., `npm run test:unit`)
-- FULL tests command: (e.g., `npm run test`)
+```bash
+# Check for Node.js project
+if [ -f "package.json" ]; then
+    QUICK_TEST=$(jq -r '.scripts | keys[] | select(. | test("test:unit|test:fast|test:quick"))' package.json 2>/dev/null | head -1)
+    FULL_TEST=$(jq -r '.scripts | keys[] | select(. | test("test:all|test$|test:full"))' package.json 2>/dev/null | head -1)
+fi
 
-**Option 2: Let me auto-detect**
+# Check for Deno project
+if [ -f "deno.json" ]; then
+    QUICK_TEST=$(jq -r '.tasks | keys[] | select(. | test("test:unit|test:fast"))' deno.json 2>/dev/null | head -1)
+    FULL_TEST=$(jq -r '.tasks | keys[] | select(. | test("test$|test:all"))' deno.json 2>/dev/null | head -1)
+fi
 
-- Just say "auto-detect" and I'll find your test commands
+# Check for Go project
+if [ -f "go.mod" ]; then
+    QUICK_TEST="go test ./... -short"
+    FULL_TEST="go test ./... -race"
+fi
 
-Once you provide the commands (or I detect them), I will automatically:
+# Check for Rust project
+if [ -f "Cargo.toml" ]; then
+    QUICK_TEST="cargo test --lib"
+    FULL_TEST="cargo test --all"
+fi
 
-1. **Create test runner scripts** (`scripts/quick-test.sh` and `scripts/full-test.sh`)
-2. **Set up Claude hooks** in `.claude/settings.json`
-3. **Install hook scripts** in `.claude/hooks/`
-4. **Create control script** for enabling/disabling the cycle
-5. **Enable regression mode** to start the feedback cycle
+# Check for Python project
+if [ -f "pyproject.toml" ] || [ -f "setup.py" ]; then
+    QUICK_TEST="pytest tests/unit -x"
+    FULL_TEST="pytest"
+fi
+```
 
-The setup will be completely automated - no manual file creation needed!
+### Phase 2: Performance Measurement
+
+```bash
+echo "Measuring test performance..."
+START=$(date +%s%N)
+$QUICK_TEST > /dev/null 2>&1
+END=$(date +%s%N)
+DURATION=$((($END - $START) / 1000000))
+echo "Quick tests: ${DURATION}ms"
+```
+
+### Phase 3: Smart Test Runners
+
+Creating optimized test runners with three modes:
+
+**Smart Mode** - Only test changed files:
+```bash
+#!/bin/bash
+# Smart test runner - only test affected files
+CHANGED=$(git diff --name-only HEAD 2>/dev/null)
+if [ -z "$CHANGED" ]; then
+    echo "No changes detected, skipping tests"
+    exit 0
+fi
+
+# Map changed files to test patterns
+if echo "$CHANGED" | grep -q "src/"; then
+    npm test -- --testPathPattern="$(echo "$CHANGED" | grep -E '\.(js|ts)$' | sed 's/src/tests/' | paste -sd '|')"
+else
+    echo "No testable changes"
+fi
+```
+
+**Cached Mode** - Skip unchanged tests:
+```bash
+#!/bin/bash
+# Generate hash of source files
+HASH=$(find src tests -type f -name "*.js" -o -name "*.ts" | xargs md5sum | md5sum | cut -d' ' -f1)
+CACHE_FILE=".claude/test-cache/$HASH"
+
+if [ -f "$CACHE_FILE" ]; then
+    echo "Tests cached - no changes detected"
+    exit 0
+fi
+
+# Run tests and cache results
+if npm test; then
+    mkdir -p .claude/test-cache
+    touch "$CACHE_FILE"
+    exit 0
+else
+    exit 1
+fi
+```
+
+### Phase 4: Installation
+
+Installing enhanced control script with multiple modes:
+
+```bash
+#!/bin/bash
+# Enhanced regression control with multiple modes
+
+MODE_FILE="$CLAUDE_PROJECT_DIR/.claude/regression-mode"
+SMART_FILE="$CLAUDE_PROJECT_DIR/.claude/smart-mode"
+CACHE_FILE="$CLAUDE_PROJECT_DIR/.claude/cache-mode"
+
+case "$1" in
+    on|enable)
+        touch "$MODE_FILE"
+        rm -f "$SMART_FILE" "$CACHE_FILE"
+        echo "Regression testing ENABLED (full mode)"
+        ;;
+    smart)
+        touch "$MODE_FILE" "$SMART_FILE"
+        rm -f "$CACHE_FILE"
+        echo "Regression testing ENABLED (smart mode - only changed files)"
+        ;;
+    cached)
+        touch "$MODE_FILE" "$CACHE_FILE"
+        rm -f "$SMART_FILE"
+        echo "Regression testing ENABLED (cached mode - skip unchanged)"
+        ;;
+    off|disable)
+        rm -f "$MODE_FILE" "$SMART_FILE" "$CACHE_FILE"
+        echo "Regression testing DISABLED"
+        ;;
+    status)
+        if [ -f "$MODE_FILE" ]; then
+            MODE="ACTIVE"
+            if [ -f "$SMART_FILE" ]; then
+                MODE="$MODE (smart)"
+            elif [ -f "$CACHE_FILE" ]; then
+                MODE="$MODE (cached)"
+            else
+                MODE="$MODE (full)"
+            fi
+            echo "Status: $MODE"
+        else
+            echo "Status: INACTIVE"
+        fi
+        ;;
+    *)
+        echo "Usage: $0 {on|smart|cached|off|status}"
+        echo "  on     - Run all tests always"
+        echo "  smart  - Only test changed files"
+        echo "  cached - Skip unchanged tests"
+        echo "  off    - Disable testing"
+        exit 1
+        ;;
+esac
+```
 
 ## Manual Setup Guide (if preferred)
 
@@ -77,17 +205,15 @@ Your project needs:
 ### Starting a Feature Implementation
 
 ```bash
-# 1. Ensure you're in a stable state
-./scripts/full-test.sh  # All tests should pass
+# Check current state
+./scripts/full-test.sh
 
-# 2. Enable regression testing mode
-./.claude/hooks/regression-control.sh enable
+# Choose your mode based on needs
+./.claude/hooks/regression-control.sh smart   # Recommended: Only test changed files
+./.claude/hooks/regression-control.sh cached  # Fastest: Skip unchanged tests
+./.claude/hooks/regression-control.sh on      # Thorough: Run all tests
 
-# 3. Start implementing with Claude
-# Claude will now:
-#   - Run quick tests after each code change
-#   - Run full tests when stopping
-#   - Ensure continuous stability
+# Start implementing - tests run automatically
 ```
 
 ### During Implementation

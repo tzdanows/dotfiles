@@ -6,18 +6,19 @@
 /regression-testing-feedback-cycle
 ```
 
-### 2. Provide Test Commands
+### 2. Auto-Detection
 
-quick/fast test suite vs full/thorough test suite
+System automatically detects your test commands from:
+- package.json / deno.json
+- Makefile / go.mod / Cargo.toml
+- Falls back to manual input if needed
+
+### 3. Choose Mode and Start
 
 ```bash
-QUICK: npm run test:unit
-FULL: npm run test
+./.claude/hooks/regression-control.sh smart  # Only test changed files (fastest)
+./.claude/hooks/regression-control.sh on     # Test everything (safest)
 ```
-
-### 3. Start Coding
-
-Tests now run automatically during development
 
 ## Visual Flow
 
@@ -39,33 +40,38 @@ graph TD
 ## Control Commands
 
 ```bash
-# Enable/Disable
-./claude/hooks/regression-control.sh enable
-./claude/hooks/regression-control.sh disable
+# Modes
+./.claude/hooks/regression-control.sh smart   # Only test changed files
+./.claude/hooks/regression-control.sh cached  # Skip unchanged tests
+./.claude/hooks/regression-control.sh on      # Run all tests
+./.claude/hooks/regression-control.sh off     # Disable testing
 
-# Check Status
-./claude/hooks/regression-control.sh status
+# Status
+./.claude/hooks/regression-control.sh status
 ```
 
 ## Example Session
 
 ```
 User: /regression-testing-feedback-cycle
-Claude: What are your test commands?
+Claude: Detecting test configuration...
+        Found: npm test:unit (312ms), npm test (4.2s)
+        Setting up optimized test runners...
+        Performance: 312ms -> 89ms (3.5x faster with smart mode)
+        Setup complete!
 
-User: Quick: npm test:unit, Full: npm test
-Claude: ✅ Regression cycle setup complete!
+User: ./.claude/hooks/regression-control.sh smart
+Output: Regression testing ENABLED (smart mode - only changed files)
 
 User: Add user authentication feature
-Claude: Starting implementation...
-        [edits auth.js]
-        🔄 Running quick tests... ✅ Passed
+Claude: [edits auth.js]
+        Running quick tests (smart mode - auth tests only)... Passed
         [edits login.vue]
-        🔄 Running quick tests... ❌ Failed
+        Running quick tests (smart mode - login tests only)... Failed
         Fixing test failure...
-        🔄 Running quick tests... ✅ Passed
+        Running quick tests... Passed
         
 User: [Stops session]
-Claude: 🔄 Running full test suite...
-        ✅ STABLE STATE ACHIEVED!
+Claude: Running full test suite...
+        STABLE STATE ACHIEVED!
 ```
