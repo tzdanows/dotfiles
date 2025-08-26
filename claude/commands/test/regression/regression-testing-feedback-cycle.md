@@ -93,6 +93,7 @@ echo "Quick tests: ${DURATION}ms"
 Creating optimized test runners with three modes:
 
 **Smart Mode** - Only test changed files:
+
 ```bash
 #!/bin/bash
 # Smart test runner - only test affected files
@@ -111,6 +112,7 @@ fi
 ```
 
 **Cached Mode** - Skip unchanged tests:
+
 ```bash
 #!/bin/bash
 # Generate hash of source files

@@ -9,6 +9,7 @@
 ### 2. Auto-Detection
 
 System automatically detects your test commands from:
+
 - package.json / deno.json
 - Makefile / go.mod / Cargo.toml
 - Falls back to manual input if needed
