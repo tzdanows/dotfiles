@@ -1,23 +1,27 @@
 # Regression Test Setup & Usage
 
 ### 1. Run Setup in Claude Code
+
 ```bash
 /regression-testing-feedback-cycle
 ```
 
-### 2. Provide Test Commands 
+### 2. Provide Test Commands
+
 quick/fast test suite vs full/thorough test suite
+
 ```bash
 QUICK: npm run test:unit
 FULL: npm run test
 ```
 
 ### 3. Start Coding
+
 Tests now run automatically during development
 
 ## Visual Flow
 
-***Note: This Mermaid diagram will render properly when viewed in Docusaurus documentation or GitHub***
+_**Note: This Mermaid diagram will render properly when viewed in Docusaurus documentation or GitHub**_
 
 ```mermaid
 graph TD

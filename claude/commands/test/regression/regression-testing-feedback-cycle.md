@@ -44,10 +44,12 @@ I'll automatically set up the regression testing feedback cycle for your project
 Please provide your test commands, or let me detect them automatically:
 
 **Option 1: Tell me your test commands**
+
 - QUICK tests command: (e.g., `npm run test:unit`)
 - FULL tests command: (e.g., `npm run test`)
 
 **Option 2: Let me auto-detect**
+
 - Just say "auto-detect" and I'll find your test commands
 
 Once you provide the commands (or I detect them), I will automatically:
@@ -65,6 +67,7 @@ The setup will be completely automated - no manual file creation needed!
 ### 1. Prerequisites
 
 Your project needs:
+
 - A QUICK test suite (basic functionality, <30s runtime)
 - A FULL test suite (comprehensive coverage + E2E, <5min runtime)
 - Test runner scripts or commands
@@ -114,36 +117,42 @@ Your project needs:
 ### Test Command Examples by Language
 
 **JavaScript/TypeScript (Node.js)**:
+
 ```bash
 # Quick: npm run test:unit
 # Full: npm run test:all
 ```
 
 **Deno**:
+
 ```bash
 # Quick: deno task test:unit
 # Full: deno task test
 ```
 
 **Python**:
+
 ```bash
 # Quick: pytest tests/unit -x --tb=short
 # Full: pytest --cov
 ```
 
 **Go**:
+
 ```bash
 # Quick: go test ./... -short
 # Full: go test ./... -race -cover
 ```
 
 **Rust**:
+
 ```bash
 # Quick: cargo test --lib
 # Full: cargo test --all-features
 ```
 
 **Java (Spring Boot)**:
+
 ```bash
 # Quick: ./mvnw test -Dtest="*UnitTest"
 # Full: ./mvnw verify
@@ -152,6 +161,7 @@ Your project needs:
 ### Customizing Test Thresholds
 
 Adjust timeouts in `.claude/settings.json`:
+
 - Quick tests: 30-60 seconds max
 - Full tests: 300-600 seconds max
 
