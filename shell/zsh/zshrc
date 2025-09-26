@@ -22,3 +22,10 @@ if [ ${#failed_files[@]} -gt 0 ]; then
 else
 	echo "🎉 All dotfiles loaded successfully!"
 fi
+
+# Change to development directory on startup
+# Check if ~/dev exists, if not create it
+if [ ! -d "$HOME/dev" ]; then
+	mkdir -p "$HOME/dev"
+fi
+cd "$HOME/dev"

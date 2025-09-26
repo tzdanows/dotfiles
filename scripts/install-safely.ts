@@ -70,6 +70,9 @@ const GEMINI_CONFIG_FILES = ["GEMINI.md", "settings.json"];
 // Ghostty configuration file
 const GHOSTTY_CONFIG_FILE = "config";
 
+// VSCode configuration files to manage
+const VSCODE_CONFIG_FILES = ["settings.json", "keybindings.json", "snippets"];
+
 // Scripts directory name
 const SCRIPTS_DIR = "tools";
 
@@ -391,6 +394,64 @@ async function backupGhosttyConfig(
   } catch (error) {
     printWarning(
       `Could not backup Ghostty configuration: ${
+        error instanceof Error ? error.message : String(error)
+      }`,
+    );
+  }
+
+  return backedUpFiles;
+}
+
+async function backupVSCodeConfig(
+  homeDir: string,
+  backupDir: string,
+): Promise<string[]> {
+  // Determine VSCode config directory based on OS
+  let vscodeConfigDir: string;
+  if (Deno.build.os === "darwin") {
+    vscodeConfigDir = join(homeDir, "Library", "Application Support", "Code", "User");
+  } else if (Deno.build.os === "windows") {
+    vscodeConfigDir = join(homeDir, "AppData", "Roaming", "Code", "User");
+  } else {
+    // Linux and other Unix-like systems
+    vscodeConfigDir = join(homeDir, ".config", "Code", "User");
+  }
+
+  const vscodeBackupDir = vscodeConfigDir.replace(homeDir, backupDir);
+  const backedUpFiles: string[] = [];
+
+  const vscodeDirExists = await exists(vscodeConfigDir);
+  if (!vscodeDirExists) {
+    console.log(
+      `   ${colors.yellow}No existing VSCode configuration found${colors.reset}`,
+    );
+    return backedUpFiles;
+  }
+
+  try {
+    await ensureDir(vscodeBackupDir);
+
+    for (const configFile of VSCODE_CONFIG_FILES) {
+      const sourcePath = join(vscodeConfigDir, configFile);
+      const backupPath = join(vscodeBackupDir, configFile);
+
+      if (await exists(sourcePath)) {
+        try {
+          await copy(sourcePath, backupPath, { overwrite: true });
+          printStatus(`Backed up VSCode ${configFile}`);
+          backedUpFiles.push(`vscode/${configFile}`);
+        } catch (error) {
+          printWarning(
+            `Could not backup VSCode ${configFile}: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
+          );
+        }
+      }
+    }
+  } catch (error) {
+    printWarning(
+      `Could not backup VSCode configuration: ${
         error instanceof Error ? error.message : String(error)
       }`,
     );
@@ -1068,6 +1129,78 @@ async function copyGhosttyConfig(
   }
 }
 
+async function copyVSCodeConfig(
+  dotfilesDir: string,
+  homeDir: string,
+): Promise<boolean> {
+  printBlue("📝 Copying VSCode configuration files...");
+  const vscodeSourceDir = join(dotfilesDir, "vscode");
+
+  // Determine VSCode config directory based on OS
+  let vscodeConfigDir: string;
+  if (Deno.build.os === "darwin") {
+    vscodeConfigDir = join(homeDir, "Library", "Application Support", "Code", "User");
+  } else if (Deno.build.os === "windows") {
+    vscodeConfigDir = join(homeDir, "AppData", "Roaming", "Code", "User");
+  } else {
+    // Linux and other Unix-like systems
+    vscodeConfigDir = join(homeDir, ".config", "Code", "User");
+  }
+
+  // Check if vscode directory exists in dotfiles
+  const vscodeDirExists = await exists(vscodeSourceDir);
+  if (!vscodeDirExists) {
+    printWarning(
+      "No vscode directory found in dotfiles, skipping VSCode configuration",
+    );
+    return true;
+  }
+
+  try {
+    // Ensure VSCode config directory exists
+    await ensureDir(vscodeConfigDir);
+    printStatus(`Created VSCode config directory: ${vscodeConfigDir}`);
+
+    let copiedCount = 0;
+
+    // Copy individual config files
+    for (const configFile of VSCODE_CONFIG_FILES) {
+      const sourcePath = join(vscodeSourceDir, configFile);
+      const destPath = join(vscodeConfigDir, configFile);
+
+      if (await exists(sourcePath)) {
+        try {
+          await copy(sourcePath, destPath, { overwrite: true });
+          printStatus(`Copied ${configFile} to VSCode config`);
+          copiedCount++;
+        } catch (error) {
+          printWarning(
+            `Could not copy ${configFile}: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
+          );
+        }
+      } else {
+        console.log(
+          `   ${colors.yellow}No ${configFile} found in vscode directory${colors.reset}`,
+        );
+      }
+    }
+
+    if (copiedCount > 0) {
+      printStatus(`Successfully copied ${copiedCount} VSCode configuration files`);
+    }
+    return true;
+  } catch (error) {
+    printError(
+      `Failed to copy VSCode configuration: ${
+        error instanceof Error ? error.message : String(error)
+      }`,
+    );
+    return false;
+  }
+}
+
 async function copyPowerShellProfile(
   dotfilesDir: string,
   homeDir: string,
@@ -1439,6 +1572,24 @@ This script will:
         )());
       }
 
+      // Backup VSCode configuration
+      backupTasks.push((
+        async () => {
+          try {
+            printBlue("📝 Backing up VSCode configuration...");
+            const files = await backupVSCodeConfig(config.homeDir, config.backupDir);
+            return { type: "vscode", files };
+          } catch (error) {
+            printWarning(
+              `Error backing up VSCode configuration: ${
+                error instanceof Error ? error.message : String(error)
+              }`,
+            );
+            return { type: "vscode", files: [] };
+          }
+        }
+      )());
+
       // Backup scripts directory
       backupTasks.push((
         async () => {
@@ -1640,6 +1791,22 @@ This script will:
             })(),
           );
         }
+
+        // Copy VSCode configuration
+        installationTasks.push(
+          (async () => {
+            try {
+              const success = await copyVSCodeConfig(config.dotfilesDir, config.homeDir);
+              return { task: "copyVSCodeConfig", success };
+            } catch (error) {
+              return {
+                task: "copyVSCodeConfig",
+                success: false,
+                error: error instanceof Error ? error.message : String(error),
+              };
+            }
+          })(),
+        );
 
         // Copy PowerShell profile (Windows only)
         if (Deno.build.os === "windows") {

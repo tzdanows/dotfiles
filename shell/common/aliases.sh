@@ -18,7 +18,14 @@
 ##############################################################################
 
 alias c='clear'
-alias .='open .'
+
+# Platform-aware alias for opening current directory
+if [[ "$(uname)" == "Darwin" ]]; then
+    alias .='open .'
+elif [[ "$(uname)" == "Linux" ]]; then
+    alias .='xdg-open .'
+fi
+
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -27,7 +34,7 @@ alias ....='cd ../../..'
 alias edit='zed'
 alias g='gemini'
 alias x='claude'
-alias xs'claude --model sonnet'
+alias xs='claude --model sonnet'
 alias xx='cd ~/Development/development-workspace'
 alias lfg='claude --model opusplan --dangerously-skip-permissions'
 

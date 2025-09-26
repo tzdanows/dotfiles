@@ -62,7 +62,7 @@
   "window.restoreFullscreen": true,
   "go.toolsManagement.autoUpdate": true,
   "github.copilot.chat.search.semanticTextResults": true,
-  "workbench.colorTheme": "Pale Fire",
+  "workbench.colorTheme": "Dracula Dark+",
   "vs-kubernetes": {
     "vs-kubernetes.minikube-show-information-expiration": "2024-10-25T03:45:25.984Z",
     "vs-kubernetes.crd-code-completion": "disabled"

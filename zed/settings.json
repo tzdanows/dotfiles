@@ -33,8 +33,8 @@
   "buffer_font_size": 20,
   "theme": {
     "mode": "system",
-    "light": "One Light",
-    "dark": "Catppuccin Frappé"
+    "light": "Dracula",
+    "dark": "Dracula"
   },
   "tabs": {
     // Show git status colors in the editor tabs.
@@ -45,7 +45,7 @@
   "lsp": {
     "deno": {
       "settings": {
-        // I like using Deno for scripting, so I enabkle it everywhere as the LSP for TypeScript.
+        // I like using Deno for scripting, so I enable it everywhere as the LSP for TypeScript.
         "deno": {
           "enable": true
         }

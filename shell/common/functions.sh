@@ -71,12 +71,24 @@ function getcertnames() {
 }
 
 # `o` with no arguments opens the current directory, otherwise opens the given
-# location
+# location (platform-aware)
 function o() {
-	if [ $# -eq 0 ]; then
-		open .;
+	# Detect the open command based on the platform
+	local open_cmd
+	if [[ "$(uname)" == "Darwin" ]]; then
+		open_cmd="open"
+	elif [[ "$(uname)" == "Linux" ]]; then
+		# Use xdg-open on Linux (works on most distros including Fedora)
+		open_cmd="xdg-open"
 	else
-		open "$@";
+		echo "Unsupported platform for 'o' command"
+		return 1
+	fi
+
+	if [ $# -eq 0 ]; then
+		$open_cmd .;
+	else
+		$open_cmd "$@";
 	fi;
 }
 

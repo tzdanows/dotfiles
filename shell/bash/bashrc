@@ -78,3 +78,10 @@ fi
 
 # Make sure we're using the right shell for non-interactive scripts
 [ -n "$PS1" ] && echo "Bash shell ready! 🐚"
+
+# Change to development directory on startup
+# Check if ~/dev exists, if not create it
+if [ ! -d "$HOME/dev" ]; then
+	mkdir -p "$HOME/dev"
+fi
+cd "$HOME/dev"

@@ -1,5 +1,7 @@
 # Dotfiles
 
+dotfiles for unix systems (specifically MacOS/Fedora 42)
+
 ## Installation
 
 1. Install Deno: https://docs.deno.com/runtime/getting_started/installation/
