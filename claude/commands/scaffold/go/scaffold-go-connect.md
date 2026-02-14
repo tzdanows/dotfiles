@@ -9,7 +9,7 @@ description: Scaffold production-ready Go ConnectRPC server with Protocol Buffer
 - Project name: $ARGUMENTS
 - Current directory: !`pwd`
 - Go version: !`go version 2>/dev/null || echo "Go not installed"`
-- Buf CLI status: !`which buf >/dev/null && echo "✓ installed" || echo "❌ missing - install with: go install github.com/bufbuild/buf/cmd/buf@latest"`
+- Buf CLI status: !`which buf >/dev/null && echo " installed" || echo " missing - install with: go install github.com/bufbuild/buf/cmd/buf@latest"`
 - Available ports: !`lsof -ti:8080 >/dev/null && echo "Port 8080 busy" || echo "Port 8080 available"`
 
 ## Your Task

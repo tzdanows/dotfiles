@@ -12,7 +12,7 @@ description: Development progress tracker with timestamped entries and intellige
 - Current time: !`gdate "+%H:%M:%S %Z" 2>/dev/null || date "+%H:%M:%S %Z"`
 - Existing progress structure: !`fd "progress" . -t d -d 2 2>/dev/null | head -3 || echo "No progress directory found"`
 - Recent progress entries: !`fd "\.md$" ./progress/ -d 3 2>/dev/null | tail -5 || echo "No progress entries found"`
-- Modern tools status: !`echo "fd: $(which fd >/dev/null && echo ✓ || echo ✗) | bat: $(which bat >/dev/null && echo ✓ || echo ✗) | eza: $(which eza >/dev/null && echo ✗ || echo ✗)"`
+- Modern tools status: !`echo "fd: $(which fd >/dev/null && echo  || echo ) | bat: $(which bat >/dev/null && echo  || echo ) | eza: $(which eza >/dev/null && echo  || echo )"`
 
 ## Your Task
 
@@ -53,7 +53,7 @@ mkdir -p "./progress/$current_date"
 # Generate unique progress entry filename
 progress_file="./progress/$current_date/$timestamp.md"
 
-echo "📝 Recording progress entry: $progress_file"
+echo " Recording progress entry: $progress_file"
 ```
 
 WHEN "view_progress" ($ARGUMENTS contains --today, --date, --all, --recent):
@@ -63,15 +63,15 @@ WHEN "view_progress" ($ARGUMENTS contains --today, --date, --all, --recent):
 ```bash
 if [[ "$ARGUMENTS" == *"--today"* ]]; then
     current_date=$(gdate +%Y-%m-%d 2>/dev/null || date +%Y-%m-%d)
-    echo "📅 Today's Progress ($current_date):"
+    echo " Today's Progress ($current_date):"
     fd "\.md$" "./progress/$current_date/" 2>/dev/null | while read -r file; do
-        echo "\n🕐 $(basename "$file" .md)"
+        echo "\n $(basename "$file" .md)"
         bat "$file" --style=plain 2>/dev/null || cat "$file"
     done
 elif [[ "$ARGUMENTS" == *"--recent"* ]]; then
-    echo "📊 Recent Progress Entries (Last 10):"
+    echo " Recent Progress Entries (Last 10):"
     fd "\.md$" ./progress/ -d 3 2>/dev/null | sort -V | tail -10 | while read -r file; do
-        echo "\n📄 $file"
+        echo "\n $file"
         bat "$file" --style=header 2>/dev/null || head -5 "$file"
     done
 fi
@@ -82,12 +82,12 @@ WHEN "search_progress" ($ARGUMENTS contains search terms):
 **Progress Search Operations:**
 
 ```bash
-echo "🔍 Searching progress entries for: $ARGUMENTS"
+echo " Searching progress entries for: $ARGUMENTS"
 if command -v rg >/dev/null 2>&1; then
     rg "$ARGUMENTS" ./progress/ --type md --context 2 --color always 2>/dev/null
 else
     fd "\.md$" ./progress/ 2>/dev/null | xargs grep -l "$ARGUMENTS" | while read -r file; do
-        echo "\n📄 Found in: $file"
+        echo "\n Found in: $file"
         grep -n "$ARGUMENTS" "$file" 2>/dev/null
     done
 fi
@@ -145,7 +145,7 @@ $ARGUMENTS
 *Generated: $iso_timestamp*
 EOF
 
-echo "✅ Progress entry recorded: $progress_file"
+echo " Progress entry recorded: $progress_file"
 ```
 
 **Smart Entry Enhancement:**
@@ -170,13 +170,13 @@ CATCH (progress_creation_failed):
 - SUGGEST directory permission fixes if needed
 
 ```bash
-echo "⚠️ Progress entry creation failed. Checking directory permissions..."
+echo "️ Progress entry creation failed. Checking directory permissions..."
 if [[ ! -w "$(pwd)" ]]; then
-    echo "❌ Current directory is not writable. Please check permissions."
+    echo " Current directory is not writable. Please check permissions."
 else
-    echo "📝 Attempting fallback progress recording..."
+    echo " Attempting fallback progress recording..."
     echo "$(gdate -Iseconds 2>/dev/null || date -Iseconds): $ARGUMENTS" >> ./progress-fallback.txt
-    echo "✅ Progress recorded in fallback file: ./progress-fallback.txt"
+    echo " Progress recorded in fallback file: ./progress-fallback.txt"
 fi
 ```
 
@@ -185,16 +185,16 @@ STEP 4: Progress analytics and visualization
 **Progress Statistics Generation:**
 
 ```bash
-echo "📊 Progress Analytics:"
+echo " Progress Analytics:"
 
 # Count entries by date
-echo "\n📅 Entries by date:"
+echo "\n Entries by date:"
 fd "\.md$" ./progress/ -d 3 2>/dev/null | \
     sed 's|./progress/\([0-9-]*\)/.*|\1|' | \
     sort | uniq -c | sort -nr | head -10
 
 # Project activity summary
-echo "\n🚀 Recent activity:"
+echo "\n Recent activity:"
 total_entries=$(fd "\.md$" ./progress/ 2>/dev/null | wc -l | tr -d ' ')
 today_entries=$(fd "\.md$" "./progress/$current_date/" 2>/dev/null | wc -l | tr -d ' ' || echo "0")
 echo "  Total progress entries: $total_entries"
@@ -220,12 +220,12 @@ mv /tmp/progress-session-$SESSION_ID.tmp /tmp/progress-session-$SESSION_ID.json
 **Progress Session Summary:**
 
 ```bash
-echo "\n✅ Progress tracking session completed"
-echo "📝 Entry: $ARGUMENTS"
-echo "📄 File: $progress_file"
-echo "🕐 Time: $(gdate "+%H:%M:%S %Z" 2>/dev/null || date "+%H:%M:%S %Z")"
+echo "\n Progress tracking session completed"
+echo " Entry: $ARGUMENTS"
+echo " File: $progress_file"
+echo " Time: $(gdate "+%H:%M:%S %Z" 2>/dev/null || date "+%H:%M:%S %Z")"
 echo "⏱️ Session: $SESSION_ID"
-echo "💾 State: /tmp/progress-session-$SESSION_ID.json"
+echo " State: /tmp/progress-session-$SESSION_ID.json"
 ```
 
 FINALLY:

@@ -106,20 +106,20 @@ IF [[ "$ALL_WORKTREES" == "true" ]]; then
   TARGET_BRANCHES=$(echo "$WORKTREES_JSON" | jq -r '.[].branch' | tr '\n' ' ')
 fi
 
-echo "📋 Analyzing worktrees for branches: $TARGET_BRANCHES"
+echo " Analyzing worktrees for branches: $TARGET_BRANCHES"
 ```
 
 STEP 3: Validate branch states (FOR EACH target branch)
 
 ```bash
 FOR BRANCH in $TARGET_BRANCHES; do
-  echo "🔍 Validating branch: $BRANCH"
+  echo " Validating branch: $BRANCH"
   
   # Find worktree path for this branch
   WORKTREE_PATH=$(echo "$WORKTREES_JSON" | jq -r ".[] | select(.branch==\"$BRANCH\") | .path")
   
   IF [[ -z "$WORKTREE_PATH" ]]; then
-    echo "⚠️  Branch $BRANCH not found in any worktree"
+    echo "️  Branch $BRANCH not found in any worktree"
     continue
   fi
   
@@ -141,7 +141,7 @@ FOR BRANCH in $TARGET_BRANCHES; do
   # Check for uncommitted changes
   UNCOMMITTED=$(git status --porcelain | wc -l)
   IF [[ $UNCOMMITTED -gt 0 ]]; then
-    echo "⚠️  Branch $BRANCH has $UNCOMMITTED uncommitted changes"
+    echo "️  Branch $BRANCH has $UNCOMMITTED uncommitted changes"
     BRANCH_STATE=$(echo "$BRANCH_STATE" | jq '.status.hasUncommittedChanges = true | .status.isClean = false | .issues += ["Uncommitted changes"]')
   fi
   
@@ -149,7 +149,7 @@ FOR BRANCH in $TARGET_BRANCHES; do
   git fetch origin main >/dev/null 2>&1
   BEHIND=$(git rev-list --count HEAD..origin/main 2>/dev/null || echo "0")
   IF [[ $BEHIND -gt 0 ]]; then
-    echo "⚠️  Branch $BRANCH is $BEHIND commits behind main"
+    echo "️  Branch $BRANCH is $BEHIND commits behind main"
     BRANCH_STATE=$(echo "$BRANCH_STATE" | jq --arg behind "$BEHIND" '.status.isBehindMain = true | .status.isClean = false | .issues += ["Behind main by \($behind) commits"]')
   fi
   
@@ -157,7 +157,7 @@ FOR BRANCH in $TARGET_BRANCHES; do
   LOCAL=$(git rev-parse HEAD)
   REMOTE=$(git rev-parse "origin/$BRANCH" 2>/dev/null || echo "")
   IF [[ "$LOCAL" != "$REMOTE" && -n "$REMOTE" ]]; then
-    echo "⚠️  Branch $BRANCH differs from origin"
+    echo "️  Branch $BRANCH differs from origin"
     BRANCH_STATE=$(echo "$BRANCH_STATE" | jq '.status.needsPush = true | .issues += ["Local differs from remote"]')
   fi
   
@@ -170,7 +170,7 @@ done
 STEP 4: Perform conflict detection analysis
 
 ```bash
-echo "🔍 Analyzing potential merge conflicts..."
+echo " Analyzing potential merge conflicts..."
 
 CONFLICTS_SUMMARY="[]"
 
@@ -191,7 +191,7 @@ FOR BRANCH in $TARGET_BRANCHES; do
   OVERLAPPING_FILES=$(comm -12 <(echo "$BRANCH_FILES" | sort) <(echo "$MAIN_FILES" | sort))
   
   IF [[ -n "$OVERLAPPING_FILES" ]]; then
-    echo "⚠️  Potential conflicts in:"
+    echo "️  Potential conflicts in:"
     echo "$OVERLAPPING_FILES" | sed 's/^/    /'
     
     # Create conflict analysis for this branch
@@ -204,7 +204,7 @@ FOR BRANCH in $TARGET_BRANCHES; do
     
     CONFLICTS_SUMMARY=$(echo "$CONFLICTS_SUMMARY" | jq ". += [$CONFLICT_ANALYSIS]")
   else
-    echo "✅ No conflicts detected for $BRANCH"
+    echo " No conflicts detected for $BRANCH"
     
     CLEAN_ANALYSIS="{
       \"branch\": \"$BRANCH\",
@@ -224,7 +224,7 @@ echo "$CONFLICTS_SUMMARY" | jq '.' > "/tmp/$PROJECT/conflicts-analysis-${SESSION
 STEP 5: Generate comprehensive test plan
 
 ```bash
-echo "🧪 Generating test plan for affected code..."
+echo " Generating test plan for affected code..."
 
 # Initialize test plan
 TEST_PLAN="{
@@ -282,7 +282,7 @@ TEST_PLAN=$(echo "$TEST_PLAN" | jq --arg time "$ESTIMATED_MINUTES" '.estimatedTi
 
 # Generate test commands
 TEST_COMMANDS="[
-  \"echo '🧪 Starting integration test suite...'\",
+  \"echo ' Starting integration test suite...'\",
   \"echo 'Testing $TEST_COUNT affected test files'\""
 
 FOR BRANCH in $TARGET_BRANCHES; do
@@ -302,7 +302,7 @@ FOR BRANCH in $TARGET_BRANCHES; do
   fi
 done
 
-TEST_COMMANDS+=", \"echo '✅ All integration tests completed!'\""
+TEST_COMMANDS+=", \"echo ' All integration tests completed!'\""
 TEST_COMMANDS+="]"
 
 TEST_PLAN=$(echo "$TEST_PLAN" | jq --argjson commands "$TEST_COMMANDS" '.commands = $commands')
@@ -319,14 +319,14 @@ cat > "/tmp/$PROJECT/run-integration-tests-${SESSION_ID}.sh" << EOF
 #!/bin/bash
 set -e
 
-echo "🧪 Running integration tests for merge preparation..."
+echo " Running integration tests for merge preparation..."
 echo "Session: ${SESSION_ID}"
 echo "Started: \$(date)"
 
 # Load test plan
 TEST_PLAN_FILE="/tmp/$PROJECT/test-plan-${SESSION_ID}.json"
 if [[ ! -f "\$TEST_PLAN_FILE" ]]; then
-  echo "❌ Test plan not found: \$TEST_PLAN_FILE"
+  echo " Test plan not found: \$TEST_PLAN_FILE"
   exit 1
 fi
 
@@ -335,23 +335,23 @@ COMMANDS=\$(jq -r '.commands[]' "\$TEST_PLAN_FILE")
 while IFS= read -r cmd; do
   echo "Executing: \$cmd"
   eval "\$cmd" || {
-    echo "❌ Test command failed: \$cmd"
+    echo " Test command failed: \$cmd"
     exit 1
   }
 done <<< "\$COMMANDS"
 
-echo "✅ All integration tests passed!"
+echo " All integration tests passed!"
 echo "Completed: \$(date)"
 EOF
 
 chmod +x "/tmp/$PROJECT/run-integration-tests-${SESSION_ID}.sh"
-echo "📝 Test script created: /tmp/$PROJECT/run-integration-tests-${SESSION_ID}.sh"
+echo " Test script created: /tmp/$PROJECT/run-integration-tests-${SESSION_ID}.sh"
 ```
 
 STEP 7: Generate optimal merge strategy
 
 ```bash
-echo "🧠 Calculating optimal merge strategy..."
+echo " Calculating optimal merge strategy..."
 
 # Initialize merge strategy
 MERGE_STRATEGY="{
@@ -430,7 +430,7 @@ echo "$MERGE_STRATEGY" | jq '.' > "/tmp/$PROJECT/merge-strategy-${SESSION_ID}.js
 STEP 8: Generate integration checklist
 
 ```bash
-echo "📋 Creating integration checklist..."
+echo " Creating integration checklist..."
 
 # Generate comprehensive checklist
 cat > "/tmp/$PROJECT/integration-checklist-${SESSION_ID}.md" << EOF
@@ -454,7 +454,7 @@ $(for BRANCH in $TARGET_BRANCHES; do
   else
     echo "- [ ] **$BRANCH**: Issues to resolve"
     if [[ -n "$ISSUES" ]]; then
-      echo "$ISSUES" | sed 's/^/  - ⚠️  /'
+      echo "$ISSUES" | sed 's/^/  - ️  /'
     fi
   fi
 done)
@@ -524,14 +524,14 @@ cat /tmp/$PROJECT/conflicts-analysis-${SESSION_ID}.json | jq '.'
 *Generated by /agent-prep-merge - Session ${SESSION_ID}*
 EOF
 
-echo "📋 Integration checklist created: /tmp/$PROJECT/integration-checklist-${SESSION_ID}.md"
+echo " Integration checklist created: /tmp/$PROJECT/integration-checklist-${SESSION_ID}.md"
 ```
 
 STEP 9: Prepare pull request templates (IF --create-prs option)
 
 ```bash
 IF [[ "$CREATE_PRS" == "true" ]]; then
-  echo "📝 Preparing pull request templates..."
+  echo " Preparing pull request templates..."
   
   FOR BRANCH in $TARGET_BRANCHES; do
     WORKTREE_PATH=$(echo "$WORKTREES_JSON" | jq -r ".[] | select(.branch==\"$BRANCH\") | .path")
@@ -579,10 +579,10 @@ Part of multi-branch integration with: $TARGET_BRANCHES
 /cc @team
 EOF
       
-      echo "📝 PR template created for $BRANCH: /tmp/$PROJECT/pr-template-$BRANCH-${SESSION_ID}.md"
+      echo " PR template created for $BRANCH: /tmp/$PROJECT/pr-template-$BRANCH-${SESSION_ID}.md"
       echo "   Create PR with: gh pr create --title \"integrate: $BRANCH\" --body-file \"/tmp/$PROJECT/pr-template-$BRANCH-${SESSION_ID}.md\""
     else
-      echo "✓ PR #$EXISTING_PR already exists for $BRANCH"
+      echo " PR #$EXISTING_PR already exists for $BRANCH"
     fi
   done
 fi
@@ -625,9 +625,9 @@ echo "$FINAL_STATE" | jq '.' > "/tmp/$PROJECT/merge-coordination-final-${SESSION
 
 # Generate final summary
 echo ""
-echo "🔀 Merge Preparation Complete!"
+echo " Merge Preparation Complete!"
 echo ""
-echo "📊 Branch Analysis Summary:"
+echo " Branch Analysis Summary:"
 
 # Display branch status
 for BRANCH in $TARGET_BRANCHES; do
@@ -636,15 +636,15 @@ for BRANCH in $TARGET_BRANCHES; do
   ACTION=$(echo "$CONFLICT_DATA" | jq -r '.recommendedAction')
   
   case "$RISK_LEVEL" in
-    "low") echo "  ✅ $BRANCH: $ACTION" ;;
-    "medium") echo "  ⚠️  $BRANCH: $ACTION" ;;
-    "high") echo "  ❌ $BRANCH: $ACTION" ;;
-    *) echo "  ❓ $BRANCH: $ACTION" ;;
+    "low") echo "   $BRANCH: $ACTION" ;;
+    "medium") echo "  ️  $BRANCH: $ACTION" ;;
+    "high") echo "   $BRANCH: $ACTION" ;;
+    *) echo "   $BRANCH: $ACTION" ;;
   esac
 done
 
 echo ""
-echo "🧪 Testing Requirements:"
+echo " Testing Requirements:"
 TEST_COUNT=$(jq -r '.affectedTests | length' "/tmp/$PROJECT/test-plan-${SESSION_ID}.json")
 ESTIMATED_TIME=$(jq -r '.estimatedTime' "/tmp/$PROJECT/test-plan-${SESSION_ID}.json")
 echo "  - $TEST_COUNT test files identified"
@@ -652,18 +652,18 @@ echo "  - Estimated test time: $ESTIMATED_TIME minutes"
 echo "  - Test script: /tmp/$PROJECT/run-integration-tests-${SESSION_ID}.sh"
 
 echo ""
-echo "📋 Integration Artifacts Created:"
+echo " Integration Artifacts Created:"
 echo "  - Merge strategy: /tmp/$PROJECT/merge-strategy-${SESSION_ID}.json"
 echo "  - Integration checklist: /tmp/$PROJECT/integration-checklist-${SESSION_ID}.md"
 echo "  - Conflict analysis: /tmp/$PROJECT/conflicts-analysis-${SESSION_ID}.json"
 echo "  - Test plan: /tmp/$PROJECT/test-plan-${SESSION_ID}.json"
 
 echo ""
-echo "🔄 Recommended Merge Order:"
+echo " Recommended Merge Order:"
 echo "$RECOMMENDED_ORDER" | jq -r '.[]' | nl | sed 's/^/  /'
 
 echo ""
-echo "📝 Next Steps:"
+echo " Next Steps:"
 echo "  1. Review checklist: cat /tmp/$PROJECT/integration-checklist-${SESSION_ID}.md"
 echo "  2. Run tests: /tmp/$PROJECT/run-integration-tests-${SESSION_ID}.sh"
 echo "  3. Resolve conflicts in high-risk branches"
@@ -671,13 +671,13 @@ echo "  4. Create PRs: gh pr create --title \"integrate: <branch>\" --body-file 
 echo "  5. Execute merges in recommended order"
 
 echo ""
-echo "💡 Quick Access Commands:"
+echo " Quick Access Commands:"
 echo "  - View coordination state: cat /tmp/$PROJECT/merge-coordination-final-${SESSION_ID}.json | jq '.'"
 echo "  - Check merge strategy: cat /tmp/$PROJECT/merge-strategy-${SESSION_ID}.json | jq '.recommendedOrder'"
 echo "  - Run integration tests: /tmp/$PROJECT/run-integration-tests-${SESSION_ID}.sh"
 
 echo ""
-echo "🎯 Session ID: ${SESSION_ID}"
+echo " Session ID: ${SESSION_ID}"
 ```
 
 ## Advanced Features

@@ -84,7 +84,7 @@ EXECUTE streamlined single-technology analysis:
 
 ```bash
 # Single-technology analysis for smaller projects
-echo "🔍 Analyzing focused integration testing requirements..."
+echo " Analyzing focused integration testing requirements..."
 ```
 
 STEP 3: Architecture pattern recognition and integration point mapping
@@ -94,17 +94,17 @@ STEP 3: Architecture pattern recognition and integration point mapping
 ```bash
 # Microservices detection
 if fd "docker-compose" . -e yml -e yaml | head -1 >/dev/null; then
-  echo "🏗️ Microservices architecture detected - service-to-service testing required"
+  echo "️ Microservices architecture detected - service-to-service testing required"
 fi
 
 # Monolithic pattern detection
 if fd "(main\.rs|main\.go|app\.py|Application\.java)" . | head -1 >/dev/null; then
-  echo "🏛️ Monolithic architecture detected - module integration testing focus"
+  echo "️ Monolithic architecture detected - module integration testing focus"
 fi
 
 # Event-driven pattern detection
 if rg "(kafka|rabbitmq|event|saga|cqrs)" . --ignore-case -l | head -1 >/dev/null; then
-  echo "⚡ Event-driven architecture detected - event flow testing required"
+  echo " Event-driven architecture detected - event flow testing required"
 fi
 ```
 
@@ -112,15 +112,15 @@ fi
 
 ```bash
 # API endpoint discovery
-echo "🔍 Discovering API integration points:"
+echo " Discovering API integration points:"
 rg "(POST|GET|PUT|DELETE|PATCH).*[\"']\/.*[\"']" . --type-add 'code:*.{js,ts,rs,go,java,py}' --type code -o | head -10
 
 # Database connection analysis
-echo "🗄️ Analyzing database integration requirements:"
+echo "️ Analyzing database integration requirements:"
 rg "(connection.*string|database.*url|db.*host)" . --ignore-case -l | head -5
 
 # External service detection
-echo "🌐 Identifying external service dependencies:"
+echo " Identifying external service dependencies:"
 rg "(api\..*\.com|\.googleapis\.|stripe\.|paypal\.|oauth)" . -l | head -5
 ```
 
@@ -509,12 +509,12 @@ mv /tmp/integration-test-session-$SESSION_ID.tmp /tmp/integration-test-session-$
 **Generate Comprehensive Testing Implementation Guide:**
 
 ```bash
-echo "✅ Integration testing strategy generated"
-echo "🏗️ Architecture: $(jq -r '.architecturePattern' /tmp/integration-test-session-$SESSION_ID.json)"
-echo "🔌 Integration points: $(jq -r '.integrationPoints | length' /tmp/integration-test-session-$SESSION_ID.json) identified"
-echo "🧪 Testing frameworks: $(jq -r '.frameworkRecommendations | length' /tmp/integration-test-session-$SESSION_ID.json) recommended"
+echo " Integration testing strategy generated"
+echo "️ Architecture: $(jq -r '.architecturePattern' /tmp/integration-test-session-$SESSION_ID.json)"
+echo " Integration points: $(jq -r '.integrationPoints | length' /tmp/integration-test-session-$SESSION_ID.json) identified"
+echo " Testing frameworks: $(jq -r '.frameworkRecommendations | length' /tmp/integration-test-session-$SESSION_ID.json) recommended"
 echo "⏱️ Session: $SESSION_ID"
-echo "💾 Strategy saved to: /tmp/integration-test-session-$SESSION_ID.json"
+echo " Strategy saved to: /tmp/integration-test-session-$SESSION_ID.json"
 ```
 
 CATCH (integration_analysis_failed):
@@ -524,7 +524,7 @@ CATCH (integration_analysis_failed):
 - SUGGEST manual integration point identification
 
 ```bash
-echo "⚠️ Integration analysis encountered issues. Fallback recommendations:"
+echo "️ Integration analysis encountered issues. Fallback recommendations:"
 echo "  1. Start with basic HTTP API testing using your primary language's testing framework"
 echo "  2. Add database integration using TestContainers or in-memory alternatives"
 echo "  3. Mock external services using framework-specific tools (WireMock, MSW, etc.)"

@@ -4,7 +4,7 @@ This directory contains a streamlined GitHub Actions workflow that provides comp
 
 ## Workflow
 
-### 🔧 CI Workflow (`ci.yml`)
+### CI Workflow (`ci.yml`)
 
 **Triggers:** Push to main/develop, Pull Requests, Manual dispatch
 
@@ -22,19 +22,19 @@ This directory contains a streamlined GitHub Actions workflow that provides comp
 
 ## Benefits
 
-### 🛡️ Reliability
+### ️ Reliability
 
 - **Catch Breaking Changes**: Detect issues before they affect users
 - **Cross-Platform Validation**: Ensure dotfiles work on all supported platforms
 - **Shell Compatibility**: Verify bash and zsh configurations work
 
-### 🚀 Quality Assurance
+### Quality Assurance
 
 - **Type Safety**: Full TypeScript checking with Deno
 - **Code Standards**: Automated linting and formatting validation
 - **Integration Testing**: Comprehensive test coverage
 
-### 🔍 Early Detection
+### Early Detection
 
 - **Installation Issues**: Test actual installation process
 - **Shell Compatibility**: Verify bash and zsh configurations work

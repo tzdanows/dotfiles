@@ -104,55 +104,55 @@ STEP 4: Generate comprehensive retrospective document
 
 CREATE structured reflection document with:
 
-**📍 Executive Summary**
+** Executive Summary**
 
 - Period analyzed and key metrics
 - Top 3 successes and top 3 improvement areas
 - Overall health assessment and trajectory
 
-**✅ Achievements & Successes**
+** Achievements & Successes**
 
 - Technical milestones with specific examples
 - Process improvements with measurable impact
 - Team collaboration highlights with evidence
 - Individual growth demonstrations
 
-**🔄 Areas for Improvement**
+** Areas for Improvement**
 
 - Technical challenges with root cause analysis
 - Process bottlenecks with proposed solutions
 - Communication gaps with remediation strategies
 - Resource optimization opportunities
 
-**💡 Key Insights & Learnings**
+** Key Insights & Learnings**
 
 - Technical patterns and architectural lessons
 - Process discoveries and workflow optimizations
 - Team dynamics evolution and collaboration patterns
 - Domain knowledge expansion and user understanding
 
-**🎯 Decision Analysis**
+** Decision Analysis**
 
 - Major decisions made with outcome assessment
 - Trade-offs evaluated and their impact
 - Alternative approaches considered
 - Lessons for future decision-making
 
-**📊 Quantitative Analysis**
+** Quantitative Analysis**
 
 - Development velocity trends
 - Quality metrics evolution
 - Collaboration health indicators
 - Performance and efficiency measurements
 
-**🚀 Action Plan**
+** Action Plan**
 
 - Immediate wins (next 1-2 weeks)
 - Process improvements (next iteration)
 - Technical improvements (next quarter)
 - Learning and development goals
 
-**🎉 Recognition & Celebrations**
+** Recognition & Celebrations**
 
 - Individual contributions highlighted
 - Team achievements acknowledged

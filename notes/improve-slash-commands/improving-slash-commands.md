@@ -6,32 +6,32 @@ best practices:
 ````bash
 TL;DR: Best Practices for Prompts/Slash Commands in CLAUDE.md
 
-🎯 Core Philosophy
+## Core Philosophy
 
 - Think "Program" not "Conversation" - Treat prompts as executable specifications with deterministic behavior
 - LLMs as Slow Computers - Program them with natural language using familiar constructs (loops, conditionals, state)
 
-🔒 Security & Permissions
+## Security & Permissions
 
 - Minimal allowed-tools - Only allow necessary commands
 - Read-only for context - Example: Use status/log/diff commands for gathering info in the /commit command
 - Scoped permissions - Explicitly define command scopes (e.g., Bash(git status:*))
 
-📝 Command Structure
+## Command Structure
 
 1. Front Matter - Clear allowed-tools and description
 2. Dynamic Context - Use ! for bash execution (dynamic context injection), @ for file inclusion
 3. Clear Task Definition - Specific, actionable instructions with examples
 4. Organized Namespacing - Follow directory structure (claude/commands/git/pr/pr-create.md)
 
-💾 State Management
+## State Management
 
 - Unique temp files - Use nanosecond timestamps: /tmp/state-$(gdate +%s%N).json
 - Session isolation - Each session gets unique IDs to prevent conflicts
 - Checkpoint/resume - Save progress for long operations
 - Serialize to disk - Minimize context window usage
 
-🚀 Programming Patterns
+## Programming Patterns
 
 - Sequential Steps - STEP 1:, STEP 2:, etc.
 - Conditionals - IF/ELSE logic for different scenarios
@@ -39,7 +39,7 @@ TL;DR: Best Practices for Prompts/Slash Commands in CLAUDE.md
 - Error Handling - TRY/CATCH/FINALLY blocks
 - State Machines - Track workflow phases with transitions
 
-🤖 Sub-Agent Usage
+## Sub-Agent Usage
 
 - When to use: Large-scale analysis, parallel research, multi-aspect tasks
 - When NOT to use: Sequential operations, simple tasks, state modifications
@@ -47,7 +47,7 @@ TL;DR: Best Practices for Prompts/Slash Commands in CLAUDE.md
 - Clear boundaries - Each agent has independent scope
 - Up to 10 parallel - System queues additional tasks
 
-🎨 Design Principles
+## Design Principles
 
 1. Minimize Non-Determinism - Goal: Same inputs → same outputs
 2. Modular - Break into reusable components
@@ -55,14 +55,14 @@ TL;DR: Best Practices for Prompts/Slash Commands in CLAUDE.md
 4. Token efficient - Reference files, use precise tools (jq (json query / processor — essential for working with JSON files), rg (recursively search directories for regex pattern), fd (find files according to patterns))
 5. Error resilient - Handle partial failures gracefully
 
-🛠️ Integration Features
+## Integration Features
 
 - Arguments - $ARGUMENTS for user input
 - Extended thinking - Combine with "think harder" for complex analysis
 - File references - @path/to/file for content inclusion
 - Dynamic context - !command`` for real-time data
 
-📊 Performance Tips
+## Performance Tips
 
 - Batch operations - Multiple tool calls in single response
 - Structured output - Use JSON/Markdown for aggregation
@@ -134,9 +134,9 @@ the command file changes:**
    ```
 
 3. **Never Commit Separately:**
-   - ❌ DON'T: Commit command file first, then progress.json later
-   - ❌ DON'T: Update progress.json without committing the improved command
-   - ✅ DO: Always stage and commit both files in a single atomic operation
+   - DON'T: Commit command file first, then progress.json later
+   - DON'T: Update progress.json without committing the improved command
+   - DO: Always stage and commit both files in a single atomic operation
 
 ### Why This Matters
 

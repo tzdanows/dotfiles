@@ -180,16 +180,16 @@ PRINT "Timestamp: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 PRINT "Resource: ${resource_name:-Cluster-wide scan}"
 
     IF critical_issues.length > 0:
-      PRINT "\n🚨 CRITICAL ISSUES REQUIRING IMMEDIATE ACTION:"
+      PRINT "\n CRITICAL ISSUES REQUIRING IMMEDIATE ACTION:"
       FOR EACH issue IN critical_issues:
         PRINT "- ${issue.description}"
         PRINT "  Fix: ${issue.fix_command}"
 
-    PRINT "\n📊 Diagnostic Summary:"
+    PRINT "\n Diagnostic Summary:"
     FOR EACH category IN [health_status, resource_usage, configuration, networking]:
       PRINT formatted_findings(category)
 
-    PRINT "\n🔧 Recommended Actions:"
+    PRINT "\n Recommended Actions:"
     FOR EACH rec IN recommendations:
       PRINT "${rec.severity}: ${rec.description}"
       FOR EACH cmd IN rec.fix_commands:

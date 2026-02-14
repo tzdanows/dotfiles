@@ -133,7 +133,7 @@ command_file=".claude/commands/${command_name}.md"
 
 # Check for existing command
 IF [ -f "$command_file" ]; then
-  echo "⚠️ Command $command_name already exists"
+  echo "️ Command $command_name already exists"
   PROMPT user for overwrite confirmation
 fi
 ```
@@ -159,7 +159,7 @@ git commit -m "feat: add /project:${command_name} command
 Adds interactive command for ${command_purpose}.
 Includes proper front matter, dynamic context, and error handling."
 
-echo "✅ Command committed to version control"
+echo " Command committed to version control"
 ```
 
 STEP 7: Provide usage instructions and next steps

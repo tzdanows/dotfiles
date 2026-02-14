@@ -79,7 +79,7 @@ EXECUTE streamlined single-editor or simple synchronization:
 
 ```bash
 # Simple synchronization workflow
-echo "🔄 Executing streamlined configuration sync..."
+echo " Executing streamlined configuration sync..."
 ```
 
 STEP 3: Configuration file discovery and validation
@@ -88,7 +88,7 @@ STEP 3: Configuration file discovery and validation
 
 ```bash
 # Discover all editor configuration files
-echo "📁 Editor Configuration Discovery:"
+echo " Editor Configuration Discovery:"
 echo "Cursor configs:"
 fd "(keybindings|settings)\.json" cursor/ -d 3 | head -5
 
@@ -99,9 +99,9 @@ echo "Zed configs:"
 fd "(keymap|settings)\.json" zed/ -d 3 | head -5
 
 # Validate JSON syntax
-echo "🔍 Configuration Validation:"
+echo " Configuration Validation:"
 for config in $(fd "\.(json|jsonc)$" . -d 3); do
-  jq . "$config" >/dev/null 2>&1 && echo "✅ $config" || echo "❌ $config (invalid JSON)"
+  jq . "$config" >/dev/null 2>&1 && echo " $config" || echo " $config (invalid JSON)"
 done
 ```
 
@@ -115,7 +115,7 @@ mkdir -p "$BACKUP_DIR"/{cursor,vscode,zed}
 # Backup with verification
 FOR EACH editor_config IN cursor/ vscode/ zed/:
   cp -r "$editor_config" "$BACKUP_DIR/"
-  echo "📦 Backed up $editor_config"
+  echo " Backed up $editor_config"
 done
 ```
 
@@ -125,7 +125,7 @@ STEP 4: Intelligent keybinding analysis and conflict resolution
 
 ```bash
 # Extract and normalize keybinding patterns
-echo "🔍 Keybinding Pattern Analysis:"
+echo " Keybinding Pattern Analysis:"
 
 # Common keybinding extraction
 rg '"key":\s*"([^"]+)".*"command":\s*"([^"]+)"' cursor/ vscode/ zed/ --only-matching --no-filename | sort | uniq -c | sort -nr
@@ -141,7 +141,7 @@ rg '"command":\s*"([^"]+)"' cursor/ vscode/ zed/ -o --no-filename | sort | uniq 
 
 ```bash
 # Generate conflict detection report
-echo "⚠️ Conflict Detection Report:"
+echo "️ Conflict Detection Report:"
 
 # Same key, different commands across editors
 echo "Conflicting keybindings (same key, different commands):"
@@ -229,7 +229,7 @@ WHEN "interactive":
 
 ```bash
 # Generate harmonized configuration
-echo "🎯 Configuration Harmonization:"
+echo " Configuration Harmonization:"
 
 # Priority-based conflict resolution
 echo "Applying conflict resolution strategy: $SYNC_STRATEGY"
@@ -247,11 +247,11 @@ STEP 7: Validation and rollback capability implementation
 
 ```bash
 # Configuration validation after sync
-echo "🔍 Post-sync Validation:"
+echo " Post-sync Validation:"
 
 # JSON syntax validation
 FOR EACH synced_config:
-  jq . "$synced_config" >/dev/null || echo "❌ Invalid JSON: $synced_config"
+  jq . "$synced_config" >/dev/null || echo " Invalid JSON: $synced_config"
 done
 
 # Keybinding conflict validation
@@ -268,14 +268,14 @@ echo "Verifying critical features preserved..."
 function rollback_configurations() {
   local backup_dir="/tmp/editor-config-backup-$SESSION_ID"
   
-  echo "🔄 Rolling back configurations..."
+  echo " Rolling back configurations..."
   
   FOR EACH editor IN cursor vscode zed:
     cp -r "$backup_dir/$editor/" "./"
     echo "↩️ Restored $editor configuration"
   done
   
-  echo "✅ Rollback completed successfully"
+  echo " Rollback completed successfully"
 }
 ```
 
@@ -306,7 +306,7 @@ import { copy, ensureDir } from "@std/fs";
 const SESSION_ID = Date.now().toString();
 
 async function main() {
-  console.log(`🔄 Starting editor sync session: ${SESSION_ID}`);
+  console.log(` Starting editor sync session: ${SESSION_ID}`);
 
   // Implementation would include:
   // 1. Configuration discovery
@@ -316,7 +316,7 @@ async function main() {
   // 5. Synchronization application
   // 6. Validation
 
-  console.log("✅ Editor synchronization completed");
+  console.log(" Editor synchronization completed");
 }
 
 if (import.meta.main) {
@@ -331,10 +331,10 @@ CATCH (sync_failed):
 - PROVIDE manual recovery instructions
 
 ```bash
-echo "❌ Synchronization failed. Initiating rollback..."
+echo " Synchronization failed. Initiating rollback..."
 rollback_configurations
-echo "🛡️ Configurations restored to original state"
-echo "📋 Manual review recommended before retry"
+echo "️ Configurations restored to original state"
+echo " Manual review recommended before retry"
 ```
 
 FINALLY:
@@ -354,17 +354,17 @@ jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
 ' /tmp/sync-session-$SESSION_ID.json > /tmp/sync-session-$SESSION_ID.tmp && \
 mv /tmp/sync-session-$SESSION_ID.tmp /tmp/sync-session-$SESSION_ID.json
 
-echo "✅ Editor configuration synchronization completed"
-echo "🔍 Session: $SESSION_ID"
-echo "📊 Conflicts resolved: $(jq -r '.syncResults.conflictsResolved // 0' /tmp/sync-session-$SESSION_ID.json)"
-echo "💾 Backup available at: /tmp/editor-config-backup-$SESSION_ID"
-echo "🎯 Editors synchronized: cursor, vscode, zed"
+echo " Editor configuration synchronization completed"
+echo " Session: $SESSION_ID"
+echo " Conflicts resolved: $(jq -r '.syncResults.conflictsResolved // 0' /tmp/sync-session-$SESSION_ID.json)"
+echo " Backup available at: /tmp/editor-config-backup-$SESSION_ID"
+echo " Editors synchronized: cursor, vscode, zed"
 ```
 
 **Manual Sync Instructions:**
 
 ```bash
-echo "📋 Manual Configuration Guidelines:"
+echo " Manual Configuration Guidelines:"
 echo "  • Test each editor after sync"
 echo "  • Verify critical keybindings work"
 echo "  • Report any issues for resolution"

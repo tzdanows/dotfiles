@@ -120,7 +120,7 @@ Deno.test("TaskManager - Basic claim and complete workflow", async () => {
 
     // Extract command ID and session ID from output
     const commandIdMatch = claimResult.stdout.match(/🆔 Command ID: (\w+)/);
-    const sessionIdMatch = claimResult.stdout.match(/🔗 Session ID: (\w+)/);
+    const sessionIdMatch = claimResult.stdout.match(/ Session ID: (\w+)/);
 
     assertExists(commandIdMatch);
     assertExists(sessionIdMatch);
@@ -213,7 +213,7 @@ Deno.test("TaskManager - Concurrent claims prevent double booking", async () => 
 
     for (const claim of successfulClaims) {
       const commandIdMatch = claim.stdout.match(/🆔 Command ID: (\w+)/);
-      const sessionIdMatch = claim.stdout.match(/🔗 Session ID: (\w+)/);
+      const sessionIdMatch = claim.stdout.match(/ Session ID: (\w+)/);
 
       if (commandIdMatch && sessionIdMatch) {
         const commandId = commandIdMatch[1];
@@ -420,7 +420,7 @@ Deno.test("TaskManager - Release task functionality", async () => {
     assertEquals(claimResult.success, true);
 
     const commandIdMatch = claimResult.stdout.match(/🆔 Command ID: (\w+)/);
-    const sessionIdMatch = claimResult.stdout.match(/🔗 Session ID: (\w+)/);
+    const sessionIdMatch = claimResult.stdout.match(/ Session ID: (\w+)/);
 
     assertExists(commandIdMatch);
     assertExists(sessionIdMatch);
@@ -606,7 +606,7 @@ Deno.test("TaskManager - Rapid successive operations", async () => {
               /🆔 Command ID: (\w+)/,
             );
             const sessionIdMatch = claimResult.stdout.match(
-              /🔗 Session ID: (\w+)/,
+              / Session ID: (\w+)/,
             );
 
             if (commandIdMatch && sessionIdMatch) {
@@ -687,7 +687,7 @@ Deno.test("TaskManager - Session ID uniqueness under rapid operations", async ()
 
     const sessionIds = new Set();
     for (const claim of successfulClaims) {
-      const sessionIdMatch = claim.stdout.match(/🔗 Session ID: (\w+)/);
+      const sessionIdMatch = claim.stdout.match(/ Session ID: (\w+)/);
       if (sessionIdMatch) {
         const sessionId = sessionIdMatch[1];
 
@@ -837,7 +837,7 @@ Deno.test("TaskManager - Real-world scenario with agent interruption", async () 
     assertEquals(claimResult.success, true);
 
     const commandIdMatch = claimResult.stdout.match(/🆔 Command ID: (\w+)/);
-    const sessionIdMatch = claimResult.stdout.match(/🔗 Session ID: (\w+)/);
+    const sessionIdMatch = claimResult.stdout.match(/ Session ID: (\w+)/);
     assertExists(commandIdMatch);
     assertExists(sessionIdMatch);
 
@@ -873,7 +873,7 @@ Deno.test("TaskManager - Real-world scenario with agent interruption", async () 
 
     // Verify the stale task was reclaimed
     const newSessionIdMatch = reclaimResult.stdout.match(
-      /🔗 Session ID: (\w+)/,
+      / Session ID: (\w+)/,
     );
     assertExists(newSessionIdMatch);
     const newSessionId = newSessionIdMatch[1];

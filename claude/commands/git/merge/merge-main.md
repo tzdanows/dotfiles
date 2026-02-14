@@ -77,13 +77,13 @@ PROCEDURE attempt_merge():
   IF merge_result.success:
     state.merge_completed = true
     save_state_to_file(state)
-    echo "✅ Merge completed successfully without conflicts"
+    echo " Merge completed successfully without conflicts"
     cleanup_session()
     EXIT 0
   ELSE:
     state.merge_started = true
     save_state_to_file(state)
-    echo "⚠️ Merge conflicts detected. Entering conflict resolution mode..."
+    echo "️ Merge conflicts detected. Entering conflict resolution mode..."
     CALL resolve_conflicts()
 ```
 
@@ -107,7 +107,7 @@ PROCEDURE resolve_conflicts():
     current_conflicts = git diff --name-only --diff-filter=U
     
     FOR EACH file IN current_conflicts:
-      echo "\n📝 Resolving conflicts in: $file"
+      echo "\n Resolving conflicts in: $file"
       
       # Show conflict markers context
       echo "Conflict preview:"
@@ -128,7 +128,7 @@ PROCEDURE resolve_conflicts():
       
       # Mark as resolved
       git add "$file"
-      echo "✅ Marked $file as resolved"
+      echo " Marked $file as resolved"
     
     remaining_conflicts = git diff --name-only --diff-filter=U
     IF no_conflicts_remaining:
@@ -152,13 +152,13 @@ $(git diff --name-only --cached | sed 's/^/  - /')"
     state.merge_completed = true
     save_state_to_file(state)
     
-    echo "✅ Merge completed successfully!"
-    echo "📊 Merge summary:"
+    echo " Merge completed successfully!"
+    echo " Merge summary:"
     git log --oneline -1
     
     cleanup_session()
   ELSE:
-    echo "❌ Merge incomplete - conflicts remain"
+    echo " Merge incomplete - conflicts remain"
     echo "Run the command again to continue conflict resolution"
 ```
 
@@ -172,7 +172,7 @@ PROCEDURE handle_abort():
   git branch -D "$original_branch"
   git checkout -b "$original_branch"
   git branch -D "$BACKUP_BRANCH"
-  echo "✅ Restored to pre-merge state"
+  echo " Restored to pre-merge state"
   cleanup_session()
 
 PROCEDURE cleanup_session():
@@ -204,10 +204,10 @@ If merge fails or is interrupted:
 
 ## Safety Features
 
-- ✅ Creates backup branch before starting
-- ✅ Validates clean working directory
-- ✅ Prevents merging main into itself
-- ✅ Provides detailed conflict context
-- ✅ Allows selective conflict resolution
-- ✅ Generates descriptive merge commit messages
-- ✅ Supports abort and recovery operations
+- Creates backup branch before starting
+- Validates clean working directory
+- Prevents merging main into itself
+- Provides detailed conflict context
+- Allows selective conflict resolution
+- Generates descriptive merge commit messages
+- Supports abort and recovery operations

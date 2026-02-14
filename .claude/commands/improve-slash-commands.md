@@ -17,7 +17,7 @@ STEP 1: Process claimed task from Context
 
 IF Claim result contains "No claimable commands available":
 
-- Report "✅ All commands completed or actively being worked on by other agents"
+- Report " All commands completed or actively being worked on by other agents"
 - EXIT gracefully
 
 ELSE:
@@ -109,18 +109,18 @@ STEP 6: ATOMIC commit of both files
 
 STEP 7: Report completion status
 
-- Show: "✅ Improved {command-name} ({completed}/{total} completed)"
+- Show: " Improved {command-name} ({completed}/{total} completed)"
 - Display key improvements made in this session
 - Show coordination status:
-  - "📊 Available commands: {available-count}"
-  - "🔄 Commands in-progress by other agents: {in-progress-count}"
-  - "🎯 Session: {session-id} (single command focus)"
+  - " Available commands: {available-count}"
+  - " Commands in-progress by other agents: {in-progress-count}"
+  - " Session: {session-id} (single command focus)"
 - IF all completed:
-  - Generate final summary report: "🎉 All 159 commands improved!"
+  - Generate final summary report: " All 159 commands improved!"
   - Display comprehensive workflow TLDR
   - Show improvement statistics from progress.json
 - ELSE:
-  - Show graceful completion: "✅ Single command improved - workflow ready for next agent"
+  - Show graceful completion: " Single command improved - workflow ready for next agent"
   - Display session summary
   - Note: "Other agents can continue with remaining {available-count} commands"
 

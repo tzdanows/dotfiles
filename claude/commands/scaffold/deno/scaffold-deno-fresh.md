@@ -10,8 +10,8 @@ description: Scaffold production-ready Deno Fresh 2.0 application with islands a
 - Current directory: !`pwd`
 - Deno version: !`deno --version | head -1 || echo "Deno not installed"`
 - Target directory: !`echo "$(pwd)/$ARGUMENTS" 2>/dev/null || echo "Target: ./$ARGUMENTS"`
-- Directory exists: !`fd "^$ARGUMENTS$" . -t d -d 1 >/dev/null 2>&1 && echo "⚠️ Directory exists" || echo "✅ Available"`
-- Modern tools available: !`echo "eza: $(which eza >/dev/null && echo ✓ || echo ✗) | bat: $(which bat >/dev/null && echo ✓ || echo ✗) | fd: $(which fd >/dev/null && echo ✓ || echo ✗)"`
+- Directory exists: !`fd "^$ARGUMENTS$" . -t d -d 1 >/dev/null 2>&1 && echo "️ Directory exists" || echo " Available"`
+- Modern tools available: !`echo "eza: $(which eza >/dev/null && echo  || echo ) | bat: $(which bat >/dev/null && echo  || echo ) | fd: $(which fd >/dev/null && echo  || echo )"`
 
 ## Your Task
 
@@ -52,11 +52,11 @@ IF directory already exists:
 - WARN: "Directory '$ARGUMENTS' already exists"
 - ANALYZE existing structure with modern tools:
   ```bash
-  echo "📁 Existing directory contents:"
+  echo " Existing directory contents:"
   eza -la "$ARGUMENTS" 2>/dev/null || ls -la "$ARGUMENTS"
 
   if fd "deno.json" "$ARGUMENTS" >/dev/null; then
-    echo "🦕 Existing Deno project detected"
+    echo " Existing Deno project detected"
     bat "$ARGUMENTS/deno.json" 2>/dev/null | head -20
   fi
   ```
@@ -76,7 +76,7 @@ TRY:
 
 ```bash
 # Use Fresh 2.0 alpha initializer
-echo "🚀 Initializing Fresh 2.0 project: $ARGUMENTS"
+echo " Initializing Fresh 2.0 project: $ARGUMENTS"
 deno run -Ar jsr:@fresh/init@2.0.0-alpha.34 "$ARGUMENTS"
 ```
 
@@ -87,18 +87,18 @@ deno run -Ar jsr:@fresh/init@2.0.0-alpha.34 "$ARGUMENTS"
 cd "$ARGUMENTS"
 
 # Verify Fresh 2.0 structure
-echo "📦 Fresh 2.0 project structure:"
+echo " Fresh 2.0 project structure:"
 eza -la --tree --level=2 2>/dev/null || find . -type f -name "*.ts" -o -name "*.tsx" -o -name "*.json" | head -10
 
 # Display key configuration files
-echo "⚙️ Core configuration:"
+echo "️ Core configuration:"
 if [ -f "deno.json" ]; then
-  echo "📄 deno.json:"
+  echo " deno.json:"
   bat deno.json 2>/dev/null || cat deno.json
 fi
 
 if [ -f "fresh.config.ts" ]; then
-  echo "🔧 fresh.config.ts:"
+  echo " fresh.config.ts:"
   bat fresh.config.ts 2>/dev/null || cat fresh.config.ts
 fi
 ```
@@ -110,7 +110,7 @@ STEP 4: Fresh 2.0 optimization and best practices integration
 ```bash
 # Enhance deno.json with comprehensive tasks
 if [ -f "deno.json" ]; then
-  echo "🔧 Enhancing deno.json with modern workflow tasks"
+  echo " Enhancing deno.json with modern workflow tasks"
   
   # Backup original
   cp deno.json deno.json.backup
@@ -133,7 +133,7 @@ fi
 
 ```bash
 # Create enhanced CSS fallback strategy (Fresh 2.0 Tailwind plugin reliability)
-echo "🎨 Setting up Tailwind CSS fallback strategy"
+echo " Setting up Tailwind CSS fallback strategy"
 echo '@tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -152,7 +152,7 @@ echo '@tailwind base;
 .shadow { box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1); }' > static/styles.css
 
 # Create AppShell component pattern
-echo "🏗️ Creating AppShell pattern for consistent layouts"
+echo "️ Creating AppShell pattern for consistent layouts"
 mkdir -p components
 echo 'import { ComponentChildren } from "preact";
 
@@ -186,25 +186,25 @@ TRY:
 
 ```bash
 # Initialize dependencies and cache
-echo "📦 Initializing Fresh 2.0 dependencies"
+echo " Initializing Fresh 2.0 dependencies"
 deno task init 2>/dev/null || deno cache --reload --node-modules-dir=auto main.ts
 
 # Type checking validation
-echo "🔍 Running type checking"
+echo " Running type checking"
 deno task check || deno check **/*.ts **/*.tsx
 
 # Generate project summary
-echo "✅ Fresh 2.0 project '$ARGUMENTS' created successfully"
+echo " Fresh 2.0 project '$ARGUMENTS' created successfully"
 echo ""
-echo "📊 Project Summary:"
+echo " Project Summary:"
 echo "  - Framework: Deno Fresh 2.0 ($(grep '"@fresh' deno.json | head -1 | cut -d'"' -f4 2>/dev/null || echo 'latest'))"
-echo "  - TypeScript: ✓ Enabled"
-echo "  - Islands: ✓ Configured"
-echo "  - Tailwind: ✓ With CSS fallbacks"
-echo "  - Hot Reload: ✓ Development server"
-echo "  - Modern Tools: ✓ Enhanced workflow"
+echo "  - TypeScript:  Enabled"
+echo "  - Islands:  Configured"
+echo "  - Tailwind:  With CSS fallbacks"
+echo "  - Hot Reload:  Development server"
+echo "  - Modern Tools:  Enhanced workflow"
 echo ""
-echo "🚀 Quick Start Commands:"
+echo " Quick Start Commands:"
 echo "  cd $ARGUMENTS"
 echo "  deno task dev    # Start development server"
 echo "  deno task build  # Build for production"
@@ -216,8 +216,8 @@ echo "  deno task ci     # Full CI pipeline"
 
 ```bash
 # Offer to start development server
-echo "🔥 Starting development server (Press Ctrl+C to stop)"
-echo "📍 Server will be available at: http://localhost:8000"
+echo " Starting development server (Press Ctrl+C to stop)"
+echo " Server will be available at: http://localhost:8000"
 deno task dev
 ```
 
@@ -228,7 +228,7 @@ CATCH (scaffolding_failed):
 - SUGGEST manual Fresh 2.0 setup if automated approach fails
 
 ```bash
-echo "⚠️ Automated scaffolding failed. Manual setup options:"
+echo "️ Automated scaffolding failed. Manual setup options:"
 echo ""
 echo "1. Fresh 2.0 Manual Setup:"
 echo "   mkdir $ARGUMENTS && cd $ARGUMENTS"
@@ -247,8 +247,8 @@ STEP 6: Session state finalization and cleanup
 # Update session state with completion
 jq '.status = "completed" | .completedAt = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'" | .scaffoldingSteps += ["initialization", "validation", "scaffolding", "optimization", "verification"]' /tmp/fresh-scaffold-$SESSION_ID.json > /tmp/fresh-scaffold-$SESSION_ID.tmp && mv /tmp/fresh-scaffold-$SESSION_ID.tmp /tmp/fresh-scaffold-$SESSION_ID.json
 
-echo "💾 Session state saved: /tmp/fresh-scaffold-$SESSION_ID.json"
-echo "🎉 Fresh 2.0 scaffolding completed successfully!"
+echo " Session state saved: /tmp/fresh-scaffold-$SESSION_ID.json"
+echo " Fresh 2.0 scaffolding completed successfully!"
 ```
 
 FINALLY:

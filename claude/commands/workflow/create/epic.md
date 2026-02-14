@@ -72,14 +72,14 @@ EXECUTE streamlined scope analysis for focused epics:
 
 ```bash
 # Scan current repository structure
-echo "📁 Analyzing repository structure..."
+echo " Analyzing repository structure..."
 fd . -t d -d 2 | head -10
 
 # Check for monorepo services
 if fd "(package\.json|Cargo\.toml|go\.mod|pom\.xml)" . -d 3 | wc -l | grep -v "^[01]$" >/dev/null; then
-  echo "🔍 Monorepo structure detected - multiple services found"
+  echo " Monorepo structure detected - multiple services found"
 else
-  echo "📦 Single repository detected"
+  echo " Single repository detected"
 fi
 ```
 
@@ -87,14 +87,14 @@ fi
 
 ```bash
 # Generate comprehensive impact analysis
-echo "📊 Epic Impact Analysis:"
+echo " Epic Impact Analysis:"
 echo "Repositories affected: $(jq '.affectedRepositories | length' /tmp/epic-session-$SESSION_ID.json)"
 echo "Epic type: $(jq -r '.epicType' /tmp/epic-session-$SESSION_ID.json)"
 echo "Estimated complexity: $(jq -r '.estimatedComplexity' /tmp/epic-session-$SESSION_ID.json)"
 echo "Coordination strategy: $(jq -r '.coordinationStrategy' /tmp/epic-session-$SESSION_ID.json)"
 
 # Technology stack analysis
-echo "🔧 Technology stack:"
+echo " Technology stack:"
 fd "(package\.json|Cargo\.toml|go\.mod|pom\.xml|deno\.json)" . | \
   rg -o "(package\.json|Cargo\.toml|go\.mod|pom\.xml|deno\.json)" | \
   sort | uniq -c
@@ -185,7 +185,7 @@ FOR EACH repository IN affected_repositories:
 
 ```bash
 # Identify critical path through dependency analysis
-echo "🎯 Critical path services (implement first):"
+echo " Critical path services (implement first):"
 jq -r '.criticalPath[]?' /tmp/epic-session-$SESSION_ID.json 2>/dev/null || echo "  - Auto-detecting from dependencies..."
 ```
 
@@ -229,7 +229,7 @@ FOR EACH critical_service IN critical_path:
 # Create isolated worktrees for each service team
 FOR service IN remaining_services:
   git worktree add ../epic-$service-$SESSION_ID epic/$EPIC_ID-$service
-  echo "🌿 Worktree created: ../epic-$service-$SESSION_ID"
+  echo " Worktree created: ../epic-$service-$SESSION_ID"
 done
 ```
 
@@ -266,7 +266,7 @@ LAUNCH parallel implementation sub-agents:
 
 ```bash
 # Group supporting services by dependency clusters
-echo "📦 Supporting service migration batches:"
+echo " Supporting service migration batches:"
 jq -r '.supportingServices[]?' /tmp/epic-session-$SESSION_ID.json 2>/dev/null || echo "  - Auto-detecting supporting services..."
 ```
 
@@ -295,7 +295,7 @@ LAUNCH parallel sub-agents for batch processing:
 
 ```bash
 # Consolidate all worktree changes back to main repositories
-echo "🔄 Consolidating epic changes..."
+echo " Consolidating epic changes..."
 FOR worktree IN epic_worktrees:
   cd $worktree
   git push origin epic/$EPIC_ID
@@ -344,7 +344,7 @@ CATCH (epic_implementation_failed):
 
 ```bash
 # Epic-wide rollback procedure
-echo "🚨 Initiating epic rollback..."
+echo " Initiating epic rollback..."
 echo "Rollback target: $1" # phase number or 'full'
 
 # Rollback all worktrees to specified checkpoint
@@ -365,7 +365,7 @@ STEP 4: Resource allocation and team coordination setup
 
 ```bash
 # Automatic team assignment based on repository analysis
-echo "👥 Team allocation strategy:"
+echo " Team allocation strategy:"
 echo "Epic Coordinator: $(git config user.name)"
 echo "Session ID: $SESSION_ID"
 echo "Affected repositories: $(jq '.affectedRepositories | length' /tmp/epic-session-$SESSION_ID.json)"
@@ -413,7 +413,7 @@ mv /tmp/epic-session-$SESSION_ID.tmp /tmp/epic-session-$SESSION_ID.json
 
 ```bash
 # Each worktree updates shared coordination state
-echo "📊 Updating epic coordination state..."
+echo " Updating epic coordination state..."
 jq '.repositories["'$CURRENT_SERVICE'"] = {
   "status": "'$STATUS'",
   "worktree": "'$PWD'",
@@ -429,7 +429,7 @@ STEP 5: Epic execution and coordination management
 
 ```bash
 # Automated dependency checking
-echo "🔗 Checking epic dependencies..."
+echo " Checking epic dependencies..."
 jq -r '.dependencies[]?' /tmp/epic-session-$SESSION_ID.json 2>/dev/null || echo "  - Dependencies auto-detected from repository analysis"
 
 # Cross-service dependency validation
@@ -443,11 +443,11 @@ done
 
 ```bash
 # Real-time blocker identification
-echo "⚠️ Epic blockers analysis:"
+echo "️ Epic blockers analysis:"
 jq -r '.blockers[]?' /tmp/epic-coordination-$SESSION_ID.json 2>/dev/null || echo "  - No blockers detected"
 
 # Performance regression detection
-echo "📈 Performance regression monitoring active"
+echo " Performance regression monitoring active"
 ```
 
 ## Success Metrics & Validation
@@ -456,7 +456,7 @@ echo "📈 Performance regression monitoring active"
 
 ```bash
 # Epic performance metrics collection
-echo "📊 Epic performance metrics:"
+echo " Epic performance metrics:"
 echo "Baseline metrics: $(jq -r '.performanceBaseline' /tmp/epic-session-$SESSION_ID.json 2>/dev/null || echo 'Collecting...')"
 echo "Current metrics: $(jq -r '.currentPerformance' /tmp/epic-coordination-$SESSION_ID.json 2>/dev/null || echo 'Monitoring...')"
 ```
@@ -472,7 +472,7 @@ echo "Current metrics: $(jq -r '.currentPerformance' /tmp/epic-coordination-$SES
 
 ```bash
 # Automated success criteria validation
-echo "✅ Epic success validation:"
+echo " Epic success validation:"
 echo "Target achieved: $ARGUMENTS"
 echo "All services migrated: $(jq -r '.allServicesMigrated' /tmp/epic-coordination-$SESSION_ID.json)"
 echo "Performance targets met: $(jq -r '.performanceTargetsMet' /tmp/epic-coordination-$SESSION_ID.json)"
@@ -585,18 +585,18 @@ STEP 8: Epic orchestration and automation with modern tooling
 ```bash
 # Epic orchestration functions
 epic_status() {
-  echo "📊 Epic Status: $(jq -r '.status' /tmp/epic-coordination-$SESSION_ID.json)"
-  echo "🎯 Current Phase: $(jq -r '.currentPhase' /tmp/epic-coordination-$SESSION_ID.json)"
-  echo "📁 Repositories: $(jq -r '.repositories | length' /tmp/epic-coordination-$SESSION_ID.json)"
-  echo "🌿 Worktrees: $(jq -r '.worktrees | length' /tmp/epic-coordination-$SESSION_ID.json)"
+  echo " Epic Status: $(jq -r '.status' /tmp/epic-coordination-$SESSION_ID.json)"
+  echo " Current Phase: $(jq -r '.currentPhase' /tmp/epic-coordination-$SESSION_ID.json)"
+  echo " Repositories: $(jq -r '.repositories | length' /tmp/epic-coordination-$SESSION_ID.json)"
+  echo " Worktrees: $(jq -r '.worktrees | length' /tmp/epic-coordination-$SESSION_ID.json)"
   
-  echo "\n📋 Repository Status:"
+  echo "\n Repository Status:"
   jq -r '.repositories | to_entries[] | "  \(.key): \(.value.status)"' /tmp/epic-coordination-$SESSION_ID.json
 }
 
 epic_start_phase() {
   local PHASE=$1
-  echo "🚀 Starting Epic Phase $PHASE"
+  echo " Starting Epic Phase $PHASE"
   
   # Update coordination state
   jq '.currentPhase = "phase_'$PHASE'" | .phases["phase_'$PHASE'"].startTime = "'$(gdate -Iseconds)'"' \
@@ -604,11 +604,11 @@ epic_start_phase() {
   mv /tmp/epic-coordination-$SESSION_ID.tmp /tmp/epic-coordination-$SESSION_ID.json
   
   # Launch sub-agents for parallel phase execution
-  echo "🔄 Launching parallel sub-agents for phase $PHASE..."
+  echo " Launching parallel sub-agents for phase $PHASE..."
 }
 
 epic_create_worktrees() {
-  echo "🌿 Creating git worktrees for parallel development..."
+  echo " Creating git worktrees for parallel development..."
   
   jq -r '.repositories | keys[]' /tmp/epic-coordination-$SESSION_ID.json | while read repo; do
     local worktree_path="../epic-$repo-$SESSION_ID"
@@ -622,12 +622,12 @@ epic_create_worktrees() {
     }' /tmp/epic-coordination-$SESSION_ID.json > /tmp/epic-coordination-$SESSION_ID.tmp
     mv /tmp/epic-coordination-$SESSION_ID.tmp /tmp/epic-coordination-$SESSION_ID.json
     
-    echo "  ✅ Created worktree: $worktree_path"
+    echo "   Created worktree: $worktree_path"
   done
 }
 
 epic_create_prs() {
-  echo "🔄 Creating pull requests for all epic services..."
+  echo " Creating pull requests for all epic services..."
   
   jq -r '.worktrees | to_entries[]' /tmp/epic-coordination-$SESSION_ID.json | while read worktree_info; do
     local repo=$(echo $worktree_info | jq -r '.key')
@@ -702,7 +702,7 @@ $(jq -r '.blockers[]?' /tmp/epic-coordination-$SESSION_ID.json 2>/dev/null | sed
 *Auto-generated from epic coordination state at $(gdate)*
 EOF
 
-  echo "📊 Epic dashboard generated: epic-dashboard-$SESSION_ID.md"
+  echo " Epic dashboard generated: epic-dashboard-$SESSION_ID.md"
 }
 ```
 
@@ -721,7 +721,7 @@ epic_update_progress() {
     /tmp/epic-coordination-$SESSION_ID.json > /tmp/epic-coordination-$SESSION_ID.tmp
   mv /tmp/epic-coordination-$SESSION_ID.tmp /tmp/epic-coordination-$SESSION_ID.json
   
-  echo "📈 Updated $repo: $status ($progress%)"
+  echo " Updated $repo: $status ($progress%)"
 }
 ```
 
@@ -774,10 +774,10 @@ FINALLY:
 
 ```bash
 # Epic automatically creates isolated development environments
-echo "🌿 Creating epic worktree infrastructure..."
+echo " Creating epic worktree infrastructure..."
 FOR service IN affected_services:
   git worktree add ../epic-$service-$SESSION_ID epic/$SESSION_ID-$service
-  echo "  ✅ Worktree: ../epic-$service-$SESSION_ID"
+  echo "   Worktree: ../epic-$service-$SESSION_ID"
 done
 ```
 
@@ -786,7 +786,7 @@ done
 ```bash
 # Generate dependency visualization
 epic_generate_dependency_graph() {
-  echo "📊 Generating epic dependency graph..."
+  echo " Generating epic dependency graph..."
   
   cat > epic-dependencies-$SESSION_ID.mermaid <<EOF
 graph TD
@@ -794,7 +794,7 @@ $(jq -r '.repositories | to_entries[] | "    \(.key)[\(.key)]"' /tmp/epic-coordi
 $(jq -r '.dependencies[]?' /tmp/epic-coordination-$SESSION_ID.json 2>/dev/null | sed 's/^/    /' || echo "    # Dependencies auto-detected")
 EOF
 
-  echo "📈 Dependency graph: epic-dependencies-$SESSION_ID.mermaid"
+  echo " Dependency graph: epic-dependencies-$SESSION_ID.mermaid"
 }
 ```
 
@@ -803,7 +803,7 @@ EOF
 ```bash
 # Coordinated testing across all epic worktrees
 epic_run_integration_tests() {
-  echo "🧪 Running epic integration tests..."
+  echo " Running epic integration tests..."
   
   # Test each worktree in parallel
   jq -r '.worktrees | to_entries[]' /tmp/epic-coordination-$SESSION_ID.json | while read worktree_info; do
@@ -819,7 +819,7 @@ epic_run_integration_tests() {
   done
   
   wait # Wait for all parallel tests to complete
-  echo "✅ Epic integration testing completed"
+  echo " Epic integration testing completed"
 }
 ```
 

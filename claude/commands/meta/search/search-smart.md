@@ -11,7 +11,7 @@ description: Intelligent code search orchestrator using modern tools with parall
 - Project languages: !`fd "(package\.json|Cargo\.toml|go\.mod|deno\.json|pom\.xml|build\.gradle)" . -d 3 | head -5 || echo "No build files detected"`
 - Codebase size: !`fd "\.(js|ts|jsx|tsx|rs|go|java|py|rb|php|c|cpp|h|hpp|cs|kt|swift|scala)" . | wc -l | tr -d ' '` files
 - Directory structure: !`eza -la --tree --level=2 2>/dev/null | head -10 || fd . -t d -d 2 | head -10`
-- Modern tools status: !`echo "rg: $(which rg >/dev/null && echo ✓ || echo ✗) | fd: $(which fd >/dev/null && echo ✓ || echo ✗) | bat: $(which bat >/dev/null && echo ✓ || echo ✗) | fzf: $(which fzf >/dev/null && echo ✓ || echo ✗)"`
+- Modern tools status: !`echo "rg: $(which rg >/dev/null && echo  || echo ) | fd: $(which fd >/dev/null && echo  || echo ) | bat: $(which bat >/dev/null && echo  || echo ) | fzf: $(which fzf >/dev/null && echo  || echo )"`
 
 ## Your Task
 
@@ -65,17 +65,17 @@ rg "$ARGUMENTS" --smart-case --context 3 --color always --heading --line-number 
 
 # Language-specific search with auto-detection
 if fd "\.rs$" . | head -1 >/dev/null; then
-  echo "🦀 Rust project detected - searching with Rust patterns"
+  echo " Rust project detected - searching with Rust patterns"
   rg "$ARGUMENTS" --type rust --context 2
 fi
 
 if fd "\.go$" . | head -1 >/dev/null; then
-  echo "🐹 Go project detected - searching with Go patterns"  
+  echo " Go project detected - searching with Go patterns"  
   rg "$ARGUMENTS" --type go --context 2
 fi
 
 if fd "\.(js|ts)$" . | head -1 >/dev/null; then
-  echo "⚡ JavaScript/TypeScript project detected"
+  echo " JavaScript/TypeScript project detected"
   rg "$ARGUMENTS" --type-add 'js:*.{js,ts,jsx,tsx}' --type js --context 2
 fi
 ```
@@ -169,11 +169,11 @@ rg "$ARGUMENTS" --json | jq -r '
 ' > /tmp/search-results-$SESSION_ID.json
 
 # Statistics and summary
-echo "📊 Search Statistics:"
+echo " Search Statistics:"
 rg "$ARGUMENTS" --stats --color always
 
 # File-based match counts  
-echo "📁 Matches per file:"
+echo " Matches per file:"
 rg "$ARGUMENTS" --count-matches --sort path | head -10
 ```
 
@@ -183,11 +183,11 @@ rg "$ARGUMENTS" --count-matches --sort path | head -10
 # Filter by file types based on project
 project_types=$(fd "(package\.json|Cargo\.toml|go\.mod)" . | head -1)
 if [[ -n "$project_types" ]]; then
-  echo "🎯 Project-specific filtering applied"
+  echo " Project-specific filtering applied"
 fi
 
 # Contextual result enhancement
-echo "🔍 Enhanced search results with:"
+echo " Enhanced search results with:"
 echo "  - Syntax highlighting via bat"
 echo "  - Interactive selection via fzf" 
 echo "  - Smart case matching"
@@ -201,12 +201,12 @@ CATCH (search_failed):
 - SUGGEST tool installation if modern tools missing
 
 ```bash
-echo "⚠️ Search execution failed. Checking tool availability:"
+echo "️ Search execution failed. Checking tool availability:"
 echo "Required tools status:"
-echo "  ripgrep (rg): $(which rg >/dev/null && echo '✓ installed' || echo '❌ missing - install with: brew install ripgrep')"
-echo "  fd: $(which fd >/dev/null && echo '✓ installed' || echo '❌ missing - install with: brew install fd')"
-echo "  bat: $(which bat >/dev/null && echo '✓ installed' || echo '❌ missing - install with: brew install bat')"
-echo "  fzf: $(which fzf >/dev/null && echo '✓ installed' || echo '❌ missing - install with: brew install fzf')"
+echo "  ripgrep (rg): $(which rg >/dev/null && echo ' installed' || echo ' missing - install with: brew install ripgrep')"
+echo "  fd: $(which fd >/dev/null && echo ' installed' || echo ' missing - install with: brew install fd')"
+echo "  bat: $(which bat >/dev/null && echo ' installed' || echo ' missing - install with: brew install bat')"
+echo "  fzf: $(which fzf >/dev/null && echo ' installed' || echo ' missing - install with: brew install fzf')"
 ```
 
 STEP 6: Session state management and search history
@@ -228,11 +228,11 @@ mv /tmp/search-session-$SESSION_ID.tmp /tmp/search-session-$SESSION_ID.json
 **Search Session Summary:**
 
 ```bash
-echo "✅ Search session completed"
-echo "🔍 Query: $ARGUMENTS"
-echo "📊 Results: $(jq -r '.resultsFound // 0' /tmp/search-session-$SESSION_ID.json) matches found"
+echo " Search session completed"
+echo " Query: $ARGUMENTS"
+echo " Results: $(jq -r '.resultsFound // 0' /tmp/search-session-$SESSION_ID.json) matches found"
 echo "⏱️ Session: $SESSION_ID"
-echo "💾 Results cached in: /tmp/search-results-$SESSION_ID.json"
+echo " Results cached in: /tmp/search-results-$SESSION_ID.json"
 ```
 
 FINALLY:

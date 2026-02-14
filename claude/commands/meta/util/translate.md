@@ -26,7 +26,7 @@ STEP 1: Initialize translation session and comprehensive source analysis
 **Translation Session Initialization:**
 
 ```bash
-echo "🔄 Initializing translation session..."
+echo " Initializing translation session..."
 session_file="/tmp/translate-session-$SESSION_ID.json"
 
 # Create session state with project analysis
@@ -53,7 +53,7 @@ jq -n --arg session_id "$SESSION_ID" \
         }
       }' > "$session_file"
 
-echo "✅ Session initialized: $session_file"
+echo " Session initialized: $session_file"
 ```
 
 STEP 2: Intelligent source language and framework detection
@@ -69,7 +69,7 @@ TRY:
 **Source Language Detection:**
 
 ```bash
-echo "🔍 Detecting source language and framework..."
+echo " Detecting source language and framework..."
 
 # Detect primary language
 if [ -f "package.json" ]; then
@@ -199,33 +199,33 @@ TRY:
 **Build Verification:**
 
 ```bash
-echo "🔨 Validating translated code..."
+echo " Validating translated code..."
 
 # Language-specific build validation
 case "$target" in
   *rust*|*axum*)
     if [ -f "Cargo.toml" ]; then
-      cargo check --all-targets && echo "✅ Rust compilation successful"
-      cargo clippy -- -D warnings && echo "✅ Clippy checks passed"
+      cargo check --all-targets && echo " Rust compilation successful"
+      cargo clippy -- -D warnings && echo " Clippy checks passed"
     fi
     ;;
   *go*|*golang*)
     if [ -f "go.mod" ]; then
-      go build ./... && echo "✅ Go build successful"
-      go vet ./... && echo "✅ Go vet passed"
+      go build ./... && echo " Go build successful"
+      go vet ./... && echo " Go vet passed"
     fi
     ;;
   *java*|*spring*|*quarkus*)
     if [ -f "pom.xml" ]; then
-      ./mvnw compile test-compile && echo "✅ Java compilation successful"
+      ./mvnw compile test-compile && echo " Java compilation successful"
     elif [ -f "build.gradle" ]; then
-      ./gradlew compileJava compileTestJava && echo "✅ Gradle compilation successful"
+      ./gradlew compileJava compileTestJava && echo " Gradle compilation successful"
     fi
     ;;
   *deno*|*typescript*)
     if [ -f "deno.json" ]; then
-      deno check **/*.ts && echo "✅ Deno type checking passed"
-      deno test --no-run && echo "✅ Test compilation successful"
+      deno check **/*.ts && echo " Deno type checking passed"
+      deno test --no-run && echo " Test compilation successful"
     fi
     ;;
 esac
@@ -234,7 +234,7 @@ esac
 **Test Execution:**
 
 ```bash
-echo "🧪 Running translated tests..."
+echo " Running translated tests..."
 
 # Run tests in target language
 case "$target" in
@@ -294,10 +294,10 @@ FOR EACH architectural change:
 
 ### Validation Results:
 
-- ✅ Compilation: {status}
-- ✅ Tests: {status}
-- ✅ Performance: {status}
-- ⚠️ Manual Review Required: {areas}
+- Compilation: {status}
+- Tests: {status}
+- Performance: {status}
+- ️ Manual Review Required: {areas}
 
 ### Notes:
 
@@ -325,11 +325,11 @@ FINALLY:
 - PROVIDE specific next steps for the translated project
 
 ```bash
-echo "🎉 Translation completed successfully!"
-echo "📊 Session: $SESSION_ID"
-echo "📁 Translated files saved to current directory"
-echo "📋 Migration documentation generated"
-echo "🔧 Next steps: Review, test, and deploy translated code"
+echo " Translation completed successfully!"
+echo " Session: $SESSION_ID"
+echo " Translated files saved to current directory"
+echo " Migration documentation generated"
+echo " Next steps: Review, test, and deploy translated code"
 
 # Clean up old session files (keep current session for reference)
 find /tmp -name "translate-session-*.json" -mtime +1 -delete 2>/dev/null || true

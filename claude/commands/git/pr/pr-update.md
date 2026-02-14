@@ -374,10 +374,10 @@ After addressing review feedback:
 
 ## Updates Based on Review
 
-- ✅ Fixed error handling as suggested by @alice
-- ✅ Added comprehensive test coverage
-- ✅ Updated documentation
-- ✅ Refactored authentication logic
+-  Fixed error handling as suggested by @alice
+-  Added comprehensive test coverage
+-  Updated documentation
+-  Refactored authentication logic
 
 All review comments have been addressed.
 EOF

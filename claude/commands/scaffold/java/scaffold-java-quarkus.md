@@ -27,12 +27,12 @@ TRY:
 ```bash
 # Validate prerequisites
 if ! command -v java >/dev/null 2>&1; then
-  echo "❌ Java is required but not installed"
+  echo " Java is required but not installed"
   exit 1
 fi
 
 if ! command -v mvn >/dev/null 2>&1; then
-  echo "❌ Maven is required but not installed"
+  echo " Maven is required but not installed"
   exit 1
 fi
 
@@ -399,28 +399,28 @@ RUN initial build to verify project setup and download dependencies:
 ```bash
 cd "$project_name"
 
-echo "📦 Installing dependencies and building project..."
+echo " Installing dependencies and building project..."
 mvn clean install -DskipTests
 
 if [ $? -eq 0 ]; then
-  echo "✅ Build successful - dependencies installed"
+  echo " Build successful - dependencies installed"
   
   # Update session state
   jq '.phase = "build_successful"' /tmp/quarkus-scaffold-$SESSION_ID.json > /tmp/temp.json && \
   mv /tmp/temp.json /tmp/quarkus-scaffold-$SESSION_ID.json
   
-  echo "🧪 Running tests..."
+  echo " Running tests..."
   mvn test
   
   if [ $? -eq 0 ]; then
-    echo "✅ All tests passed"
+    echo " All tests passed"
     jq '.phase = "tests_passed"' /tmp/quarkus-scaffold-$SESSION_ID.json > /tmp/temp.json && \
     mv /tmp/temp.json /tmp/quarkus-scaffold-$SESSION_ID.json
   else
-    echo "⚠️ Some tests failed - check output above"
+    echo "️ Some tests failed - check output above"
   fi
 else
-  echo "❌ Build failed - check Maven output for errors"
+  echo " Build failed - check Maven output for errors"
   exit 1
 fi
 
@@ -494,7 +494,7 @@ CATCH (scaffold_failed):
 - CLEAN UP partial project files if necessary
 
 ```bash
-echo "❌ Project scaffolding failed"
+echo " Project scaffolding failed"
 echo "Common issues:"
 echo "  - Java/Maven not properly installed"
 echo "  - Network connectivity for dependency download"
@@ -504,7 +504,7 @@ echo "  - Project directory already exists"
 # Clean up on failure
 if [ -d "$project_name" ] && [ -z "$(ls -A $project_name 2>/dev/null)" ]; then
   rmdir "$project_name"
-  echo "🧹 Cleaned up empty project directory"
+  echo " Cleaned up empty project directory"
 fi
 ````
 
@@ -515,18 +515,18 @@ FINALLY:
 - PROVIDE development guidance
 
 ```bash
-echo "✅ Quarkus project '$project_name' scaffolded successfully!"
+echo " Quarkus project '$project_name' scaffolded successfully!"
 echo ""
-echo "📁 Project structure:"
+echo " Project structure:"
 eza -la --tree "$project_name" 2>/dev/null || find "$project_name" -type f | head -10
 
 echo ""
-echo "🚀 Next steps:"
+echo " Next steps:"
 echo "  1. cd $project_name"
 echo "  2. mvn quarkus:dev     # Start development server"
 echo "  3. Open: http://localhost:8080/greeting"
 echo ""
-echo "📋 Key capabilities:"
+echo " Key capabilities:"
 echo "  • Spring Web annotation compatibility"
 echo "  • ~100x faster startup than Spring Boot"
 echo "  • Live reload in development mode" 

@@ -14,9 +14,9 @@ description: Automatically detect and load comprehensive project context with in
 - Active worktrees: !`git worktree list 2>/dev/null | wc -l | tr -d ' ' || echo "0"`
 - Language detected: !`if [ -f "deno.json" ] || [ -f "deno.jsonc" ]; then echo "Deno/TypeScript"; elif [ -f "package.json" ]; then echo "Node.js"; elif [ -f "Cargo.toml" ]; then echo "Rust"; elif [ -f "go.mod" ]; then echo "Go"; elif [ -f "pom.xml" ]; then echo "Java/Maven"; elif [ -f "requirements.txt" ] || [ -f "pyproject.toml" ]; then echo "Python"; else echo "Unknown"; fi`
 - Framework detected: !`if [ -f "deno.json" ] && rg -q "@fresh/core" deno.json 2>/dev/null; then echo "Fresh"; elif [ -f "package.json" ] && rg -q "next" package.json 2>/dev/null; then echo "Next.js"; elif [ -f "Cargo.toml" ] && rg -q "axum" Cargo.toml 2>/dev/null; then echo "Axum"; elif [ -f "go.mod" ] && rg -q "connect-go" go.mod 2>/dev/null; then echo "ConnectRPC"; else echo "See dependencies"; fi`
-- Issue context available: !`BRANCH=$(git branch --show-current 2>/dev/null); PROJECT=$(basename $(git rev-parse --show-toplevel 2>/dev/null || pwd)); if [ -f "/tmp/$PROJECT/$BRANCH-issue-context.md" ]; then echo "✓ Available"; else echo "✗ None"; fi`
-- PLAN.md exists: !`if [ -f "PLAN.md" ]; then echo "✓ Available"; else echo "✗ None"; fi`
-- CLAUDE.md exists: !`if [ -f "CLAUDE.md" ]; then echo "✓ Project-specific"; elif [ -f "$HOME/.claude/CLAUDE.md" ]; then echo "✓ Global only"; else echo "✗ None"; fi`
+- Issue context available: !`BRANCH=$(git branch --show-current 2>/dev/null); PROJECT=$(basename $(git rev-parse --show-toplevel 2>/dev/null || pwd)); if [ -f "/tmp/$PROJECT/$BRANCH-issue-context.md" ]; then echo " Available"; else echo " None"; fi`
+- PLAN.md exists: !`if [ -f "PLAN.md" ]; then echo " Available"; else echo " None"; fi`
+- CLAUDE.md exists: !`if [ -f "CLAUDE.md" ]; then echo " Project-specific"; elif [ -f "$HOME/.claude/CLAUDE.md" ]; then echo " Global only"; else echo " None"; fi`
 
 ## Your Task
 

@@ -424,10 +424,10 @@ The context loading adapts to your specific Java project structure and emphasize
 **Expected Output:**
 
 ```
-✅ Java testing context loaded successfully
-📊 Project Analysis: 3 Maven projects, Spring Boot 3.2.x, JUnit 5
-📚 Documentation Loaded: JUnit 5, Testcontainers, Mockito, Spring Boot Testing
-🎯 Focus Areas: Integration testing, MockMvc patterns, test slices
-📋 Recommendations: 12 immediate improvements, migration strategy included
-💾 Context saved to: /tmp/java-testing-context-1751900304043393000/
+Java testing context loaded successfully
+Project Analysis: 3 Maven projects, Spring Boot 3.2.x, JUnit 5
+Documentation Loaded: JUnit 5, Testcontainers, Mockito, Spring Boot Testing
+Focus Areas: Integration testing, MockMvc patterns, test slices
+Recommendations: 12 immediate improvements, migration strategy included
+Context saved to: /tmp/java-testing-context-1751900304043393000/
 ```

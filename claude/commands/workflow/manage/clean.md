@@ -12,7 +12,7 @@ description: Comprehensive technical debt cleanup orchestrator with parallel ana
 - Git status: !`git status --porcelain | head -10 || echo "No git repository or clean working directory"`
 - Current branch: !`git branch --show-current 2>/dev/null || echo "No git repository"`
 - Total files: !`fd "\.(js|ts|jsx|tsx|rs|go|java|py|rb|php|c|cpp|h|hpp|cs|kt|swift|scala)" . | wc -l | tr -d ' '` source files
-- Modern tools status: !`echo "rg: $(which rg >/dev/null && echo ✓ || echo ✗) | fd: $(which fd >/dev/null && echo ✓ || echo ✗) | bat: $(which bat >/dev/null && echo ✓ || echo ✗)"`
+- Modern tools status: !`echo "rg: $(which rg >/dev/null && echo  || echo ) | fd: $(which fd >/dev/null && echo  || echo ) | bat: $(which bat >/dev/null && echo  || echo )"`
 - Recent commits: !`git log --oneline -5 2>/dev/null | head -5 || echo "No git history available"`
 
 ## Your Task
@@ -76,7 +76,7 @@ EXECUTE streamlined cleanup analysis for smaller codebases:
 
 ```bash
 # Streamlined analysis for smaller projects
-echo "🔍 Analyzing technical debt in smaller codebase..."
+echo " Analyzing technical debt in smaller codebase..."
 ```
 
 STEP 3: Systematic cleanup execution with safety checkpoints
@@ -87,12 +87,12 @@ FOR EACH low_risk_improvement:
 
 ```bash
 # Create safety checkpoint
-echo "📝 Creating safety checkpoint before cleanup phase"
+echo " Creating safety checkpoint before cleanup phase"
 git add -A
 git commit -m "checkpoint: before $(date -Iseconds) cleanup session $SESSION_ID" || echo "No changes to commit"
 
 # Apply formatting and linting fixes
-echo "🔧 Applying automated code quality improvements..."
+echo " Applying automated code quality improvements..."
 ```
 
 **Language-Specific Cleanup Patterns:**
@@ -114,7 +114,7 @@ done
 
 # Clean up unused imports
 if command -v deno >/dev/null; then
-  echo "🦕 Running Deno linting and formatting"
+  echo " Running Deno linting and formatting"
   deno fmt $ARGUMENTS
   deno lint $ARGUMENTS
 fi
@@ -125,7 +125,7 @@ fi
 ```bash
 # Remove unused imports and dead code warnings
 if fd "Cargo.toml" . >/dev/null; then
-  echo "🦀 Cleaning Rust project with cargo tools"
+  echo " Cleaning Rust project with cargo tools"
   cargo fmt --all
   cargo clippy --all-targets --all-features -- -D warnings
   cargo check --all
@@ -140,7 +140,7 @@ rg "(TODO|FIXME|XXX|HACK)" --type rust --context 2
 ```bash
 # Apply Go formatting and cleaning
 if fd "go.mod" . >/dev/null; then
-  echo "🐹 Cleaning Go project with standard tools"
+  echo " Cleaning Go project with standard tools"
   go fmt ./...
   go vet ./...
   go mod tidy
@@ -155,10 +155,10 @@ go run golang.org/x/tools/cmd/goimports -w ./... 2>/dev/null || echo "goimports 
 ```bash
 # Maven/Gradle cleanup
 if fd "pom.xml" . >/dev/null; then
-  echo "☕ Cleaning Java Maven project"
+  echo " Cleaning Java Maven project"
   mvn clean compile
 elif fd "build.gradle" . >/dev/null; then
-  echo "☕ Cleaning Java Gradle project"
+  echo " Cleaning Java Gradle project"
   ./gradlew clean build
 fi
 ```
@@ -167,7 +167,7 @@ fi
 
 ```bash
 # Identify potentially unused files
-echo "🔍 Identifying potentially unused files..."
+echo " Identifying potentially unused files..."
 fd "\.(js|ts|jsx|tsx|rs|go|java|py)$" . -x bash -c '
   file="{}"
   basename=$(basename "$file" | sed "s/\.[^.]*$//")
@@ -178,9 +178,9 @@ fd "\.(js|ts|jsx|tsx|rs|go|java|py)$" . -x bash -c '
 
 # Review unused files before deletion
 if [[ -s "/tmp/unused-files-$SESSION_ID.txt" ]]; then
-  echo "📋 Found potentially unused files:"
+  echo " Found potentially unused files:"
   bat /tmp/unused-files-$SESSION_ID.txt
-  echo "⚠️  Manual review required before deletion"
+  echo "️  Manual review required before deletion"
 fi
 ```
 
@@ -188,12 +188,12 @@ fi
 
 ```bash
 # Find outdated TODO comments (older than 6 months)
-echo "📅 Analyzing TODO comment age..."
+echo " Analyzing TODO comment age..."
 rg "(TODO|FIXME).*([0-9]{4}-[0-9]{2}-[0-9]{2})" --context 1 > /tmp/dated-todos-$SESSION_ID.txt || echo "No dated TODOs found"
 
 # Find broken documentation links
 rg "https?://[^\s)]+" --only-matching | sort -u | while read url; do
-  echo "📎 Found URL: $url"
+  echo " Found URL: $url"
   # Note: URL validation would require network access
 done > /tmp/found-urls-$SESSION_ID.txt
 ```
@@ -206,7 +206,7 @@ STEP 4: Results compilation and impact assessment
 # Compile cleanup statistics
 lines_before=$(fd "\.(js|ts|jsx|tsx|rs|go|java|py|rb|php|c|cpp|h|hpp|cs|kt|swift|scala)" . -x wc -l {} \; | awk '{sum += $1} END {print sum}' || echo "0")
 
-echo "📊 Technical Debt Cleanup Report"
+echo " Technical Debt Cleanup Report"
 echo "================================"
 echo "Session ID: $SESSION_ID"
 echo "Target: $ARGUMENTS"
@@ -227,17 +227,17 @@ jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" \
 ```bash
 # Run tests if test command exists
 if command -v deno >/dev/null && fd "deno.json" . >/dev/null; then
-  echo "🧪 Running Deno tests to verify cleanup safety"
-  deno task test || echo "⚠️ Tests failed - manual review required"
+  echo " Running Deno tests to verify cleanup safety"
+  deno task test || echo "️ Tests failed - manual review required"
 elif command -v npm >/dev/null && fd "package.json" . >/dev/null; then
-  echo "🧪 Running npm tests to verify cleanup safety"
-  npm test || echo "⚠️ Tests failed - manual review required"
+  echo " Running npm tests to verify cleanup safety"
+  npm test || echo "️ Tests failed - manual review required"
 elif command -v cargo >/dev/null && fd "Cargo.toml" . >/dev/null; then
-  echo "🧪 Running Rust tests to verify cleanup safety"
-  cargo test || echo "⚠️ Tests failed - manual review required"
+  echo " Running Rust tests to verify cleanup safety"
+  cargo test || echo "️ Tests failed - manual review required"
 elif command -v go >/dev/null && fd "go.mod" . >/dev/null; then
-  echo "🧪 Running Go tests to verify cleanup safety"
-  go test ./... || echo "⚠️ Tests failed - manual review required"
+  echo " Running Go tests to verify cleanup safety"
+  go test ./... || echo "️ Tests failed - manual review required"
 else
   echo "ℹ️ No test framework detected - manual verification recommended"
 fi
@@ -250,7 +250,7 @@ CATCH (cleanup_failed):
 - PROVIDE manual cleanup guidance
 
 ```bash
-echo "⚠️ Cleanup operation failed. Checking for recovery options:"
+echo "️ Cleanup operation failed. Checking for recovery options:"
 echo "Last git checkpoint: $(git log --oneline -1 --grep='checkpoint:' || echo 'No checkpoint found')"
 echo "To restore: git reset --hard HEAD~1"
 echo "Session state: /tmp/cleanup-session-$SESSION_ID.json"
@@ -262,7 +262,7 @@ STEP 5: Session completion and follow-up recommendations
 
 ```bash
 # Create final commit with all cleanup changes
-echo "💾 Creating final cleanup commit"
+echo " Creating final cleanup commit"
 git add -A
 git commit -m "$(cat <<'EOF'
 refactor: technical debt cleanup session $SESSION_ID
@@ -281,13 +281,13 @@ EOF
 **Cleanup Summary:**
 
 ```bash
-echo "✅ Technical debt cleanup completed"
-echo "🎯 Target: $ARGUMENTS"
-echo "📊 Session: $SESSION_ID"
-echo "💾 Results cached in: /tmp/cleanup-session-$SESSION_ID.json"
-echo "🔍 Detailed findings in: /tmp/*-$SESSION_ID.txt"
+echo " Technical debt cleanup completed"
+echo " Target: $ARGUMENTS"
+echo " Session: $SESSION_ID"
+echo " Results cached in: /tmp/cleanup-session-$SESSION_ID.json"
+echo " Detailed findings in: /tmp/*-$SESSION_ID.txt"
 echo ""
-echo "📋 Recommended follow-up actions:"
+echo " Recommended follow-up actions:"
 echo "  - Review potentially unused files in /tmp/unused-files-$SESSION_ID.txt"
 echo "  - Validate URL accessibility in /tmp/found-urls-$SESSION_ID.txt"
 echo "  - Address any remaining TODO items from analysis"

@@ -76,7 +76,7 @@ EXECUTE streamlined single-agent analysis for smaller projects:
 
 ```bash
 # Streamlined analysis for smaller codebases
-echo "🔍 Analyzing project structure and requirements..."
+echo " Analyzing project structure and requirements..."
 ```
 
 STEP 3: Intelligent task categorization and dependency mapping
@@ -135,8 +135,8 @@ STEP 4: Hierarchical plan generation with programmatic task management
 project_name="$ARGUMENTS"
 plan_id="plan-$(echo "$project_name" | tr ' ' '-' | tr '[:upper:]' '[:lower:]')"
 
-echo "📋 Creating hierarchical plan: $plan_id"
-echo "🎯 Target: $project_name"
+echo " Creating hierarchical plan: $plan_id"
+echo " Target: $project_name"
 echo "⏱️ Session: $SESSION_ID"
 ```
 
@@ -203,7 +203,7 @@ WHEN "agile":
 
 ```bash
 # Automatic directory structure creation
-echo "📁 Plan structure will be organized as:"
+echo " Plan structure will be organized as:"
 echo "/tasks/$project_name/"
 echo "├── plan.md                           # High-level strategic overview"
 echo "├── status.json                       # Real-time progress tracking"
@@ -227,7 +227,7 @@ STEP 5: Multi-agent coordination architecture with git worktree integration
 
 ```bash
 # STEP 5.1: Git worktree setup for parallel execution
-echo "🔄 Setting up multi-agent coordination..."
+echo " Setting up multi-agent coordination..."
 
 # Foundation Agent (Agent A)
 echo "Agent A - Foundation & Infrastructure:"
@@ -278,7 +278,7 @@ echo '{
   ]
 }' > "$shared_state_dir/coordination.json"
 
-echo "📊 Coordination state: $shared_state_dir/coordination.json"
+echo " Coordination state: $shared_state_dir/coordination.json"
 ```
 
 STEP 6: Advanced planning features with intelligent automation
@@ -287,7 +287,7 @@ STEP 6: Advanced planning features with intelligent automation
 
 ```bash
 # STEP 6.1: Automated dependency detection and mapping
-echo "🔗 Generating dependency graph..."
+echo " Generating dependency graph..."
 
 # Create dependency mapping
 echo '{
@@ -310,7 +310,7 @@ echo '{
 
 ```bash
 # STEP 6.2: Intelligent risk identification
-echo "⚠️ Performing risk assessment..."
+echo "️ Performing risk assessment..."
 
 # High-risk task identification
 risk_factors=(
@@ -319,7 +319,7 @@ risk_factors=(
 )
 
 for risk in "${risk_factors[@]}"; do
-  echo "  🔍 Analyzing risk: $risk"
+  echo "   Analyzing risk: $risk"
   # Tag high-risk subtasks with appropriate priority and mitigation strategies
 done
 ```
@@ -328,7 +328,7 @@ done
 
 ```bash
 # STEP 6.3: Intelligent resource allocation
-echo "👥 Optimizing resource allocation..."
+echo " Optimizing resource allocation..."
 
 # Calculate optimal agent distribution
 echo '{
@@ -352,7 +352,7 @@ STEP 7: Automatic TodoWrite integration with hierarchical progress tracking
 
 ```bash
 # STEP 7.1: Create hierarchical todo structure
-echo "📝 Synchronizing with TodoWrite system..."
+echo " Synchronizing with TodoWrite system..."
 
 # Plan-level todo creation
 Todo_Plan="Complete comprehensive plan for $project_name"
@@ -375,7 +375,7 @@ Todo_Testing="Establish comprehensive testing framework"
 
 ```bash
 # STEP 7.2: Progress aggregation automation
-echo "📊 Setting up progress flow automation..."
+echo " Setting up progress flow automation..."
 
 # Create progress tracking state
 echo '{
@@ -397,10 +397,10 @@ echo '{
 
 ```bash
 # STEP 7.3: Command-line integration setup
-echo "⚡ Setting up task management commands..."
+echo " Setting up task management commands..."
 
 # Generate command usage examples
-echo "📋 Key commands for plan management:"
+echo " Key commands for plan management:"
 echo "  /task-list --plan='$project_name'           # View complete plan hierarchy"
 echo "  /task-show '$project_name/foundation-setup' # Detailed task information"
 echo "  /task-update '$project_name/core-development/api-implementation' --status=completed"
@@ -416,7 +416,7 @@ STEP 8: Monitoring, updates, and dynamic replanning capabilities
 
 ```bash
 # STEP 8.1: Progress monitoring setup
-echo "📈 Implementing progress monitoring..."
+echo " Implementing progress monitoring..."
 
 # Create monitoring dashboard state
 echo '{
@@ -438,7 +438,7 @@ echo '{
 
 ```bash
 # STEP 8.2: Adaptive planning automation
-echo "🔄 Setting up dynamic replanning..."
+echo " Setting up dynamic replanning..."
 
 # Replanning triggers and rules
 echo '{
@@ -464,7 +464,7 @@ echo '{
 
 ```bash
 # STEP 8.3: Automated statistics and reporting
-echo "📊 Generating plan statistics..."
+echo " Generating plan statistics..."
 
 # Calculate plan metrics
 total_tasks=$(echo '6')  # Discovery, Foundation, Development, Integration, Optimization, Deployment
@@ -472,12 +472,12 @@ total_subtasks=$(echo '24')  # Estimated based on comprehensive planning
 completion_percentage=$(echo '0')  # Initial state
 
 echo "Plan Statistics:"
-echo "  📋 Total Tasks: $total_tasks"
-echo "  📝 Total Subtasks: $total_subtasks"
-echo "  ✅ Completion: $completion_percentage%"
-echo "  🎯 Target: $project_name"
+echo "   Total Tasks: $total_tasks"
+echo "   Total Subtasks: $total_subtasks"
+echo "   Completion: $completion_percentage%"
+echo "   Target: $project_name"
 echo "  ⏱️ Session: $SESSION_ID"
-echo "  🔄 Status: Planning Phase Complete"
+echo "   Status: Planning Phase Complete"
 ```
 
 STEP 9: Session completion and handoff coordination
@@ -486,18 +486,18 @@ STEP 9: Session completion and handoff coordination
 
 ```bash
 # STEP 9.1: Finalize session state and prepare for execution
-echo "✅ Plan creation completed successfully"
-echo "📋 Comprehensive plan generated for: $project_name"
+echo " Plan creation completed successfully"
+echo " Comprehensive plan generated for: $project_name"
 echo "⏱️ Session: $SESSION_ID"
-echo "📁 State files created in: /tmp/plan-session-$SESSION_ID/"
-echo "🔗 Coordination files: /tmp/$project_name-coordination-$SESSION_ID/"
+echo " State files created in: /tmp/plan-session-$SESSION_ID/"
+echo " Coordination files: /tmp/$project_name-coordination-$SESSION_ID/"
 ```
 
 **Multi-Agent Handoff Instructions:**
 
 ```bash
 # STEP 9.2: Prepare multi-agent execution handoff
-echo "🚀 Ready for multi-agent execution:"
+echo " Ready for multi-agent execution:"
 echo ""
 echo "Foundation Agent (Terminal 1):"
 echo "  git worktree add ../project-foundation-$SESSION_ID feature/foundation-setup"
@@ -524,7 +524,7 @@ echo "  /task-list --task='$project_name/optimization-polish'"
 
 ```bash
 # STEP 9.3: Provide ongoing monitoring guidance
-echo "📊 Monitor progress with these commands:"
+echo " Monitor progress with these commands:"
 echo "  /task-list --plan='$project_name'                    # Complete plan overview"
 echo "  /task-list --status=active                           # Active tasks across all agents"
 echo "  /task-list --status=blocked                          # Identify and resolve blockers"
@@ -541,7 +541,7 @@ CATCH (planning_failed):
 - PRESERVE partial progress for recovery
 
 ```bash
-echo "⚠️ Planning execution encountered issues. Fallback options:"
+echo "️ Planning execution encountered issues. Fallback options:"
 echo "1. Manual task creation using /task-create commands"
 echo "2. Simplified planning with reduced complexity"
 echo "3. Phase-by-phase incremental planning"
@@ -557,14 +557,14 @@ FINALLY:
 
 ```bash
 # Final session state preservation
-echo "💾 Session state preserved in:"
+echo " Session state preserved in:"
 echo "  - /tmp/plan-session-$SESSION_ID.json"
 echo "  - /tmp/$project_name-coordination-$SESSION_ID/"
 echo "  - /tmp/progress-automation-$SESSION_ID.json"
 echo "  - /tmp/monitoring-config-$SESSION_ID.json"
 echo ""
-echo "🎯 Plan ready for execution. Coordination files available for multi-agent workflows."
-echo "📈 Use task management commands to track progress and coordinate team efforts."
+echo " Plan ready for execution. Coordination files available for multi-agent workflows."
+echo " Use task management commands to track progress and coordinate team efforts."
 ```
 
 ## Planning Strategy Reference

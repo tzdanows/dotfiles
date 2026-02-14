@@ -10,7 +10,7 @@ description: Intelligent prototyping orchestrator with technology detection, rap
 - Current directory: !`pwd`
 - Existing projects: !`fd "(package\.json|Cargo\.toml|go\.mod|deno\.json|pom\.xml|build\.gradle)" . -d 2 | head -5 || echo "No existing projects detected"`
 - Technology stack hints: !`echo "$ARGUMENTS" | rg -o "(rust|go|deno|node|react|vue|api|cli|web|frontend|backend)" | head -3 || echo "No technology hints in description"`
-- Available tools: !`echo "deno: $(which deno >/dev/null && echo ✓ || echo ✗) | cargo: $(which cargo >/dev/null && echo ✓ || echo ✗) | go: $(which go >/dev/null && echo ✓ || echo ✗) | node: $(which node >/dev/null && echo ✓ || echo ✗)"`
+- Available tools: !`echo "deno: $(which deno >/dev/null && echo  || echo ) | cargo: $(which cargo >/dev/null && echo  || echo ) | go: $(which go >/dev/null && echo  || echo ) | node: $(which node >/dev/null && echo  || echo )"`
 
 ## Your Task
 
@@ -180,9 +180,9 @@ EOF
 cat > main.ts << 'EOF'
 import { serve } from "$fresh/server.ts";
 
-console.log("🚀 API Prototype running on http://localhost:8000");
-console.log("📊 Test endpoint: POST /api/demo");
-console.log("🧪 Run tests: deno task proto-test");
+console.log(" API Prototype running on http://localhost:8000");
+console.log(" Test endpoint: POST /api/demo");
+console.log(" Run tests: deno task proto-test");
 
 await serve();
 EOF
@@ -257,7 +257,7 @@ fn main() -> Result<()> {
 
 fn process_file(path: &PathBuf, format: &str, verbose: bool) -> Result<()> {
     if verbose {
-        println!("📂 Processing file: {}", path.display());
+        println!(" Processing file: {}", path.display());
     }
     
     let content = fs::read_to_string(path)
@@ -291,7 +291,7 @@ fn process_file(path: &PathBuf, format: &str, verbose: bool) -> Result<()> {
 
 fn generate_data(count: usize, verbose: bool) -> Result<()> {
     if verbose {
-        println!("🎲 Generating {} sample items", count);
+        println!(" Generating {} sample items", count);
     }
     
     println!("[");
@@ -466,8 +466,8 @@ func main() {
     path, handler := demov1connect.NewDemoServiceHandler(demoHandler)
     mux.Handle(path, handler)
     
-    fmt.Println("🚀 ConnectRPC Prototype Service running on :8080")
-    fmt.Println("🔗 Service endpoints:")
+    fmt.Println(" ConnectRPC Prototype Service running on :8080")
+    fmt.Println(" Service endpoints:")
     fmt.Println("  - POST /demo.v1.DemoService/ProcessData")
     fmt.Println("  - POST /demo.v1.DemoService/GetHealth")
     
@@ -562,13 +562,13 @@ STEP 4: Performance metrics and validation criteria
 ```bash
 # Create performance measurement tools
 create_benchmark_suite() {
-  echo "⚡ Setting up performance benchmarks..."
+  echo " Setting up performance benchmarks..."
   
   # API endpoint benchmarking
   if [[ "$detected_technology" == *"api"* ]]; then
     cat > benchmark_api.sh << 'EOF'
 #!/bin/bash
-echo "🔥 API Performance Benchmark"
+echo " API Performance Benchmark"
 echo "Testing endpoint: http://localhost:8000/api/demo"
 
 # Warmup
@@ -577,7 +577,7 @@ curl -s -X POST http://localhost:8000/api/demo \
   -d '{"action":"warmup","data":null}' > /dev/null
 
 # Benchmark
-echo "📊 Running 100 requests..."
+echo " Running 100 requests..."
 start_time=$(date +%s%N)
 
 for i in {1..100}; do
@@ -590,7 +590,7 @@ end_time=$(date +%s%N)
 total_time_ms=$(( (end_time - start_time) / 1000000 ))
 avg_time_ms=$(( total_time_ms / 100 ))
 
-echo "✅ Results:"
+echo " Results:"
 echo "  Total time: ${total_time_ms}ms"
 echo "  Average response time: ${avg_time_ms}ms"
 echo "  Requests per second: $(( 100000 / avg_time_ms ))"
@@ -609,7 +609,7 @@ STEP 5: Documentation and usage guide generation
 cat > PROTOTYPE.md << EOF
 # Prototype: $ARGUMENTS
 
-**Status:** ✅ Working Prototype  
+**Status:**  Working Prototype  
 **Technology Stack:** \$detected_technology  
 **Build Time:** \$(date -Iseconds)  
 **Session ID:** $SESSION_ID
@@ -630,19 +630,19 @@ cd prototype-$SESSION_ID
 
 ## What Works
 
-- ✅ Core functionality implemented
-- ✅ Basic error handling and validation
-- ✅ Automated testing suite
-- ✅ Performance benchmarking
-- ✅ API documentation (if applicable)
+-  Core functionality implemented
+-  Basic error handling and validation
+-  Automated testing suite
+-  Performance benchmarking
+-  API documentation (if applicable)
 
 ## Current Limitations
 
-- ⚠️ Prototype-level error handling only
-- ⚠️ In-memory storage (no persistence)
-- ⚠️ Limited input validation
-- ⚠️ No authentication/authorization
-- ⚠️ Basic logging implementation
+- ️ Prototype-level error handling only
+- ️ In-memory storage (no persistence)
+- ️ Limited input validation
+- ️ No authentication/authorization
+- ️ Basic logging implementation
 
 ## Performance Metrics
 
@@ -682,10 +682,10 @@ cd prototype-$SESSION_ID
 \$validation_commands
 
 # Expected output:
-# ✅ All core features functional
-# ✅ Performance targets met
-# ✅ Error handling working
-# ⚠️ Production readiness: 40%
+#  All core features functional
+#  Performance targets met
+#  Error handling working
+# ️ Production readiness: 40%
 \`\`\`
 
 EOF
@@ -699,12 +699,12 @@ CATCH (prototype_creation_failed):
 - SAVE partial progress for continuation
 
 ```bash
-echo "❌ Prototype creation encountered issues. Troubleshooting:"
+echo " Prototype creation encountered issues. Troubleshooting:"
 echo "  1. Verify required tools are installed and accessible"
 echo "  2. Check internet connectivity for dependency downloads"
 echo "  3. Ensure sufficient disk space for project creation"
 echo "  4. Review error logs in session state file"
-echo "💡 Alternative approaches:"
+echo " Alternative approaches:"
 echo "  - Try different technology stack"
 echo "  - Create minimal manual prototype"
 echo "  - Use online prototype platforms"
@@ -743,23 +743,23 @@ FINALLY:
 **Prototype Session Summary:**
 
 ```bash
-echo "🎉 Prototype completed successfully!"
-echo "📦 Project: $ARGUMENTS"
-echo "🛠️ Technology: $detected_technology"
-echo "📂 Location: prototype-$SESSION_ID/"
+echo " Prototype completed successfully!"
+echo " Project: $ARGUMENTS"
+echo "️ Technology: $detected_technology"
+echo " Location: prototype-$SESSION_ID/"
 echo "⏱️ Session: $SESSION_ID"
 echo ""
-echo "🚀 Quick Start Commands:"
+echo " Quick Start Commands:"
 echo "  cd prototype-$SESSION_ID"
 echo "  $start_command"
 echo ""
-echo "🧪 Validation:"
+echo " Validation:"
 echo "  $test_command"
 echo ""
-echo "📊 Performance:"
+echo " Performance:"
 echo "  $benchmark_command"
 echo ""
-echo "📋 Next Steps:"
+echo " Next Steps:"
 echo "  1. Review PROTOTYPE.md for detailed information"
 echo "  2. Run validation tests to verify functionality"
 echo "  3. Use prototype to validate hypotheses"
@@ -791,10 +791,10 @@ echo "  4. Plan production implementation roadmap"
 
 ### Success Metrics
 
-- ✅ **Proof of Concept:** Core hypothesis validated
-- ✅ **Technical Feasibility:** Implementation path clear
-- ✅ **Performance Baseline:** Acceptable response times
-- ✅ **User Experience:** Basic workflow functional
-- ✅ **Learning Objectives:** Key insights captured
+- **Proof of Concept:** Core hypothesis validated
+- **Technical Feasibility:** Implementation path clear
+- **Performance Baseline:** Acceptable response times
+- **User Experience:** Basic workflow functional
+- **Learning Objectives:** Key insights captured
 
 This intelligent prototyping command adapts to your requirements, automatically selects optimal technology stacks, provides comprehensive validation, and delivers production-ready roadmaps for successful concept validation.

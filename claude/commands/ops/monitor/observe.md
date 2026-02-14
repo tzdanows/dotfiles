@@ -10,7 +10,7 @@ description: Transform applications into fully observable systems with comprehen
 - Current directory: !`pwd`
 - Project languages: !`fd "(Cargo.toml|go.mod|package.json|pom.xml|build.gradle|deno.json)" . -d 3 | head -5 || echo "No build files detected"`
 - Existing observability: !`fd "(prometheus|grafana|otel|jaeger|zipkin)" . -t d -d 2 | head -3 || echo "No existing observability detected"`
-- Docker environment: !`docker info >/dev/null 2>&1 && echo "✓ Docker available" || echo "✗ Docker not available"`
+- Docker environment: !`docker info >/dev/null 2>&1 && echo " Docker available" || echo " Docker not available"`
 - Kubernetes context: !`kubectl config current-context 2>/dev/null || echo "No k8s context"`
 - Git branch: !`git branch --show-current 2>/dev/null || echo "Not in git repo"`
 - Service discovery: !`rg -l "(main|app|server|service)" --type-add 'code:*.{go,rs,java,js,ts,py}' --type code . | head -3 || echo "No main service files found"`
@@ -318,7 +318,7 @@ CATCH (observability_implementation_failed):
 - CREATE minimal observability baseline
 
 ```bash
-echo "⚠️ Observability implementation encountered issues:"
+echo "️ Observability implementation encountered issues:"
 echo "Technology stack: $(jq -r '.detectedLanguages[]' /tmp/observability-session-$SESSION_ID.json)"
 echo "Available tools: Docker: $(docker --version 2>/dev/null || echo 'Not available'), Kubernetes: $(kubectl version --client 2>/dev/null || echo 'Not available')"
 echo "Fallback: Creating basic monitoring setup with manual configuration"
@@ -352,16 +352,16 @@ jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
 ' /tmp/observability-session-$SESSION_ID.json > /tmp/observability-session-$SESSION_ID.tmp && \
 mv /tmp/observability-session-$SESSION_ID.tmp /tmp/observability-session-$SESSION_ID.json
 
-echo "✅ Observability transformation completed for $ARGUMENTS"
-echo "📊 Generated artifacts: $(jq -r '.generatedArtifacts | length' /tmp/observability-session-$SESSION_ID.json) files"
-echo "🔍 Session: $SESSION_ID"
-echo "💾 Configuration saved in: observability/ directory"
-echo "📈 Next steps:"
+echo " Observability transformation completed for $ARGUMENTS"
+echo " Generated artifacts: $(jq -r '.generatedArtifacts | length' /tmp/observability-session-$SESSION_ID.json) files"
+echo " Session: $SESSION_ID"
+echo " Configuration saved in: observability/ directory"
+echo " Next steps:"
 echo "  1. Deploy updated service with observability instrumentation"
 echo "  2. Import Grafana dashboards from observability/dashboards/"
 echo "  3. Apply Prometheus alert rules from observability/alerts/"
 echo "  4. Configure trace collection and analysis"
-echo "📚 Documentation: observability/docs/observability-runbook.md"
+echo " Documentation: observability/docs/observability-runbook.md"
 ```
 
 ## Technology Support

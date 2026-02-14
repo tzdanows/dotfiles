@@ -69,7 +69,7 @@ EXECUTE streamlined single-language organization workflow:
 
 ```bash
 # Single-language organization workflow
-echo "🔍 Analyzing single-language project organization..."
+echo " Analyzing single-language project organization..."
 ```
 
 STEP 3: Safety checkpoint and backup creation
@@ -79,7 +79,7 @@ STEP 3: Safety checkpoint and backup creation
 ```bash
 # Create git commit before major reorganization
 if git rev-parse --git-dir >/dev/null 2>&1; then
-  echo "📦 Creating safety commit before reorganization..."
+  echo " Creating safety commit before reorganization..."
   git add -A
   git commit -m "backup: pre-organization snapshot for session $SESSION_ID" || echo "No changes to commit"
   
@@ -87,7 +87,7 @@ if git rev-parse --git-dir >/dev/null 2>&1; then
   jq '.backupCreated = true' /tmp/organize-session-$SESSION_ID.json > /tmp/organize-session-$SESSION_ID.tmp && 
   mv /tmp/organize-session-$SESSION_ID.tmp /tmp/organize-session-$SESSION_ID.json
 else
-  echo "⚠️ Not a git repository - manual backup recommended"
+  echo "️ Not a git repository - manual backup recommended"
 fi
 ```
 
@@ -101,7 +101,7 @@ WHEN "rust":
 ```bash
 # Ensure Cargo.toml and Cargo.lock are in project root
 if [ -f "$ARGUMENTS/Cargo.toml" ]; then
-  echo "🦀 Organizing Rust project structure..."
+  echo " Organizing Rust project structure..."
   
   # Create standard Rust directories
   mkdir -p "$ARGUMENTS/src"
@@ -115,7 +115,7 @@ if [ -f "$ARGUMENTS/Cargo.toml" ]; then
   
   # Verify lib.rs vs main.rs structure
   if [ -f "$ARGUMENTS/src/main.rs" ] && [ -f "$ARGUMENTS/src/lib.rs" ]; then
-    echo "📚 Both lib.rs and main.rs detected - binary with library structure"
+    echo " Both lib.rs and main.rs detected - binary with library structure"
   fi
 fi
 ```
@@ -127,7 +127,7 @@ WHEN "go":
 ```bash
 # Ensure go.mod and go.sum are in module root
 if [ -f "$ARGUMENTS/go.mod" ]; then
-  echo "🐹 Organizing Go project structure..."
+  echo " Organizing Go project structure..."
   
   # Create standard Go directories
   mkdir -p "$ARGUMENTS/cmd"
@@ -149,7 +149,7 @@ WHEN "java":
 ```bash
 # Ensure Maven/Gradle files are in project root
 if [ -f "$ARGUMENTS/pom.xml" ] || [ -f "$ARGUMENTS/build.gradle" ]; then
-  echo "☕ Organizing Java project structure..."
+  echo " Organizing Java project structure..."
   
   # Create standard Maven directory structure
   mkdir -p "$ARGUMENTS/src/main/java"
@@ -158,7 +158,7 @@ if [ -f "$ARGUMENTS/pom.xml" ] || [ -f "$ARGUMENTS/build.gradle" ]; then
   mkdir -p "$ARGUMENTS/src/test/resources"
   
   # Verify package directory structure matches package declarations
-  echo "📦 Verifying package directory structure..."
+  echo " Verifying package directory structure..."
 fi
 ```
 
@@ -169,7 +169,7 @@ WHEN "deno" OR "typescript" OR "javascript":
 ```bash
 # Ensure deno.json is in project root
 if [ -f "$ARGUMENTS/deno.json" ] || [ -f "$ARGUMENTS/package.json" ]; then
-  echo "⚡ Organizing TypeScript/JavaScript project structure..."
+  echo " Organizing TypeScript/JavaScript project structure..."
   
   # Create standard directories
   mkdir -p "$ARGUMENTS/src"
@@ -179,7 +179,7 @@ if [ -f "$ARGUMENTS/deno.json" ] || [ -f "$ARGUMENTS/package.json" ]; then
   
   # For Deno projects, ensure JSR imports
   if [ -f "$ARGUMENTS/deno.json" ]; then
-    echo "🦕 Verifying JSR import usage in Deno project..."
+    echo " Verifying JSR import usage in Deno project..."
     rg "https://deno\.land" "$ARGUMENTS" --type typescript | head -5 | \
       xargs -I {} echo "Consider migrating to JSR: {}"
   fi
@@ -212,7 +212,7 @@ mkdir -p "$ARGUMENTS/.claude"
 
 # Group CI/CD configs
 if [ -d "$ARGUMENTS/.github" ]; then
-  echo "🔄 GitHub Actions configuration detected"
+  echo " GitHub Actions configuration detected"
 fi
 
 # Check for scattered config files
@@ -225,7 +225,7 @@ fd "\.(json|yaml|yml|toml|ini|conf)$" "$ARGUMENTS" | \
 ```bash
 # Ensure common build artifacts are gitignored
 if [ -f "$ARGUMENTS/.gitignore" ]; then
-  echo "📝 Checking .gitignore coverage..."
+  echo " Checking .gitignore coverage..."
   
   # Check for common patterns
   patterns=("target/" "node_modules/" "dist/" "build/" "*.log" ".env")
@@ -245,19 +245,19 @@ STEP 6: Import and dependency organization
 # Language-specific import organization
 case "$detected_language" in
   "rust")
-    echo "🦀 Organizing Rust imports..."
+    echo " Organizing Rust imports..."
     # Check for unused imports (requires rustc)
     ;;
   "go")
-    echo "🐹 Organizing Go imports..."
+    echo " Organizing Go imports..."
     # Use goimports if available
     ;;
   "typescript"|"javascript")
-    echo "⚡ Organizing TypeScript/JavaScript imports..."
+    echo " Organizing TypeScript/JavaScript imports..."
     # Check import sorting and unused imports
     ;;
   "java")
-    echo "☕ Organizing Java imports..."
+    echo " Organizing Java imports..."
     # Check import organization
     ;;
 esac
@@ -267,7 +267,7 @@ esac
 
 ```bash
 # Remove unused dependencies (language-specific)
-echo "📦 Analyzing dependencies for cleanup opportunities..."
+echo " Analyzing dependencies for cleanup opportunities..."
 
 # Update session state with dependency analysis
 jq '.dependencyAnalysis = {
@@ -285,7 +285,7 @@ CATCH (organization_failed):
 - SUGGEST manual organization steps
 
 ```bash
-echo "⚠️ Organization failed. Rollback available:"
+echo "️ Organization failed. Rollback available:"
 echo "git reset --hard HEAD~1  # Restore pre-organization state"
 echo "Session state: /tmp/organize-session-$SESSION_ID.json"
 ```
@@ -296,17 +296,17 @@ STEP 7: Validation and verification
 
 ```bash
 # Verify builds still work after reorganization
-echo "🔨 Validating build system after reorganization..."
+echo " Validating build system after reorganization..."
 
 if [ -f "$ARGUMENTS/Cargo.toml" ]; then
   echo "Testing Rust build..."
-  cd "$ARGUMENTS" && cargo check --quiet 2>/dev/null && echo "✅ Rust build OK" || echo "❌ Rust build failed"
+  cd "$ARGUMENTS" && cargo check --quiet 2>/dev/null && echo " Rust build OK" || echo " Rust build failed"
 elif [ -f "$ARGUMENTS/go.mod" ]; then
   echo "Testing Go build..."
-  cd "$ARGUMENTS" && go build ./... 2>/dev/null && echo "✅ Go build OK" || echo "❌ Go build failed"
+  cd "$ARGUMENTS" && go build ./... 2>/dev/null && echo " Go build OK" || echo " Go build failed"
 elif [ -f "$ARGUMENTS/deno.json" ]; then
   echo "Testing Deno check..."
-  cd "$ARGUMENTS" && deno check src/*.ts 2>/dev/null && echo "✅ Deno check OK" || echo "❌ Deno check failed"
+  cd "$ARGUMENTS" && deno check src/*.ts 2>/dev/null && echo " Deno check OK" || echo " Deno check failed"
 fi
 ```
 
@@ -314,7 +314,7 @@ fi
 
 ```bash
 # Check that import statements still resolve correctly
-echo "🔗 Validating import resolution..."
+echo " Validating import resolution..."
 rg "^(import|use|#include|require)" "$ARGUMENTS" --type-add 'source:*.{rs,go,java,ts,js,py}' --type source | \
   head -5 | xargs -I {} echo "Import: {}"
 ```
@@ -336,17 +336,17 @@ jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
 mv /tmp/organize-session-$SESSION_ID.tmp /tmp/organize-session-$SESSION_ID.json
 
 # Display final summary
-echo "✅ Project organization completed"
-echo "📊 Session: $SESSION_ID"
-echo "📁 Target: $ARGUMENTS"
-echo "🔄 Changes applied: $(jq -r '.changesApplied | length' /tmp/organize-session-$SESSION_ID.json)"
-echo "💾 Session state: /tmp/organize-session-$SESSION_ID.json"
+echo " Project organization completed"
+echo " Session: $SESSION_ID"
+echo " Target: $ARGUMENTS"
+echo " Changes applied: $(jq -r '.changesApplied | length' /tmp/organize-session-$SESSION_ID.json)"
+echo " Session state: /tmp/organize-session-$SESSION_ID.json"
 ```
 
 **Recommendations for Further Improvement:**
 
 ```bash
-echo "🎯 Recommendations for continued organization:"
+echo " Recommendations for continued organization:"
 echo "  1. Set up automated formatting (rustfmt, gofmt, prettier)"
 echo "  2. Configure pre-commit hooks for code quality"
 echo "  3. Implement dependency update automation"

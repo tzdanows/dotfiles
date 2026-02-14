@@ -12,7 +12,7 @@ description: Intelligent test suite generator with framework detection, programm
 - Existing tests: !`fd "(test|spec)\.(js|ts|jsx|tsx|rs|go|java|py)$" . | wc -l | tr -d ' '` files
 - Build files: !`fd "(package\.json|Cargo\.toml|go\.mod|deno\.json|pom\.xml|build\.gradle)" . -d 3 | head -5 || echo "No build files detected"`
 - Testing frameworks: !`fd "package.json" . | xargs jq -r '.devDependencies // {} | keys[]' 2>/dev/null | rg "(jest|vitest|mocha|ava|playwright|cypress)" | head -3 || echo "No JS test frameworks"`
-- Modern tools status: !`echo "fd: $(which fd >/dev/null && echo ✓ || echo ✗) | rg: $(which rg >/dev/null && echo ✓ || echo ✗) | jq: $(which jq >/dev/null && echo ✓ || echo ✗)"`
+- Modern tools status: !`echo "fd: $(which fd >/dev/null && echo  || echo ) | rg: $(which rg >/dev/null && echo  || echo ) | jq: $(which jq >/dev/null && echo  || echo )"`
 
 ## Your Task
 
@@ -127,27 +127,27 @@ PROJECT_LANG=$(fd "(package\.json|Cargo\.toml|go\.mod|pom\.xml)" . | head -1 | s
 
 case $PROJECT_LANG in
   "json")
-    echo "📦 JavaScript/TypeScript project detected"
+    echo " JavaScript/TypeScript project detected"
     # Parse TypeScript/JavaScript for functions and classes
     rg "^(export\s+)?(function|class|const|let)\s+\w+" --type-add 'web:*.{js,ts,jsx,tsx}' --type web -A 3 2>/dev/null || echo "No JS/TS functions found"
     ;;
   "toml")
-    echo "🦀 Rust project detected"
+    echo " Rust project detected"
     # Extract public functions and structs
     rg "^pub\s+(fn|struct|enum|trait)" --type rust -A 2 2>/dev/null || echo "No public Rust items found"
     ;;
   "mod")
-    echo "🐹 Go project detected"
+    echo " Go project detected"
     # Extract public functions and types
     rg "^func\s+[A-Z]\w*|^type\s+[A-Z]\w*" --type go -A 2 2>/dev/null || echo "No public Go items found"
     ;;
   "xml")
-    echo "☕ Java project detected"
+    echo " Java project detected"
     # Extract public classes and methods
     rg "^\s*public\s+(class|interface|enum)\s+\w+|^\s*public\s+.*\s+\w+\s*\(" --type java -A 2 2>/dev/null || echo "No public Java items found"
     ;;
   *)
-    echo "🔍 Multi-language or unknown project - analyzing all supported types"
+    echo " Multi-language or unknown project - analyzing all supported types"
     ;;
 esac
 ```
@@ -351,7 +351,7 @@ TRY:
 
 ```bash
 # Discover and catalog API endpoints
-echo "🔍 Discovering API endpoints for $ARGUMENTS..."
+echo " Discovering API endpoints for $ARGUMENTS..."
 API_ENDPOINTS=$(rg "(GET|POST|PUT|DELETE|PATCH).*$ARGUMENTS" --type-add 'web:*.{js,ts,rs,go,java}' --type web 2>/dev/null | head -10 || echo "No API endpoints found")
 echo "$API_ENDPOINTS" > /tmp/api-endpoints-$SESSION_ID.txt
 ```
@@ -367,28 +367,28 @@ DETECTED_FRAMEWORK="unknown"
 # Check for Rust web frameworks
 if fd "Cargo.toml" . | xargs rg "(axum|actix-web|warp)" >/dev/null 2>&1; then
   DETECTED_FRAMEWORK="rust-web"
-  echo "🦀 Rust web framework detected"
+  echo " Rust web framework detected"
   rg "Router::new\(\)|\.route\(|async fn.*Handler" --type rust -A 2 2>/dev/null || echo "No Rust routes found"
 fi
 
 # Check for Node.js frameworks
 if fd "package.json" . | xargs rg "(express|fastify|koa)" >/dev/null 2>&1; then
   DETECTED_FRAMEWORK="nodejs-web"
-  echo "🟢 Node.js web framework detected"
+  echo " Node.js web framework detected"
   rg "(app|router|server)\.(get|post|put|delete|patch)" --type-add 'web:*.{js,ts}' --type web -A 2 2>/dev/null || echo "No Node.js routes found"
 fi
 
 # Check for Java frameworks
 if fd "pom.xml" . | xargs rg "(spring-boot|quarkus)" >/dev/null 2>&1; then
   DETECTED_FRAMEWORK="java-web"
-  echo "☕ Java web framework detected"
+  echo " Java web framework detected"
   rg "@(GetMapping|PostMapping|PutMapping|DeleteMapping|RequestMapping)" --type java -A 2 2>/dev/null || echo "No Java endpoints found"
 fi
 
 # Check for Go frameworks
 if fd "go.mod" . | xargs rg "(gin|echo|fiber|mux)" >/dev/null 2>&1; then
   DETECTED_FRAMEWORK="go-web"
-  echo "🐹 Go web framework detected"
+  echo " Go web framework detected"
   rg "func.*Handler|router\.(GET|POST|PUT|DELETE)" --type go -A 2 2>/dev/null || echo "No Go routes found"
 fi
 
@@ -496,11 +496,11 @@ CATCH (test_generation_failed):
 - SUGGEST manual test creation guidelines
 
 ```bash
-echo "⚠️ Test generation encountered errors. Providing fallback strategies..."
+echo "️ Test generation encountered errors. Providing fallback strategies..."
 echo "Available testing tools:"
-echo "  Deno: $(which deno >/dev/null && echo '✓ available' || echo '❌ install with: curl -fsSL https://deno.land/install.sh | sh')"
-echo "  Node.js: $(which node >/dev/null && echo '✓ available' || echo '❌ install with: brew install node')"
-echo "  Rust: $(which cargo >/dev/null && echo '✓ available' || echo '❌ install with: curl --proto =https --tlsv1.2 -sSf https://sh.rustup.rs | sh')"
+echo "  Deno: $(which deno >/dev/null && echo ' available' || echo ' install with: curl -fsSL https://deno.land/install.sh | sh')"
+echo "  Node.js: $(which node >/dev/null && echo ' available' || echo ' install with: brew install node')"
+echo "  Rust: $(which cargo >/dev/null && echo ' available' || echo ' install with: curl --proto =https --tlsv1.2 -sSf https://sh.rustup.rs | sh')"
 ```
 
 ### End-to-End Test Generation Framework
@@ -579,10 +579,10 @@ FINALLY:
 - CLEAN UP temporary analysis files
 
 ```bash
-echo "✅ Test generation completed for $ARGUMENTS"
-echo "📊 Session: $SESSION_ID"
-echo "📁 Session state: /tmp/test-gen-session-$SESSION_ID.json"
-echo "🧪 Generated comprehensive test suite with:"
+echo " Test generation completed for $ARGUMENTS"
+echo " Session: $SESSION_ID"
+echo " Session state: /tmp/test-gen-session-$SESSION_ID.json"
+echo " Generated comprehensive test suite with:"
 echo "  - Unit tests with edge cases and error handling"
 echo "  - Integration tests for API endpoints"
 echo "  - E2E tests for user workflows"

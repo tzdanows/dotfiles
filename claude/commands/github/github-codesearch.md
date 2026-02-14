@@ -57,18 +57,18 @@ Handle errors gracefully:
 Format output as:
 
 ```
-🔍 GitHub Code Search Results for: {query}
+ GitHub Code Search Results for: {query}
 
 Found {total_count} results:
 
-📁 {repository_name} - {repository_description}
-📄 {file_path}
-🔗 {html_url}
+ {repository_name} - {repository_description}
+ {file_path}
+ {html_url}
 
-💻 Code snippet:
+ Code snippet:
 {text_matches[].fragment with highlighted matches}
 
-🔗 Permalink: {html_url}#L{estimated_line_number}
+ Permalink: {html_url}#L{estimated_line_number}
 
 ---
 ```

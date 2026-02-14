@@ -11,8 +11,8 @@ description: Comprehensive security audit for leaked credentials with parallel a
 - Git repository status: !`git status --porcelain 2>/dev/null | wc -l | tr -d ' '` modified files
 - Project type detection: !`fd "(package\.json|Cargo\.toml|go\.mod|deno\.json|pom\.xml|build\.gradle|requirements\.txt)" . -d 2 | head -3 || echo "No build files detected"`
 - Codebase size: !`fd "\.(js|ts|jsx|tsx|rs|go|java|py|rb|php|c|cpp|h|hpp|cs|kt|swift|scala|env|json|yaml|yml|toml)" . | wc -l | tr -d ' '` files
-- Ignore patterns: !`test -f .gitignore && echo "✓ .gitignore found" || echo "⚠️ No .gitignore found"`
-- Modern tools status: !`echo "rg: $(which rg >/dev/null && echo ✓ || echo ✗) | fd: $(which fd >/dev/null && echo ✓ || echo ✗) | bat: $(which bat >/dev/null && echo ✓ || echo ✗) | jq: $(which jq >/dev/null && echo ✓ || echo ✗)"`
+- Ignore patterns: !`test -f .gitignore && echo " .gitignore found" || echo "️ No .gitignore found"`
+- Modern tools status: !`echo "rg: $(which rg >/dev/null && echo  || echo ) | fd: $(which fd >/dev/null && echo  || echo ) | bat: $(which bat >/dev/null && echo  || echo ) | jq: $(which jq >/dev/null && echo  || echo )"`
 
 ## Your task
 
@@ -72,8 +72,8 @@ WHEN specific_patterns:
 # Git staged changes security scan
 git diff --staged --name-only | xargs rg -i "(password|secret|key|token|credential|api_key)" --context 2 --color always
 
-echo "🔍 Scanning staged changes for secrets..."
-git diff --staged | rg -i "(password|secret|key|token|credential)" --context 2 --color always || echo "✅ No obvious secrets found in staged changes"
+echo " Scanning staged changes for secrets..."
+git diff --staged | rg -i "(password|secret|key|token|credential)" --context 2 --color always || echo " No obvious secrets found in staged changes"
 ```
 
 STEP 3: Parallel comprehensive security audit using sub-agent architecture
@@ -111,9 +111,9 @@ LAUNCH parallel sub-agents for systematic security analysis:
 
 ```bash
 # Each agent reports findings to session state
-echo "🚀 Launching parallel security analysis agents..."
-echo "🔍 Comprehensive audit covers: credentials, databases, keys, configs, code"
-echo "📊 Results will be aggregated and prioritized by risk level"
+echo " Launching parallel security analysis agents..."
+echo " Comprehensive audit covers: credentials, databases, keys, configs, code"
+echo " Results will be aggregated and prioritized by risk level"
 ```
 
 STEP 4: Execute targeted security pattern detection with modern tooling
@@ -122,7 +122,7 @@ STEP 4: Execute targeted security pattern detection with modern tooling
 
 ```bash
 # High-priority credential patterns with risk classification
-echo "🔍 Executing comprehensive pattern detection..."
+echo " Executing comprehensive pattern detection..."
 
 # API Keys & Tokens (CRITICAL RISK)
 rg -i "api[-_]?key\s*[:=]\s*['\"]?[a-zA-Z0-9]{20,}['\"]?" \
@@ -162,7 +162,7 @@ TRY:
 
 ```bash
 # Find all potential security-sensitive files
-echo "📁 Discovering security-sensitive files..."
+echo " Discovering security-sensitive files..."
 
 # Environment and configuration files
 fd "\.(env|environment|config|properties|ini|conf)$" --hidden --type file | head -10
@@ -181,7 +181,7 @@ fd "(docker-compose|\.env\.|secrets|credentials)" --type file | head -10
 
 ```bash
 # Interactive secret discovery with fzf
-echo "🔍 Launching interactive security review..."
+echo " Launching interactive security review..."
 rg -i "(password|secret|key|token|credential)" \
   --color=always --context 2 --type-add 'all:*' --type all \
   --glob '!node_modules/*' --glob '!target/*' --glob '!dist/*' --glob '!.git/*' | \
@@ -196,7 +196,7 @@ TRY:
 
 ```bash
 # Generate JSON security report
-echo "📊 Generating structured security analysis..."
+echo " Generating structured security analysis..."
 
 # Count findings by risk category
 rg -i "(password|secret|key|token|credential)" --json \
@@ -214,7 +214,7 @@ rg -i "(password|secret|key|token|credential)" --json \
   }' > /tmp/security-findings-$SESSION_ID.json
 
 # Security statistics
-echo "📈 Security audit statistics:"
+echo " Security audit statistics:"
 echo "  Total files scanned: $(fd "\.(js|ts|py|go|rs|java|env|json|yaml)" . | wc -l | tr -d ' ')"
 echo "  Potential findings: $(jq length < /tmp/security-findings-$SESSION_ID.json 2>/dev/null || echo 0)"
 echo "  Critical risk items: $(jq '[.[] | select(.risk_category=="CRITICAL")] | length' < /tmp/security-findings-$SESSION_ID.json 2>/dev/null || echo 0)"
@@ -243,12 +243,12 @@ CATCH (security_scan_failed):
 - SUGGEST tool installation if modern tools missing
 
 ```bash
-echo "⚠️ Security scan execution failed. Checking tool availability:"
+echo "️ Security scan execution failed. Checking tool availability:"
 echo "Required tools status:"
-echo "  ripgrep (rg): $(which rg >/dev/null && echo '✓ installed' || echo '❌ missing - install with: brew install ripgrep')"
-echo "  fd: $(which fd >/dev/null && echo '✓ installed' || echo '❌ missing - install with: brew install fd')"
-echo "  bat: $(which bat >/dev/null && echo '✓ installed' || echo '❌ missing - install with: brew install bat')"
-echo "  jq: $(which jq >/dev/null && echo '✓ installed' || echo '❌ missing - install with: brew install jq')"
+echo "  ripgrep (rg): $(which rg >/dev/null && echo ' installed' || echo ' missing - install with: brew install ripgrep')"
+echo "  fd: $(which fd >/dev/null && echo ' installed' || echo ' missing - install with: brew install fd')"
+echo "  bat: $(which bat >/dev/null && echo ' installed' || echo ' missing - install with: brew install bat')"
+echo "  jq: $(which jq >/dev/null && echo ' installed' || echo ' missing - install with: brew install jq')"
 ```
 
 STEP 7: Security remediation and prevention with automated implementation
@@ -256,7 +256,7 @@ STEP 7: Security remediation and prevention with automated implementation
 **Immediate Security Actions:**
 
 ```bash
-echo "🔧 Implementing security remediation measures..."
+echo " Implementing security remediation measures..."
 
 # Create comprehensive .gitignore patterns
 if [ ! -f .gitignore ] || ! grep -q "# Security patterns" .gitignore; then
@@ -270,9 +270,9 @@ if [ ! -f .gitignore ] || ! grep -q "# Security patterns" .gitignore; then
   echo "*.jks" >> .gitignore
   echo "config/secrets.yml" >> .gitignore
   echo "secrets/" >> .gitignore
-  echo "🔒 Security patterns added to .gitignore"
+  echo " Security patterns added to .gitignore"
 else
-  echo "✓ .gitignore already contains security patterns"
+  echo " .gitignore already contains security patterns"
 fi
 
 # Setup automated pre-commit security hook
@@ -280,30 +280,30 @@ if [ -d .git ]; then
   cat > .git/hooks/pre-commit << 'EOF'
 #!/bin/bash
 # Automated security scan pre-commit hook
-echo "🔍 Running pre-commit security scan..."
+echo " Running pre-commit security scan..."
 if git diff --staged --name-only | xargs rg -i "(password|secret|key|token|api_key)" --quiet 2>/dev/null; then
-  echo "❌ Potential secrets detected in staged changes!"
+  echo " Potential secrets detected in staged changes!"
   echo "Run 'git diff --staged | rg -i \"(password|secret|key|token)\"' to review"
   exit 1
 fi
-echo "✓ No obvious secrets detected in staged changes"
+echo " No obvious secrets detected in staged changes"
 EOF
   chmod +x .git/hooks/pre-commit
-  echo "🔒 Automated security pre-commit hook installed"
+  echo " Automated security pre-commit hook installed"
 else
-  echo "⚠️ Not a git repository - skipping pre-commit hook setup"
+  echo "️ Not a git repository - skipping pre-commit hook setup"
 fi
 ```
 
 **Security Recommendations Report:**
 
 ```bash
-echo "📝 Security recommendations:"
-echo "1. 🔄 Rotate any discovered credentials immediately"
-echo "2. 🔐 Move secrets to environment variables or secret management"
-echo "3. 🛡️ Enable branch protection rules requiring security reviews"
-echo "4. 🔍 Set up automated security scanning in CI/CD pipeline"
-echo "5. 📚 Train team on secure coding practices"
+echo " Security recommendations:"
+echo "1.  Rotate any discovered credentials immediately"
+echo "2.  Move secrets to environment variables or secret management"
+echo "3. ️ Enable branch protection rules requiring security reviews"
+echo "4.  Set up automated security scanning in CI/CD pipeline"
+echo "5.  Train team on secure coding practices"
 ```
 
 FINALLY:
@@ -313,12 +313,12 @@ FINALLY:
 - ENABLE continuous security monitoring
 
 ```bash
-echo "✅ Security audit completed"
-echo "🔍 Scan scope: $ARGUMENTS"
-echo "📊 Session: $SESSION_ID" 
-echo "💾 Results: /tmp/security-findings-$SESSION_ID.json"
-echo "📋 Audit state: /tmp/secrets-audit-$SESSION_ID.json"
-echo "🔄 Recommendations implemented for ongoing security"
+echo " Security audit completed"
+echo " Scan scope: $ARGUMENTS"
+echo " Session: $SESSION_ID" 
+echo " Results: /tmp/security-findings-$SESSION_ID.json"
+echo " Audit state: /tmp/secrets-audit-$SESSION_ID.json"
+echo " Recommendations implemented for ongoing security"
 ```
 
 ## Security Audit Reference

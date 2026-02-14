@@ -464,16 +464,16 @@ async function main() {
       case "claim": {
         const result = await taskManager.claimTask();
         if (result.success) {
-          console.log(green(`✅ ${result.message}`));
+          console.log(green(` ${result.message}`));
           if (result.command) {
-            console.log(cyan(`📁 File: ${result.command.filepath}`));
+            console.log(cyan(` File: ${result.command.filepath}`));
             console.log(cyan(`🆔 Command ID: ${result.command.id}`));
             console.log(
-              cyan(`🔗 Session ID: ${result.command.claimedBy?.sessionId}`),
+              cyan(` Session ID: ${result.command.claimedBy?.sessionId}`),
             );
           }
         } else {
-          console.log(yellow(`⚠️  ${result.message}`));
+          console.log(yellow(`️  ${result.message}`));
           Deno.exit(1);
         }
         break;
@@ -486,7 +486,7 @@ async function main() {
 
         if (!commandId || !sessionId) {
           console.error(
-            red("❌ complete requires --command-id and --session-id"),
+            red(" complete requires --command-id and --session-id"),
           );
           Deno.exit(1);
         }
@@ -497,9 +497,9 @@ async function main() {
           improvements,
         );
         if (result.success) {
-          console.log(green(`✅ ${result.message}`));
+          console.log(green(` ${result.message}`));
         } else {
-          console.error(red(`❌ ${result.message}`));
+          console.error(red(` ${result.message}`));
           Deno.exit(1);
         }
         break;
@@ -511,16 +511,16 @@ async function main() {
 
         if (!commandId || !sessionId) {
           console.error(
-            red("❌ release requires --command-id and --session-id"),
+            red(" release requires --command-id and --session-id"),
           );
           Deno.exit(1);
         }
 
         const result = await taskManager.releaseTask(commandId, sessionId);
         if (result.success) {
-          console.log(green(`✅ ${result.message}`));
+          console.log(green(` ${result.message}`));
         } else {
-          console.error(red(`❌ ${result.message}`));
+          console.error(red(` ${result.message}`));
           Deno.exit(1);
         }
         break;
@@ -528,7 +528,7 @@ async function main() {
 
       case "status": {
         const status = await taskManager.getStatus();
-        console.log(cyan("📊 Task Status:"));
+        console.log(cyan(" Task Status:"));
         console.log(`   Total Commands: ${status.totalCommands}`);
         console.log(`   Completed: ${status.completed}`);
         console.log(`   In Progress: ${status.inProgress}`);
@@ -540,20 +540,20 @@ async function main() {
       case "cleanup": {
         const result = await taskManager.cleanup();
         if (result.success) {
-          console.log(green(`✅ ${result.message}`));
+          console.log(green(` ${result.message}`));
         } else {
-          console.error(red(`❌ ${result.message}`));
+          console.error(red(` ${result.message}`));
           Deno.exit(1);
         }
         break;
       }
 
       default:
-        console.error(red(`❌ Unknown command: ${command}`));
+        console.error(red(` Unknown command: ${command}`));
         Deno.exit(1);
     }
   } catch (error) {
-    console.error(red(`❌ Fatal error: ${error.message}`));
+    console.error(red(` Fatal error: ${error.message}`));
     Deno.exit(1);
   }
 }

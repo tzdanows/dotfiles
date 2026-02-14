@@ -10,7 +10,7 @@ description: Production-ready containerization orchestrator with multi-stage bui
 - Current directory: !`pwd`
 - Project structure: !`eza -la --tree --level=2 2>/dev/null | head -15 || fd . -t d -d 2 | head -10`
 - Build files detected: !`fd "(Dockerfile|docker-compose|package\.json|Cargo\.toml|go\.mod|pom\.xml|build\.gradle|deno\.json)" . -d 3 | head -10 || echo "No build files detected"`
-- Container tools status: !`echo "docker: $(which docker >/dev/null && echo ✓ || echo ✗) | kubectl: $(which kubectl >/dev/null && echo ✓ || echo ✗) | hadolint: $(which hadolint >/dev/null && echo ✓ || echo ✗)"`
+- Container tools status: !`echo "docker: $(which docker >/dev/null && echo  || echo ) | kubectl: $(which kubectl >/dev/null && echo  || echo ) | hadolint: $(which hadolint >/dev/null && echo  || echo )"`
 - Existing containers: !`docker ps -a --format "table {{.Names}}\t{{.Image}}\t{{.Status}}" 2>/dev/null | head -5 || echo "No Docker daemon or containers found"`
 
 ## Your Task
@@ -68,7 +68,7 @@ EXECUTE streamlined single-service containerization analysis:
 
 ```bash
 # Single-service analysis workflow
-echo "🔍 Analyzing single-service containerization requirements..."
+echo " Analyzing single-service containerization requirements..."
 ```
 
 STEP 3: Intelligent Dockerfile generation based on detected technology stack
@@ -343,7 +343,7 @@ CATCH (security_scan_failed):
 - SAVE partial results for manual review
 
 ```bash
-echo "⚠️ Security scan failed. Manual review required for:"
+echo "️ Security scan failed. Manual review required for:"
 echo "  - Dockerfile best practices violations"
 echo "  - High/Critical CVEs in base images"
 echo "  - Secret detection in source code"
@@ -885,27 +885,27 @@ kubectl apply -f k8s/
 
 ## Security Features
 
-- ✅ Non-root user execution (UID 1001)
-- ✅ Read-only root filesystem
-- ✅ Minimal attack surface (Alpine/distroless)
-- ✅ Automated vulnerability scanning
-- ✅ Secret management integration
-- ✅ Network policies ready
+- Non-root user execution (UID 1001)
+- Read-only root filesystem
+- Minimal attack surface (Alpine/distroless)
+- Automated vulnerability scanning
+- Secret management integration
+- Network policies ready
 
 ## Monitoring & Observability
 
-- 🔍 Health checks: `/health` and `/ready`
-- 📊 Metrics exposure: `:9090/metrics`
-- 📝 Structured logging with correlation IDs
-- 🚨 Prometheus integration ready
-- 📈 Grafana dashboard compatible
+- Health checks: `/health` and `/ready`
+- Metrics exposure: `:9090/metrics`
+- Structured logging with correlation IDs
+- Prometheus integration ready
+- Grafana dashboard compatible
 
 ## Modern Infrastructure
 
-- 🐘 PostgreSQL (not MySQL)
-- 🐉 DragonflyDB (not Redis)
-- 🦄 ScyllaDB (not Cassandra)
-- 🔄 RedPanda (not Kafka)
+- PostgreSQL (not MySQL)
+- DragonflyDB (not Redis)
+- ScyllaDB (not Cassandra)
+- RedPanda (not Kafka)
 
 ````
 FINALLY:
@@ -918,21 +918,21 @@ FINALLY:
 **Containerization Session Summary:**
 
 ```bash
-echo "✅ Containerization completed for: $ARGUMENTS"
-echo "📦 Generated artifacts:"
+echo " Containerization completed for: $ARGUMENTS"
+echo " Generated artifacts:"
 echo "  - Dockerfile (multi-stage, security-hardened)"
 echo "  - docker-compose.dev.yml (development environment)"
 echo "  - k8s/ manifests (production-ready)"
 echo "  - .github/workflows/containerize.yml (CI/CD pipeline)"
 echo "  - .dockerignore (build optimization)"
-echo "🔒 Security features implemented:"
+echo " Security features implemented:"
 echo "  - Non-root execution, read-only filesystem"
 echo "  - Vulnerability scanning automation"
 echo "  - Secret management integration"
-echo "⚡ Performance optimizations:"
+echo " Performance optimizations:"
 echo "  - Multi-stage builds with layer caching"
 echo "  - Build dependency optimization"
 echo "  - Resource limits and requests"
-echo "📊 Session: $SESSION_ID"
-echo "💾 State saved: /tmp/containerize-session-$SESSION_ID.json"
+echo " Session: $SESSION_ID"
+echo " State saved: /tmp/containerize-session-$SESSION_ID.json"
 ````

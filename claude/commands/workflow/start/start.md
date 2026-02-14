@@ -84,20 +84,20 @@ TRY:
 
 ```bash
 # Validate clean working state
-echo "🔍 Validating development environment..."
+echo " Validating development environment..."
 
 # Check for uncommitted changes
 uncommitted_files=$(git diff --name-only HEAD 2>/dev/null | wc -l | tr -d ' ')
 if [ "$uncommitted_files" -gt 0 ]; then
-  echo "⚠️ Found $uncommitted_files uncommitted files"
-  echo "📋 Uncommitted files:"
+  echo "️ Found $uncommitted_files uncommitted files"
+  echo " Uncommitted files:"
   git diff --name-only HEAD | head -5
-  echo "💾 Creating pre-work checkpoint..."
+  echo " Creating pre-work checkpoint..."
   git stash push -m "Pre-work checkpoint for session $SESSION_ID"
 fi
 
 # Validate test state
-echo "🧪 Checking current test status..."
+echo " Checking current test status..."
 if command -v deno >/dev/null && [ -f "deno.json" ]; then
   deno task test >/tmp/pre-work-tests-$SESSION_ID.log 2>&1
   test_exit_code=$?
@@ -150,13 +150,13 @@ CATCH (environment_setup_failed):
 - AWAIT user intervention before proceeding
 
 ```bash
-echo "❌ Environment setup failed. Check:"
+echo " Environment setup failed. Check:"
 echo "  1. Git repository status and conflicts"
 echo "  2. Test suite failures requiring attention"
 echo "  3. Missing dependencies or build tools"
 echo "  4. Configuration issues"
-echo "📊 Session state saved: /tmp/start-session-$SESSION_ID.json"
-echo "🔄 Run /start again after resolving issues"
+echo " Session state saved: /tmp/start-session-$SESSION_ID.json"
+echo " Run /start again after resolving issues"
 ```
 
 STEP 4: Intelligent execution with incremental progress and state management
@@ -168,7 +168,7 @@ WHEN "simple_change":
 
 ```bash
 # Execute focused implementation workflow
-echo "⚡ Executing simple task with direct implementation..."
+echo " Executing simple task with direct implementation..."
 
 # 1. Analyze files to modify
 # 2. Make incremental changes with validation
@@ -206,9 +206,9 @@ LAUNCH parallel sub-agents for comprehensive feature implementation:
 
 ```bash
 # Each phase reports to session state
-echo "🚀 Launching multi-agent feature implementation..."
-echo "📊 Progress tracking: /tmp/start-session-$SESSION_ID.json"
-echo "🔄 Coordination through session state and TodoWrite"
+echo " Launching multi-agent feature implementation..."
+echo " Progress tracking: /tmp/start-session-$SESSION_ID.json"
+echo " Coordination through session state and TodoWrite"
 ```
 
 STEP 5: Continuous validation and checkpoint management
@@ -218,7 +218,7 @@ STEP 5: Continuous validation and checkpoint management
 ```bash
 # After each significant change, validate progress
 validate_progress() {
-  echo "🔍 Validating progress for session $SESSION_ID..."
+  echo " Validating progress for session $SESSION_ID..."
   
   # Run relevant tests
   if command -v deno >/dev/null && [ -f "deno.json" ]; then
@@ -248,7 +248,7 @@ validate_progress() {
 # Create checkpoint after major milestones
 create_checkpoint() {
   local checkpoint_name="$1"
-  echo "💾 Creating checkpoint: $checkpoint_name"
+  echo " Creating checkpoint: $checkpoint_name"
   
   # Git checkpoint
   git add -A
@@ -282,13 +282,13 @@ while [ "$(jq -r '.state' /tmp/start-session-$SESSION_ID.json)" != "completed" ]
       # Continue with current implementation
       validate_progress
       if [ $? -ne 0 ]; then
-        echo "⚠️ Validation failed, entering error recovery mode"
+        echo "️ Validation failed, entering error recovery mode"
         jq '.state = "error_recovery"' /tmp/start-session-$SESSION_ID.json > /tmp/start-session-$SESSION_ID.tmp && \
         mv /tmp/start-session-$SESSION_ID.tmp /tmp/start-session-$SESSION_ID.json
       fi
       ;;
     "error_recovery")
-      echo "🔧 Entering error recovery mode..."
+      echo " Entering error recovery mode..."
       # Attempt automated recovery or await user intervention
       break
       ;;
@@ -304,11 +304,11 @@ CATCH (test_failure):
 - AWAIT user decision on how to proceed
 
 ```bash
-echo "❌ Test failures detected during task execution"
-echo "📊 Session: $SESSION_ID"
-echo "💾 Progress saved to checkpoint"
-echo "📋 Test results: /tmp/validation-$SESSION_ID.log"
-echo "🔄 Options:"
+echo " Test failures detected during task execution"
+echo " Session: $SESSION_ID"
+echo " Progress saved to checkpoint"
+echo " Test results: /tmp/validation-$SESSION_ID.log"
+echo " Options:"
 echo "  1. Fix failing tests and resume: /start --resume $SESSION_ID"
 echo "  2. Rollback to last checkpoint: /start --rollback $SESSION_ID"
 echo "  3. Debug test failures manually"
@@ -321,13 +321,13 @@ CATCH (git_conflict):
 - IF failed: PROVIDE conflict resolution guidance
 
 ```bash
-echo "⚠️ Git conflicts detected"
-echo "📊 Session: $SESSION_ID"
-echo "🔧 Attempting automated resolution..."
+echo "️ Git conflicts detected"
+echo " Session: $SESSION_ID"
+echo " Attempting automated resolution..."
 git status --porcelain | grep "^UU" | while read -r conflict_file; do
   echo "  Conflict in: $conflict_file"
 done
-echo "🔄 Manual resolution required if automation fails"
+echo " Manual resolution required if automation fails"
 ```
 
 STEP 7: Completion workflow with comprehensive cleanup
@@ -337,10 +337,10 @@ STEP 7: Completion workflow with comprehensive cleanup
 ```bash
 # Execute final validation before completion
 final_validation() {
-  echo "🏁 Executing final validation for task completion..."
+  echo " Executing final validation for task completion..."
   
   # Run full test suite
-  echo "🧪 Running full test suite..."
+  echo " Running full test suite..."
   if command -v deno >/dev/null && [ -f "deno.json" ]; then
     deno task test
   elif command -v cargo >/dev/null && [ -f "Cargo.toml" ]; then
@@ -352,9 +352,9 @@ final_validation() {
   fi
   
   if [ $? -eq 0 ]; then
-    echo "✅ All tests passing"
+    echo " All tests passing"
   else
-    echo "❌ Test failures prevent task completion"
+    echo " Test failures prevent task completion"
     return 1
   fi
   
@@ -365,7 +365,7 @@ final_validation() {
     cargo clippy && cargo fmt
   fi
   
-  echo "✅ Final validation complete"
+  echo " Final validation complete"
   return 0
 }
 ```
@@ -375,7 +375,7 @@ final_validation() {
 ```bash
 # Complete task and update all tracking systems
 complete_task() {
-  echo "🎉 Completing task: $selected_task"
+  echo " Completing task: $selected_task"
   
   # Create final commit
   git add -A
@@ -397,7 +397,7 @@ Session: $SESSION_ID"
      /tmp/start-session-$SESSION_ID.json > /tmp/start-session-$SESSION_ID.tmp && \
   mv /tmp/start-session-$SESSION_ID.tmp /tmp/start-session-$SESSION_ID.json
   
-  echo "✅ Task completed successfully"
+  echo " Task completed successfully"
 }
 ```
 
@@ -408,7 +408,7 @@ STEP 8: Next task suggestion and workflow continuation
 ```bash
 # Analyze project state and suggest next high-priority task
 suggest_next_task() {
-  echo "🎯 Analyzing next high-priority tasks..."
+  echo " Analyzing next high-priority tasks..."
   
   # Load current todos and analyze dependencies
   TodoRead
@@ -418,7 +418,7 @@ suggest_next_task() {
   # 2. Related functionality expansion
   # 3. Critical path dependencies
   
-  echo "💡 Suggested next tasks:"
+  echo " Suggested next tasks:"
   # This would integrate with TodoRead output to suggest specific tasks
   echo "  - Run '/start' for auto-selected next task"
   echo "  - Use TodoRead to review all available tasks"
@@ -434,16 +434,16 @@ FINALLY:
 **Workflow Session Summary:**
 
 ```bash
-echo "✅ Workflow session completed successfully"
-echo "📊 Session: $SESSION_ID"
-echo "🎯 Task: $selected_task"
+echo " Workflow session completed successfully"
+echo " Session: $SESSION_ID"
+echo " Task: $selected_task"
 echo "⏱️ Duration: $(jq -r '.completedAt' /tmp/start-session-$SESSION_ID.json | xargs -I {} bash -c 'echo $(( $(gdate -d {} +%s) - $(gdate -d "$(jq -r .startTime /tmp/start-session-$SESSION_ID.json)" +%s) ))') seconds"
-echo "📁 Files modified: $(jq -r '.filesModified | length' /tmp/start-session-$SESSION_ID.json)"
-echo "🏆 Commits created: $(jq -r '.commitsCreated' /tmp/start-session-$SESSION_ID.json)"
-echo "🧪 Final test status: $(jq -r '.testsStatus' /tmp/start-session-$SESSION_ID.json)"
-echo "💾 Session data: /tmp/start-session-$SESSION_ID.json"
+echo " Files modified: $(jq -r '.filesModified | length' /tmp/start-session-$SESSION_ID.json)"
+echo " Commits created: $(jq -r '.commitsCreated' /tmp/start-session-$SESSION_ID.json)"
+echo " Final test status: $(jq -r '.testsStatus' /tmp/start-session-$SESSION_ID.json)"
+echo " Session data: /tmp/start-session-$SESSION_ID.json"
 echo ""
-echo "🚀 Ready for next task - run '/start' to continue development workflow"
+echo " Ready for next task - run '/start' to continue development workflow"
 ```
 
 ## Session Management Commands

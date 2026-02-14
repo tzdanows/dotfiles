@@ -12,7 +12,7 @@ description: Comprehensive code coverage orchestrator with intelligent gap analy
 - Build files detected: !`fd "(package\.json|Cargo\.toml|go\.mod|deno\.json|pom\.xml|pyproject\.toml|requirements\.txt)" . -d 3 | head -8 || echo "No build files detected"`
 - Existing coverage files: !`fd "(coverage|tarpaulin-report|coverage\.out|\.coverage)" . -d 3 | head -5 || echo "No coverage reports found"`
 - Language detection: !`echo "Languages: $(fd "\.(js|ts|jsx|tsx)" . | head -1 >/dev/null && echo "JS/TS") $(fd "\.rs$" . | head -1 >/dev/null && echo "Rust") $(fd "\.go$" . | head -1 >/dev/null && echo "Go") $(fd "\.py$" . | head -1 >/dev/null && echo "Python") $(fd "\.java$" . | head -1 >/dev/null && echo "Java")"`
-- Coverage tools status: !`echo "Tools: $(which jest >/dev/null && echo "jest✓") $(which vitest >/dev/null && echo "vitest✓") $(which cargo-tarpaulin >/dev/null && echo "tarpaulin✓") $(which go >/dev/null && echo "go✓") $(which coverage >/dev/null && echo "coverage.py✓")"`
+- Coverage tools status: !`echo "Tools: $(which jest >/dev/null && echo "jest") $(which vitest >/dev/null && echo "vitest") $(which cargo-tarpaulin >/dev/null && echo "tarpaulin") $(which go >/dev/null && echo "go") $(which coverage >/dev/null && echo "coverage.py")"`
 
 ## Your Task
 
@@ -47,7 +47,7 @@ configure_coverage_tools() {
   
   # Deno/TypeScript projects
   if fd "deno\.json" . | head -1 >/dev/null; then
-    echo "🦕 Deno project detected"
+    echo " Deno project detected"
     project_languages+=("deno")
     DENO_CMD="deno test --allow-all --coverage=coverage"
     DENO_REPORT="deno coverage coverage --html"
@@ -55,7 +55,7 @@ configure_coverage_tools() {
   
   # Rust projects  
   if fd "Cargo\.toml" . | head -1 >/dev/null; then
-    echo "🦀 Rust project detected"
+    echo " Rust project detected"
     project_languages+=("rust")
     RUST_CMD="cargo tarpaulin --out Html --out Json --out Xml --output-dir coverage"
     RUST_INSTALL="cargo install cargo-tarpaulin"
@@ -63,7 +63,7 @@ configure_coverage_tools() {
   
   # Go projects
   if fd "go\.mod" . | head -1 >/dev/null; then
-    echo "🐹 Go project detected"
+    echo " Go project detected"
     project_languages+=("go")
     GO_CMD="go test -coverprofile=coverage.out -covermode=atomic ./..."
     GO_REPORT="go tool cover -html=coverage.out -o coverage.html"
@@ -71,7 +71,7 @@ configure_coverage_tools() {
   
   # Node.js/JavaScript projects
   if fd "package\.json" . | head -1 >/dev/null; then
-    echo "⚡ Node.js project detected"
+    echo " Node.js project detected"
     project_languages+=("node")
     
     # Detect testing framework
@@ -89,7 +89,7 @@ configure_coverage_tools() {
   
   # Python projects
   if fd "(pyproject\.toml|requirements\.txt)" . | head -1 >/dev/null; then
-    echo "🐍 Python project detected"
+    echo " Python project detected"
     project_languages+=("python")
     PYTHON_CMD="coverage run -m pytest && coverage report --format=json"
     PYTHON_REPORT="coverage html"
@@ -97,7 +97,7 @@ configure_coverage_tools() {
   
   # Java projects
   if fd "(pom\.xml|build\.gradle)" . | head -1 >/dev/null; then
-    echo "☕ Java project detected"
+    echo " Java project detected"
     project_languages+=("java")
     if fd "pom\.xml" . | head -1 >/dev/null; then
       JAVA_CMD="mvn test jacoco:report"
@@ -115,21 +115,21 @@ configure_coverage_tools() {
 ```bash
 # Analyze current coverage setup and reports
 analyze_existing_coverage() {
-  echo "🔍 Analyzing existing coverage setup..."
+  echo " Analyzing existing coverage setup..."
   
   # Check for existing coverage files and configurations
   for config_file in deno.json package.json Cargo.toml pyproject.toml pom.xml build.gradle; do
     if [ -f "$config_file" ]; then
-      echo "📄 Found $config_file - checking coverage configuration"
+      echo " Found $config_file - checking coverage configuration"
       case "$config_file" in
         "deno.json")
-          jq -e '.tasks.coverage // .tasks.test' "$config_file" >/dev/null 2>&1 && echo "✅ Coverage task configured" || echo "❌ No coverage task"
+          jq -e '.tasks.coverage // .tasks.test' "$config_file" >/dev/null 2>&1 && echo " Coverage task configured" || echo " No coverage task"
           ;;
         "package.json")  
-          jq -e '.scripts | to_entries[] | select(.value | contains("coverage"))' "$config_file" >/dev/null 2>&1 && echo "✅ Coverage script found" || echo "❌ No coverage scripts"
+          jq -e '.scripts | to_entries[] | select(.value | contains("coverage"))' "$config_file" >/dev/null 2>&1 && echo " Coverage script found" || echo " No coverage scripts"
           ;;
         "Cargo.toml")
-          rg -q "(tarpaulin|cargo-tarpaulin)" "$config_file" && echo "✅ Tarpaulin configured" || echo "❌ No tarpaulin config"
+          rg -q "(tarpaulin|cargo-tarpaulin)" "$config_file" && echo " Tarpaulin configured" || echo " No tarpaulin config"
           ;;
       esac
     fi
@@ -138,7 +138,7 @@ analyze_existing_coverage() {
   # Check for existing coverage reports
   existing_reports=$(fd "(coverage|tarpaulin-report|coverage\.out|\.coverage)" . -d 3)
   if [ -n "$existing_reports" ]; then
-    echo "📊 Found existing coverage reports:"
+    echo " Found existing coverage reports:"
     echo "$existing_reports" | head -5
   fi
 }
@@ -151,7 +151,7 @@ CATCH (tool_detection_failed):
 - SUGGEST tool installation steps
 
 ```bash
-echo "⚠️ Coverage tool detection failed. Manual configuration may be required."
+echo "️ Coverage tool detection failed. Manual configuration may be required."
 echo "Please verify that the following tools are installed:"
 echo "  - For Deno: Built-in coverage support"
 echo "  - For Rust: cargo install cargo-tarpaulin"
@@ -205,7 +205,7 @@ EXECUTE streamlined single-language coverage analysis:
 
 ```bash
 # Single-language analysis workflow
-echo "🔍 Executing streamlined coverage analysis for single-language project..."
+echo " Executing streamlined coverage analysis for single-language project..."
 ```
 
 STEP 4: Intelligent gap identification and critical path analysis
@@ -217,40 +217,40 @@ TRY:
 ```bash
 # Identify critical uncovered code paths using modern tools
 analyze_critical_gaps() {
-  echo "🎯 Identifying critical coverage gaps with priority ranking..."
+  echo " Identifying critical coverage gaps with priority ranking..."
   
   # Find uncovered public APIs by language
   case "$detected_language" in
     "typescript"|"javascript")
-      echo "🔍 Analyzing TypeScript/JavaScript public APIs"
+      echo " Analyzing TypeScript/JavaScript public APIs"
       rg "^export\s+(function|class|const|interface)" --type ts --type js src/ | \
         while IFS=: read -r file line_num content; do
           func_name=$(echo "$content" | rg -o "(function|class|const|interface)\s+\w+" | cut -d' ' -f2)
           # Check if this export is tested
           if ! rg -q "$func_name" tests/ test/ __tests__/ *.test.* *.spec.* 2>/dev/null; then
-            echo "❌ CRITICAL: Uncovered public API: $func_name in $file:$line_num"
+            echo " CRITICAL: Uncovered public API: $func_name in $file:$line_num"
           fi
         done
       ;;
     "rust")
-      echo "🔍 Analyzing Rust public items"
+      echo " Analyzing Rust public items"
       rg "^pub\s+(fn|struct|enum|trait)" --type rust src/ | \
         while IFS=: read -r file line_num content; do
           item_name=$(echo "$content" | rg -o "(fn|struct|enum|trait)\s+\w+" | cut -d' ' -f2)
           # Check if this public item has tests
           if ! rg -q "$item_name" tests/ "${file%.*}_test.rs" 2>/dev/null && ! rg -q "#\[test\]" "$file"; then
-            echo "❌ CRITICAL: Uncovered public item: $item_name in $file:$line_num"
+            echo " CRITICAL: Uncovered public item: $item_name in $file:$line_num"
           fi
         done
       ;;
     "go")
-      echo "🔍 Analyzing Go public functions"
+      echo " Analyzing Go public functions"
       rg "^func\s+[A-Z]" --type go . | \
         while IFS=: read -r file line_num content; do
           func_name=$(echo "$content" | rg -o "func\s+\w+" | cut -d' ' -f2)
           test_file="${file%.*}_test.go"
           if [ -f "$test_file" ] && ! rg -q "Test$func_name\|$func_name" "$test_file"; then
-            echo "❌ CRITICAL: Uncovered public function: $func_name in $file:$line_num"
+            echo " CRITICAL: Uncovered public function: $func_name in $file:$line_num"
           fi
         done
       ;;
@@ -259,20 +259,20 @@ analyze_critical_gaps() {
 
 # Analyze error handling coverage
 analyze_error_coverage() {
-  echo "🚨 Analyzing error handling coverage..."
+  echo " Analyzing error handling coverage..."
   
   # Find error handling patterns that might be uncovered
   rg "(throw|panic|error|Error|except|raise|Result<|Option<)" --type "$detected_language" src/ | \
     head -20 | \
     while IFS=: read -r file line_num content; do
-      echo "🔍 Check error handling coverage: $file:$line_num"
+      echo " Check error handling coverage: $file:$line_num"
       echo "    Pattern: $(echo "$content" | cut -c1-80)..."
     done
 }
 
 # Security-sensitive code analysis  
 analyze_security_coverage() {
-  echo "🔒 Analyzing security-sensitive code coverage..."
+  echo " Analyzing security-sensitive code coverage..."
   
   # Find authentication, authorization, and security patterns
   security_patterns=(
@@ -284,7 +284,7 @@ analyze_security_coverage() {
   for pattern in "${security_patterns[@]}"; do
     matches=$(rg -i "$pattern" --type "$detected_language" src/ | head -3)
     if [ -n "$matches" ]; then
-      echo "🔒 Security pattern '$pattern' found - verify test coverage:"
+      echo " Security pattern '$pattern' found - verify test coverage:"
       echo "$matches" | while IFS=: read -r file line_num content; do
         echo "    $file:$line_num"
       done
@@ -298,7 +298,7 @@ analyze_security_coverage() {
 ```bash
 # Identify performance-critical functions that need coverage
 analyze_performance_critical() {
-  echo "⚡ Analyzing performance-critical code coverage..."
+  echo " Analyzing performance-critical code coverage..."
   
   performance_patterns=(
     "benchmark" "performance" "optimize" "cache" "async" "parallel" 
@@ -308,7 +308,7 @@ analyze_performance_critical() {
   for pattern in "${performance_patterns[@]}"; do
     matches=$(rg -i "$pattern" --type "$detected_language" src/ | head -2)
     if [ -n "$matches" ]; then
-      echo "⚡ Performance pattern '$pattern' - ensure adequate test coverage"
+      echo " Performance pattern '$pattern' - ensure adequate test coverage"
     fi
   done
 }
@@ -321,17 +321,17 @@ STEP 5: Execute coverage collection with comprehensive reporting
 ```bash
 # Execute coverage based on detected project type
 execute_coverage_collection() {
-  echo "📊 Executing coverage collection for detected languages..."
+  echo " Executing coverage collection for detected languages..."
   
   if [ -n "$DENO_CMD" ]; then
-    echo "🦕 Running Deno coverage..."
+    echo " Running Deno coverage..."
     eval "$DENO_CMD"
     deno coverage coverage --html --output=coverage-html
     deno coverage coverage --json --output=coverage.json
   fi
   
   if [ -n "$RUST_CMD" ]; then
-    echo "🦀 Running Rust coverage..."
+    echo " Running Rust coverage..."
     if ! command -v cargo-tarpaulin >/dev/null; then
       echo "Installing cargo-tarpaulin..."
       cargo install cargo-tarpaulin
@@ -340,24 +340,24 @@ execute_coverage_collection() {
   fi
   
   if [ -n "$GO_CMD" ]; then
-    echo "🐹 Running Go coverage..."
+    echo " Running Go coverage..."
     eval "$GO_CMD"
     eval "$GO_REPORT"
   fi
   
   if [ -n "$NODE_CMD" ]; then
-    echo "⚡ Running Node.js coverage..."
+    echo " Running Node.js coverage..."
     eval "$NODE_CMD"
   fi
   
   if [ -n "$PYTHON_CMD" ]; then
-    echo "🐍 Running Python coverage..."
+    echo " Running Python coverage..."
     eval "$PYTHON_CMD"
     eval "$PYTHON_REPORT"
   fi
   
   if [ -n "$JAVA_CMD" ]; then
-    echo "☕ Running Java coverage..."
+    echo " Running Java coverage..."
     eval "$JAVA_CMD"
   fi
 }
@@ -370,7 +370,7 @@ CATCH (coverage_execution_failed):
 - SAVE partial results for manual analysis
 
 ```bash
-echo "❌ Coverage execution failed. Troubleshooting steps:"
+echo " Coverage execution failed. Troubleshooting steps:"
 echo "  1. Verify all tests pass without coverage: npm test / cargo test / go test / deno test"
 echo "  2. Check coverage tool installation and configuration"
 echo "  3. Review test directory structure and naming conventions"
@@ -386,7 +386,7 @@ TRY:
 ```bash
 # Generate comprehensive coverage reports in multiple formats
 generate_coverage_reports() {
-  echo "📊 Generating comprehensive coverage reports..."
+  echo " Generating comprehensive coverage reports..."
   
   # Create reports directory structure
   mkdir -p coverage-reports/{html,json,lcov,xml}
@@ -394,31 +394,31 @@ generate_coverage_reports() {
   # Language-specific report generation
   case "$detected_language" in
     "deno")
-      echo "🦕 Generating Deno coverage reports..."
+      echo " Generating Deno coverage reports..."
       deno coverage coverage --html --output=coverage-reports/html/
       deno coverage coverage --json --output=coverage-reports/json/coverage.json
       deno coverage coverage --lcov --output=coverage-reports/lcov/coverage.lcov
       ;;
     "rust")
-      echo "🦀 Generating Rust coverage reports..."
+      echo " Generating Rust coverage reports..."
       # Tarpaulin generates multiple formats automatically
       cp coverage/tarpaulin-report.html coverage-reports/html/
       cp coverage/tarpaulin-report.json coverage-reports/json/
       cp coverage/cobertura.xml coverage-reports/xml/ 2>/dev/null || true
       ;;
     "go")
-      echo "🐹 Generating Go coverage reports..."
+      echo " Generating Go coverage reports..."
       go tool cover -html=coverage.out -o coverage-reports/html/coverage.html
       go tool cover -func=coverage.out > coverage-reports/coverage-summary.txt
       ;;
     "node")
-      echo "⚡ Generating Node.js coverage reports..."
+      echo " Generating Node.js coverage reports..."
       # Coverage reports already generated by jest/vitest
       cp -r coverage/* coverage-reports/ 2>/dev/null || true
       ;;
   esac
   
-  echo "✅ Coverage reports generated in coverage-reports/"
+  echo " Coverage reports generated in coverage-reports/"
 }
 ```
 
@@ -427,7 +427,7 @@ generate_coverage_reports() {
 ````bash
 # Generate actionable coverage improvement recommendations
 generate_improvement_recommendations() {
-  echo "💡 Generating coverage improvement recommendations..."
+  echo " Generating coverage improvement recommendations..."
   
   # Create recommendations file
   cat > coverage-reports/recommendations.md << 'EOF'
@@ -491,7 +491,7 @@ npm run test:coverage
 coverage-threshold-check 80
 EOF
 
-  echo "📋 Recommendations saved to coverage-reports/recommendations.md"
+  echo " Recommendations saved to coverage-reports/recommendations.md"
 }
 ````
 
@@ -500,7 +500,7 @@ EOF
 ```bash
 # Generate interactive HTML dashboard
 generate_interactive_dashboard() {
-  echo "🎯 Generating interactive coverage dashboard..."
+  echo " Generating interactive coverage dashboard..."
   
   cat > coverage-reports/dashboard.html << 'EOF'
 <!DOCTYPE html>
@@ -534,7 +534,7 @@ generate_interactive_dashboard() {
     </style>
 </head>
 <body>
-    <h1>📊 Code Coverage Analysis Dashboard</h1>
+    <h1> Code Coverage Analysis Dashboard</h1>
     <p>Generated on: <strong id="timestamp"></strong> | Session: <strong>SESSION_ID_PLACEHOLDER</strong></p>
     
     <div class="dashboard">
@@ -575,10 +575,10 @@ generate_interactive_dashboard() {
         <div class="card">
             <h2>Recommendations</h2>
             <ul>
-                <li>📝 Add tests for 12 uncovered public APIs</li>
-                <li>🔒 Improve security function coverage</li>
-                <li>⚠️ Test error handling paths</li>
-                <li>🚀 Add performance test scenarios</li>
+                <li> Add tests for 12 uncovered public APIs</li>
+                <li> Improve security function coverage</li>
+                <li>️ Test error handling paths</li>
+                <li> Add performance test scenarios</li>
             </ul>
         </div>
         
@@ -658,7 +658,7 @@ EOF
   sed -i.bak "s/SESSION_ID_PLACEHOLDER/$SESSION_ID/g" coverage-reports/dashboard.html
   rm coverage-reports/dashboard.html.bak
   
-  echo "🎯 Interactive dashboard generated: coverage-reports/dashboard.html"
+  echo " Interactive dashboard generated: coverage-reports/dashboard.html"
 }
 ```
 
@@ -669,7 +669,7 @@ STEP 7: CI/CD integration and coverage enforcement automation
 ```bash
 # Generate GitHub Actions workflow for coverage enforcement
 generate_ci_coverage_workflow() {
-  echo "🔄 Generating CI/CD coverage enforcement workflow..."
+  echo " Generating CI/CD coverage enforcement workflow..."
   
   mkdir -p .github/workflows
   
@@ -740,10 +740,10 @@ jobs:
           echo "Threshold: $THRESHOLD%"
           
           if (( $(echo "$CURRENT < $THRESHOLD" | bc -l) )); then
-            echo "❌ Coverage $CURRENT% is below threshold $THRESHOLD%"
+            echo " Coverage $CURRENT% is below threshold $THRESHOLD%"
             exit 1
           else
-            echo "✅ Coverage $CURRENT% meets threshold $THRESHOLD%"
+            echo " Coverage $CURRENT% meets threshold $THRESHOLD%"
           fi
           
       - name: Upload coverage reports
@@ -773,18 +773,18 @@ jobs:
             }
             
             const comment = `
-            ## 📊 Coverage Report
+            ##  Coverage Report
             
             | Metric | Coverage | Status |
             |--------|----------|---------|
-            | Lines | ${coverageData.lines?.pct || 'N/A'}% | ${coverageData.lines?.pct >= 80 ? '✅' : '❌'} |
-            | Branches | ${coverageData.branches?.pct || 'N/A'}% | ${coverageData.branches?.pct >= 80 ? '✅' : '❌'} |
-            | Functions | ${coverageData.functions?.pct || 'N/A'}% | ${coverageData.functions?.pct >= 80 ? '✅' : '❌'} |
-            | Statements | ${coverageData.statements?.pct || 'N/A'}% | ${coverageData.statements?.pct >= 80 ? '✅' : '❌'} |
+            | Lines | ${coverageData.lines?.pct || 'N/A'}% | ${coverageData.lines?.pct >= 80 ? '' : ''} |
+            | Branches | ${coverageData.branches?.pct || 'N/A'}% | ${coverageData.branches?.pct >= 80 ? '' : ''} |
+            | Functions | ${coverageData.functions?.pct || 'N/A'}% | ${coverageData.functions?.pct >= 80 ? '' : ''} |
+            | Statements | ${coverageData.statements?.pct || 'N/A'}% | ${coverageData.statements?.pct >= 80 ? '' : ''} |
             
-            ${coverageData.lines?.pct >= 80 ? '🎉 Great job! Coverage meets requirements.' : '⚠️ Coverage below 80% threshold. Please add more tests.'}
+            ${coverageData.lines?.pct >= 80 ? ' Great job! Coverage meets requirements.' : '️ Coverage below 80% threshold. Please add more tests.'}
             
-            📈 [View detailed coverage report](https://codecov.io/gh/${context.repo.owner}/${context.repo.repo}/pull/${context.issue.number})
+             [View detailed coverage report](https://codecov.io/gh/${context.repo.owner}/${context.repo.repo}/pull/${context.issue.number})
             `;
             
             github.rest.issues.createComment({
@@ -795,7 +795,7 @@ jobs:
             });
 EOF
 
-  echo "🔄 Coverage enforcement workflow generated: .github/workflows/coverage.yml"
+  echo " Coverage enforcement workflow generated: .github/workflows/coverage.yml"
 }
 ```
 
@@ -806,7 +806,7 @@ STEP 8: Session state management and final reporting
 ```bash
 # Update session state with final results
 update_session_state() {
-  echo "💾 Updating session state with coverage analysis results..."
+  echo " Updating session state with coverage analysis results..."
   
   jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" \
      --arg status "completed" \
@@ -818,7 +818,7 @@ update_session_state() {
 
 # Generate final summary report
 generate_final_summary() {
-  echo "📋 Generating final coverage analysis summary..."
+  echo " Generating final coverage analysis summary..."
   
   cat > coverage-analysis-summary.md << EOF
 # Coverage Analysis Summary
@@ -842,10 +842,10 @@ generate_final_summary() {
 4. **Performance-Critical Coverage:** [Status]
 
 ### Generated Artifacts
-- 📊 Interactive dashboard: \`coverage-reports/dashboard.html\`
-- 📋 Improvement recommendations: \`coverage-reports/recommendations.md\`
-- 🔄 CI/CD workflow: \`.github/workflows/coverage.yml\`
-- 📈 Multi-format reports: \`coverage-reports/\`
+-  Interactive dashboard: \`coverage-reports/dashboard.html\`
+-  Improvement recommendations: \`coverage-reports/recommendations.md\`
+-  CI/CD workflow: \`.github/workflows/coverage.yml\`
+-  Multi-format reports: \`coverage-reports/\`
 
 ### Next Steps
 1. Review the interactive dashboard for detailed insights
@@ -856,7 +856,7 @@ generate_final_summary() {
 **Session completed at:** $(date)
 EOF
 
-  echo "📋 Final summary saved to coverage-analysis-summary.md"
+  echo " Final summary saved to coverage-analysis-summary.md"
 }
 ```
 
@@ -867,13 +867,13 @@ FINALLY:
 - SUGGEST integration with development workflow
 
 ```bash
-echo "✅ Coverage analysis completed successfully"
-echo "🎯 Session: $SESSION_ID"
-echo "📊 Reports available in: coverage-reports/"
-echo "🔄 CI/CD integration ready: .github/workflows/coverage.yml"
-echo "📋 Summary: coverage-analysis-summary.md"
+echo " Coverage analysis completed successfully"
+echo " Session: $SESSION_ID"
+echo " Reports available in: coverage-reports/"
+echo " CI/CD integration ready: .github/workflows/coverage.yml"
+echo " Summary: coverage-analysis-summary.md"
 echo ""
-echo "💡 Next actions:"
+echo " Next actions:"
 echo "  1. Open coverage-reports/dashboard.html for interactive analysis"
 echo "  2. Review coverage-reports/recommendations.md for specific improvements"
 echo "  3. Commit and push .github/workflows/coverage.yml to enable CI enforcement"

@@ -177,7 +177,7 @@ FOR EACH changelog section:
 **Breaking Changes Section (if applicable):**
 
 ```markdown
-### ⚠️ BREAKING CHANGES
+### ️ BREAKING CHANGES
 
 - {DESCRIPTION} ({COMMIT_HASH}) [#{PR_NUMBER}]
 - Migration guide: {MIGRATION_NOTES}
@@ -391,31 +391,31 @@ const audienceMapping = {
 ```markdown
 ## Release Notes - v{VERSION}
 
-### 🎯 Release Highlights
+###  Release Highlights
 
 {TOP_FEATURES_WITH_EMOJIS}
 
-### ⚠️ Breaking Changes
+### ️ Breaking Changes
 
 {BREAKING_CHANGES_WITH_MIGRATION_GUIDES}
 
-### 📈 Release Statistics
+###  Release Statistics
 
 - **{COMMIT_COUNT}** commits from **{CONTRIBUTOR_COUNT}** contributors
 - **{FILES_CHANGED}** files changed (+{LINES_ADDED} -{LINES_REMOVED})
 - **{SECURITY_FIXES}** security fixes included
 - **{PERFORMANCE_IMPROVEMENTS}** performance improvements
 
-### 🤝 Contributors
+###  Contributors
 
 {CONTRIBUTOR_LIST_WITH_COMMIT_COUNTS}
 {FIRST_TIME_CONTRIBUTORS_CALLOUT}
 
-### 🔗 Links
+###  Links
 
-- [📋 Full Changelog](https://github.com/{ORG}/{REPO}/compare/{PREVIOUS_TAG}...{CURRENT_TAG})
-- [🏷️ Release Page](https://github.com/{ORG}/{REPO}/releases/tag/{CURRENT_TAG})
-- [📦 Download](https://github.com/{ORG}/{REPO}/archive/{CURRENT_TAG}.zip)
+- [ Full Changelog](https://github.com/{ORG}/{REPO}/compare/{PREVIOUS_TAG}...{CURRENT_TAG})
+- [️ Release Page](https://github.com/{ORG}/{REPO}/releases/tag/{CURRENT_TAG})
+- [ Download](https://github.com/{ORG}/{REPO}/archive/{CURRENT_TAG}.zip)
 ````
 
 **JSON Metadata Output:**
@@ -457,7 +457,7 @@ const audienceMapping = {
 
 Generated on {TIMESTAMP} | Session: {SESSION_ID}
 
-## 📋 Release Summary
+## Release Summary
 
 - **Version**: {CALCULATED_VERSION}
 - **Date**: {RELEASE_DATE}
@@ -465,53 +465,53 @@ Generated on {TIMESTAMP} | Session: {SESSION_ID}
 - **Contributors**: {CONTRIBUTOR_COUNT}
 - **Scope**: {TARGET_RANGE}
 
-## 🚀 Changes
+## Changes
 
-### ⚠️ Breaking Changes
+### ️ Breaking Changes
 
 {BREAKING_CHANGES_LIST}
 
-### ✨ Added
+### Added
 
 {NEW_FEATURES_LIST}
 
-### 🔄 Changed
+### Changed
 
 {IMPROVEMENTS_LIST}
 
-### 🗑️ Deprecated
+### ️ Deprecated
 
 {DEPRECATIONS_LIST}
 
-### ❌ Removed
+### Removed
 
 {REMOVALS_LIST}
 
-### 🐛 Fixed
+### Fixed
 
 {BUG_FIXES_LIST}
 
-### 🔒 Security
+### Security
 
 {SECURITY_FIXES_LIST}
 
-### 📚 Documentation
+### Documentation
 
 {DOCUMENTATION_UPDATES}
 
-### 🔧 Internal
+### Internal
 
 {INTERNAL_CHANGES}
 
-## 👥 Contributors
+## Contributors
 
 {CONTRIBUTOR_ACKNOWLEDGMENTS}
 
-## 🔗 Links
+## Links
 
-- [📋 Full Diff]({COMPARE_URL})
-- [🏷️ Release Page]({RELEASE_URL})
-- [📦 Download]({DOWNLOAD_URL})
+- [Full Diff]({COMPARE_URL})
+- [️ Release Page]({RELEASE_URL})
+- [Download]({DOWNLOAD_URL})
 
 ---
 

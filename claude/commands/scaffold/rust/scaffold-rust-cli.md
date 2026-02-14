@@ -254,11 +254,11 @@ pub mod utils {
     use indicatif::{ProgressBar, ProgressStyle};
     
     pub fn success_message(msg: &str) {
-        println!("{} {}", "✓".green().bold(), msg);
+        println!("{} {}", "".green().bold(), msg);
     }
     
     pub fn error_message(msg: &str) {
-        eprintln!("{} {}", "✗".red().bold(), msg);
+        eprintln!("{} {}", "".red().bold(), msg);
     }
     
     pub fn create_progress_bar(len: u64, message: &str) -> ProgressBar {
@@ -475,16 +475,16 @@ STEP 11: Validate project structure and provide usage guidance
 
 ```bash
 # Verify project structure
-echo "📁 Project structure:"
+echo " Project structure:"
 fd . $ARGUMENTS -t d | head -10
 
-echo "\n📄 Key files created:"
+echo "\n Key files created:"
 fd . $ARGUMENTS -t f | rg '\.(rs|toml|md)$' | head -10
 
-echo "\n🧪 Run initial tests:"
+echo "\n Run initial tests:"
 cd $ARGUMENTS && cargo test
 
-echo "\n🚀 Build and run:"
+echo "\n Build and run:"
 cd $ARGUMENTS && cargo run -- --help
 ````
 
@@ -499,16 +499,16 @@ cd $ARGUMENTS && cargo run -- --help
 
 **Modern Rust CLI Best Practices Implemented:**
 
-- ✅ Clap v4 with derive macros for type-safe argument parsing
-- ✅ Async/await support with Tokio runtime
-- ✅ Comprehensive error handling with anyhow and thiserror
-- ✅ Structured logging with env_logger
-- ✅ Graceful shutdown with signal handling
-- ✅ Terminal UI with colored output and progress indicators
-- ✅ Integration testing with assert_cmd
-- ✅ Production-ready dependencies and configuration
-- ✅ Modular architecture for extensibility
-- ✅ Human-friendly panic messages
-- ✅ Cross-platform compatibility
+- Clap v4 with derive macros for type-safe argument parsing
+- Async/await support with Tokio runtime
+- Comprehensive error handling with anyhow and thiserror
+- Structured logging with env_logger
+- Graceful shutdown with signal handling
+- Terminal UI with colored output and progress indicators
+- Integration testing with assert_cmd
+- Production-ready dependencies and configuration
+- Modular architecture for extensibility
+- Human-friendly panic messages
+- Cross-platform compatibility
 
 This scaffold provides a robust foundation for building production-ready CLI applications following modern Rust practices and industry standards.

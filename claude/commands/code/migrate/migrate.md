@@ -200,7 +200,7 @@ class MigrationExecutor {
 
   async execute(): Promise<void> {
     if (this.config.dryRun) {
-      console.log("🔍 Dry-run mode: Validating migration without changes");
+      console.log(" Dry-run mode: Validating migration without changes");
     }
 
     await this.validatePrerequisites();

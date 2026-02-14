@@ -148,14 +148,14 @@ STEP 6: Report completion status and provide context
 
 IF push_completed:
 
-- DISPLAY: "✅ Commit created and pushed successfully"
+- DISPLAY: " Commit created and pushed successfully"
 - SHOW: Commit hash and message
 - PROVIDE: Remote repository links if available
 - UPDATE state: `pushCompleted: true, phase: "completed"`
 
 ELSE:
 
-- DISPLAY: "⚠️ Commit created but push failed"
+- DISPLAY: "️ Commit created but push failed"
 - SHOW: Commit details and error explanation
 - PROVIDE: Next steps for manual resolution
 

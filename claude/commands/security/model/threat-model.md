@@ -82,7 +82,7 @@ EXECUTE streamlined single-service threat analysis:
 
 ```bash
 # Single-service analysis workflow
-echo "🔍 Analyzing single-service threat landscape..."
+echo " Analyzing single-service threat landscape..."
 echo "Target: $ARGUMENTS"
 ```
 
@@ -95,7 +95,7 @@ STEP 3: STRIDE methodology execution with programmatic analysis
 execute_stride_analysis() {
   local session_state="/tmp/threat-model-state-$SESSION_ID.json"
   
-  echo "🔒 Executing STRIDE threat analysis..."
+  echo " Executing STRIDE threat analysis..."
   
   # Update session state
   jq '.phase = "stride_analysis" | .progress.stride_started = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"' \
@@ -156,7 +156,7 @@ STEP 4: Risk assessment and quantitative scoring
 calculate_risk_scores() {
   local session_state="/tmp/threat-model-state-$SESSION_ID.json"
   
-  echo "📊 Calculating threat risk scores..."
+  echo " Calculating threat risk scores..."
   
   # Update session phase
   jq '.phase = "risk_assessment" | .progress.risk_assessment_started = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"' \
@@ -208,7 +208,7 @@ STEP 5: Mitigation strategy generation with actionable recommendations
 generate_mitigation_strategies() {
   local session_state="/tmp/threat-model-state-$SESSION_ID.json"
   
-  echo "🛡️ Generating mitigation strategies..."
+  echo "️ Generating mitigation strategies..."
   
   # Update session phase
   jq '.phase = "mitigation_planning" | .progress.mitigation_started = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"' \
@@ -219,23 +219,23 @@ generate_mitigation_strategies() {
   
   case "$tech_stack" in
     *"package.json"*)
-      echo "📝 Generating Node.js/TypeScript security recommendations..."
+      echo " Generating Node.js/TypeScript security recommendations..."
       generate_nodejs_mitigations
       ;;
     *"Cargo.toml"*)
-      echo "📝 Generating Rust security recommendations..."
+      echo " Generating Rust security recommendations..."
       generate_rust_mitigations
       ;;
     *"go.mod"*)
-      echo "📝 Generating Go security recommendations..."
+      echo " Generating Go security recommendations..."
       generate_go_mitigations
       ;;
     *"pom.xml"*)
-      echo "📝 Generating Java security recommendations..."
+      echo " Generating Java security recommendations..."
       generate_java_mitigations
       ;;
     *)
-      echo "📝 Generating generic security recommendations..."
+      echo " Generating generic security recommendations..."
       generate_generic_mitigations
       ;;
   esac
@@ -252,7 +252,7 @@ generate_threat_model_report() {
   local session_state="/tmp/threat-model-state-$SESSION_ID.json"
   local report_file="/tmp/threat-model-checkpoints-$SESSION_ID/threat-model-report.md"
   
-  echo "📋 Generating comprehensive threat model report..."
+  echo " Generating comprehensive threat model report..."
   
   # Update session phase
   jq '.phase = "reporting" | .progress.reporting_started = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"' \
@@ -279,7 +279,7 @@ $(jq -r '.mitigations[]? | select(.priority == "high") | "1. " + .description + 
 
 EOF
 
-  echo "📄 Report generated: $report_file"
+  echo " Report generated: $report_file"
 }
 ```
 
@@ -300,7 +300,7 @@ save_checkpoint() {
   jq --arg checkpoint "$checkpoint_file" '.lastCheckpoint = $checkpoint | .lastUpdated = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"' \
     "$session_state" > "${session_state}.tmp" && mv "${session_state}.tmp" "$session_state"
   
-  echo "💾 Progress checkpointed: $checkpoint_file"
+  echo " Progress checkpointed: $checkpoint_file"
 }
 
 # Resume from previous session
@@ -309,8 +309,8 @@ resume_session() {
     local latest_session=$(readlink -f "/tmp/threat-model-latest-session.json" 2>/dev/null || echo "/tmp/threat-model-latest-session.json")
     local phase=$(jq -r '.phase' "$latest_session" 2>/dev/null)
     
-    echo "🔄 Resuming previous session from phase: $phase"
-    echo "📊 Session data: $latest_session"
+    echo " Resuming previous session from phase: $phase"
+    echo " Session data: $latest_session"
   else
     echo "ℹ️ No previous session found, starting fresh analysis"
   fi
@@ -345,13 +345,13 @@ finalize_threat_analysis() {
   jq '.phase = "complete" | .completedAt = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"' \
     "$session_state" > "${session_state}.tmp" && mv "${session_state}.tmp" "$session_state"
   
-  echo "✅ Threat model analysis completed"
-  echo "📊 Risk Score: $(jq -r '.riskScore // "N/A"' "$session_state")"
-  echo "📄 Report: /tmp/threat-model-checkpoints-$SESSION_ID/threat-model-report.md"
-  echo "💾 Session: $SESSION_ID"
+  echo " Threat model analysis completed"
+  echo " Risk Score: $(jq -r '.riskScore // "N/A"' "$session_state")"
+  echo " Report: /tmp/threat-model-checkpoints-$SESSION_ID/threat-model-report.md"
+  echo " Session: $SESSION_ID"
   
   # Suggest follow-up actions
-  echo "🔗 Recommended next steps:"
+  echo " Recommended next steps:"
   echo "  - Run /harden to implement security controls"
   echo "  - Use /audit for vulnerability assessment"
   echo "  - Execute /monitor for ongoing threat detection"

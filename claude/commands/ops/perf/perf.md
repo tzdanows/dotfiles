@@ -79,19 +79,19 @@ WHEN "deno_project":
 ```bash
 # Java profiling
 if fd "pom\.xml|build\.gradle" . | head -1 >/dev/null; then
-  echo "☕ Java project detected - enabling JVM profiling"
+  echo " Java project detected - enabling JVM profiling"
   # async-profiler or JProfiler integration
 fi
 
 # Go profiling
 if fd "go\.mod" . | head -1 >/dev/null; then
-  echo "🐹 Go project detected - enabling pprof"
+  echo " Go project detected - enabling pprof"
   # go tool pprof integration
 fi
 
 # Rust profiling
 if fd "Cargo\.toml" . | head -1 >/dev/null; then
-  echo "🦀 Rust project detected - enabling cargo profiling"
+  echo " Rust project detected - enabling cargo profiling"
   # cargo flamegraph integration
 fi
 ```
@@ -146,19 +146,19 @@ STEP 4: Automated performance baseline and profiling
 
 ```bash
 # CPU and memory baseline
-echo "📊 Establishing performance baseline:"
+echo " Establishing performance baseline:"
 echo "CPU usage: $(top -l 1 -s 0 | rg "CPU usage" || echo "unavailable")"
 echo "Memory usage: $(vm_stat 2>/dev/null | rg "Pages" | head -3 || echo "unavailable")"
 echo "Load average: $(uptime | awk -F'load averages:' '{print $2}' || echo "unavailable")"
 
 # Application-specific metrics
 if pgrep java >/dev/null; then
-  echo "☕ Java JVM metrics:"
+  echo " Java JVM metrics:"
   # jstat, jcmd for heap and GC analysis
 fi
 
 if pgrep -f "go run" >/dev/null; then
-  echo "🐹 Go runtime metrics:"
+  echo " Go runtime metrics:"
   # GOMEMLIMIT, GOMAXPROCS analysis
 fi
 ```
@@ -169,7 +169,7 @@ fi
 # Language-specific profiling activation
 project_type=$(fd "(package\.json|Cargo\.toml|go\.mod)" . | head -1)
 if [[ -n "$project_type" ]]; then
-  echo "🎯 Activating profiling for detected project type"
+  echo " Activating profiling for detected project type"
   # Integrate with language-specific profiling tools
 fi
 ```
@@ -183,13 +183,13 @@ TRY:
 ```bash
 # HTTP endpoint performance (if applicable)
 if rg "(http|router|server)" src/ >/dev/null 2>&1; then
-  echo "🌐 HTTP service detected - analyzing endpoint performance"
+  echo " HTTP service detected - analyzing endpoint performance"
   # Integration with load testing tools (k6, wrk, etc.)
 fi
 
 # Database query performance
 if rg "(SELECT|INSERT|UPDATE|DELETE)" . --type sql >/dev/null 2>&1; then
-  echo "🗄️ Database queries detected - analyzing SQL performance"
+  echo "️ Database queries detected - analyzing SQL performance"
   # EXPLAIN ANALYZE integration
 fi
 ```
@@ -199,13 +199,13 @@ fi
 ```bash
 # Container resource analysis
 if docker ps >/dev/null 2>&1; then
-  echo "🐳 Docker containers detected - analyzing resource usage"
+  echo " Docker containers detected - analyzing resource usage"
   docker stats --no-stream --format "table {{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}"
 fi
 
 # Kubernetes resource analysis
 if kubectl get nodes >/dev/null 2>&1; then
-  echo "☸️ Kubernetes cluster detected - analyzing pod performance"
+  echo "️ Kubernetes cluster detected - analyzing pod performance"
   kubectl top pods --all-namespaces 2>/dev/null || echo "Metrics server required"
 fi
 ```
@@ -217,11 +217,11 @@ CATCH (profiling_failed):
 - SUGGEST tool installation or configuration
 
 ```bash
-echo "⚠️ Profiling execution failed. Checking tool availability:"
+echo "️ Profiling execution failed. Checking tool availability:"
 echo "Performance tools status:"
-echo "  htop: $(which htop >/dev/null && echo '✓ installed' || echo '❌ missing')"
-echo "  docker: $(which docker >/dev/null && echo '✓ installed' || echo '❌ missing')"
-echo "  kubectl: $(which kubectl >/dev/null && echo '✓ installed' || echo '❌ missing')"
+echo "  htop: $(which htop >/dev/null && echo ' installed' || echo ' missing')"
+echo "  docker: $(which docker >/dev/null && echo ' installed' || echo ' missing')"
+echo "  kubectl: $(which kubectl >/dev/null && echo ' installed' || echo ' missing')"
 ```
 
 STEP 6: Optimization recommendation generation
@@ -261,7 +261,7 @@ STEP 7: Load testing and monitoring setup
 
 ```bash
 # Generate language-appropriate load testing scripts
-echo "🔄 Setting up load testing framework"
+echo " Setting up load testing framework"
 
 # k6 for HTTP services
 if rg "http" src/ >/dev/null 2>&1; then
@@ -280,7 +280,7 @@ fi
 
 ```bash
 # Prometheus/Grafana setup recommendations
-echo "📈 Monitoring setup recommendations:"
+echo " Monitoring setup recommendations:"
 echo "  - Prometheus metrics collection"
 echo "  - Grafana dashboard configuration"
 echo "  - AlertManager thresholds"

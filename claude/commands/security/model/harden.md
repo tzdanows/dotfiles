@@ -11,7 +11,7 @@ description: Proactive security hardening orchestrator with multi-layer threat m
 - Project type detection: !`fd "(Dockerfile|docker-compose\.yml|Cargo\.toml|go\.mod|package\.json|pom\.xml|build\.gradle)" . -d 3 | head -5 || echo "No build files detected"`
 - Container presence: !`fd "Dockerfile" . -d 2 | head -3 || echo "No Dockerfiles found"`
 - Kubernetes manifests: !`fd "\.ya?ml$" . | rg -l "(apiVersion|kind):" | head -3 || echo "No K8s manifests detected"`
-- Security tools status: !`echo "docker: $(which docker >/dev/null && echo ✓ || echo ✗) | kubectl: $(which kubectl >/dev/null && echo ✓ || echo ✗) | rg: $(which rg >/dev/null && echo ✓ || echo ✗)"`
+- Security tools status: !`echo "docker: $(which docker >/dev/null && echo  || echo ) | kubectl: $(which kubectl >/dev/null && echo  || echo ) | rg: $(which rg >/dev/null && echo  || echo )"`
 - Git repository status: !`git status --porcelain 2>/dev/null | wc -l | tr -d ' ' | xargs -I {} echo "Modified files: {}" || echo "Not a git repository"`
 
 ## Your Task
@@ -109,7 +109,7 @@ WHEN "full_stack_application":
 ```bash
 # Container Security Implementation
 if fd "Dockerfile" . | head -1 >/dev/null; then
-  echo "🐳 Applying container security hardening..."
+  echo " Applying container security hardening..."
   # Multi-stage builds with distroless images
   # Non-root user execution
   # Read-only root filesystem
@@ -118,7 +118,7 @@ fi
 
 # Kubernetes Security Implementation  
 if fd "\.ya?ml$" . | rg -l "kind: (Deployment|Pod)" | head -1 >/dev/null; then
-  echo "☸️ Implementing Kubernetes security policies..."
+  echo "️ Implementing Kubernetes security policies..."
   # Pod Security Standards enforcement
   # Network policy generation
   # RBAC configuration
@@ -128,7 +128,7 @@ fi
 # Application Security Implementation
 project_lang=$(fd "(package\.json|Cargo\.toml|go\.mod|pom\.xml)" . | head -1)
 if [[ -n "$project_lang" ]]; then
-  echo "🔒 Applying application-level security patterns..."
+  echo " Applying application-level security patterns..."
   # Security headers middleware
   # Input validation frameworks
   # Authentication/authorization
@@ -144,7 +144,7 @@ CATCH (hardening_failed):
 - GENERATE partial security improvements
 
 ```bash
-echo "⚠️ Security hardening encountered issues:"
+echo "️ Security hardening encountered issues:"
 echo "- Check tool availability and permissions"
 echo "- Validate target path accessibility"
 echo "- Review project structure compatibility"
@@ -167,7 +167,7 @@ FOR EACH security_layer IN ["container", "kubernetes", "application", "infrastru
 mkdir -p security/{policies,procedures,compliance}
 
 # Security policy documentation
-echo "📋 Generating security documentation suite..."
+echo " Generating security documentation suite..."
 echo "  - SECURITY.md: Security policy and procedures"
 echo "  - threat-model.md: Application threat analysis"
 echo "  - compliance/: Framework-specific compliance documentation"
@@ -192,12 +192,12 @@ mv /tmp/harden-session-$SESSION_ID.tmp /tmp/harden-session-$SESSION_ID.json
 **Security Monitoring Setup:**
 
 ```bash
-echo "🔍 Security hardening completed successfully"
-echo "📊 Session: $SESSION_ID"
-echo "🎯 Target: $ARGUMENTS"
-echo "🛡️ Applied mitigations: $(jq -r '.mitigationsApplied | join(", ")' /tmp/harden-session-$SESSION_ID.json)"
-echo "📁 Security documentation: security/ directory"
-echo "⚡ Next steps: Review generated policies and implement monitoring"
+echo " Security hardening completed successfully"
+echo " Session: $SESSION_ID"
+echo " Target: $ARGUMENTS"
+echo "️ Applied mitigations: $(jq -r '.mitigationsApplied | join(", ")' /tmp/harden-session-$SESSION_ID.json)"
+echo " Security documentation: security/ directory"
+echo " Next steps: Review generated policies and implement monitoring"
 ```
 
 FINALLY:

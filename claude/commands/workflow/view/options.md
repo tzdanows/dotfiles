@@ -60,7 +60,7 @@ ELSE:
 EXECUTE streamlined single-agent analysis for focused problems
 
 ```bash
-echo "🎯 Executing focused analysis for well-defined problem scope"
+echo " Executing focused analysis for well-defined problem scope"
 ```
 
 STEP 3: Systematic option generation and evaluation framework
@@ -155,7 +155,7 @@ CATCH (analysis_failed):
 - SUGGEST alternative evaluation approaches
 
 ```bash
-echo "⚠️ Complex analysis failed. Falling back to simplified evaluation framework."
+echo "️ Complex analysis failed. Falling back to simplified evaluation framework."
 echo "Consider breaking down the problem into smaller, more focused questions."
 ```
 
@@ -211,7 +211,7 @@ FINALLY:
 
 ```bash
 # Analysis results are cached for follow-up questions
-echo "📊 Analysis session: $SESSION_ID"
-echo "💾 Results cached in: /tmp/options-analysis-$SESSION_ID.json"
-echo "🔄 Use session ID for follow-up analysis or refinement"
+echo " Analysis session: $SESSION_ID"
+echo " Results cached in: /tmp/options-analysis-$SESSION_ID.json"
+echo " Use session ID for follow-up analysis or refinement"
 ```

@@ -10,7 +10,7 @@ description: Comprehensive load testing orchestrator with intelligent scenario g
 - Current directory: !`pwd`
 - Project structure: !`eza -la --tree --level=2 2>/dev/null | head -15 || fd . -t d -d 2 | head -10`
 - Technology stack: !`fd "(package\.json|Cargo\.toml|go\.mod|deno\.json|pom\.xml|build\.gradle)" . -d 3 | head -10 || echo "No build files detected"`
-- Load testing tools: !`echo "k6: $(which k6 >/dev/null && echo ✓ || echo ✗) | artillery: $(which artillery >/dev/null && echo ✓ || echo ✗) | docker: $(which docker >/dev/null && echo ✓ || echo ✗)"`
+- Load testing tools: !`echo "k6: $(which k6 >/dev/null && echo  || echo ) | artillery: $(which artillery >/dev/null && echo  || echo ) | docker: $(which docker >/dev/null && echo  || echo )"`
 - Existing endpoints: !`rg "(app|router|handler)\.(get|post|put|delete|patch)" --type js --type ts -m 5 2>/dev/null | head -5 || echo "No API routes detected"`
 - Running services: !`docker ps --format "table {{.Names}}\t{{.Ports}}" 2>/dev/null | head -5 || echo "No Docker services detected"`
 - Available ports: !`netstat -an 2>/dev/null | rg ":3000|:8000|:8080" | head -3 || echo "No common dev ports in use"`
@@ -96,20 +96,20 @@ EXECUTE streamlined framework detection:
 
 ```bash
 # Detect existing load testing tools
-echo "🔍 Analyzing project for load testing tools..."
+echo " Analyzing project for load testing tools..."
 fd "package.json" . | xargs jq -r '.devDependencies | keys[]?' 2>/dev/null | rg "(k6|artillery|wrk|autocannon)" || echo "No existing tools found"
 
 # Check for load testing configurations
-echo "📁 Searching for existing load test configs..."
+echo " Searching for existing load test configs..."
 fd "(k6|artillery|wrk)\.(js|yml|yaml|json)$" . --max-depth 3 || echo "No load test configs found"
 
 # Analyze project language preferences for tool recommendation
 project_tech=$(fd "(package\.json|Cargo\.toml|go\.mod|deno\.json)" . | head -1)
 case $project_tech in
-  *package.json*|*deno.json*) echo "🎯 JavaScript/TypeScript project - k6 or Artillery recommended" ;;
-  *go.mod*) echo "🐹 Go project - wrk or hey recommended" ;;
-  *Cargo.toml*) echo "🦀 Rust project - drill or wrk recommended" ;;
-  *) echo "📊 Multi-language project - k6 recommended for versatility" ;;
+  *package.json*|*deno.json*) echo " JavaScript/TypeScript project - k6 or Artillery recommended" ;;
+  *go.mod*) echo " Go project - wrk or hey recommended" ;;
+  *Cargo.toml*) echo " Rust project - drill or wrk recommended" ;;
+  *) echo " Multi-language project - k6 recommended for versatility" ;;
 esac
 ```
 
@@ -119,39 +119,39 @@ STEP 4: Intelligent load test generation with framework-specific optimizations
 
 ```bash
 # Advanced framework-specific endpoint extraction
-echo "🔍 Discovering API endpoints for load testing..."
+echo " Discovering API endpoints for load testing..."
 
 # JavaScript/TypeScript frameworks
 if fd "package\.json" . | head -1 >/dev/null; then
-  echo "📡 Analyzing JavaScript/TypeScript API routes..."
+  echo " Analyzing JavaScript/TypeScript API routes..."
   rg "(app|router|handler)\.(get|post|put|delete|patch)" --type js --type ts -A 2 -B 1 | head -20
   rg "@(Get|Post|Put|Delete|Patch)" --type ts -A 2 | head -10  # NestJS decorators
 fi
 
 # Rust web frameworks
 if fd "Cargo\.toml" . | head -1 >/dev/null; then
-  echo "🦀 Analyzing Rust web service routes..."
+  echo " Analyzing Rust web service routes..."
   rg "Router::new\(\)|\.route\(|\.get\(|\.post\(" --type rust -A 2 -B 1 | head -20
   rg "#\[axum::debug_handler\]|#\[get\(|#\[post\(" --type rust -A 1 | head -10  # Axum handlers
 fi
 
 # Go web frameworks
 if fd "go\.mod" . | head -1 >/dev/null; then
-  echo "🐹 Analyzing Go web service routes..."
+  echo " Analyzing Go web service routes..."
   rg "router\.(GET|POST|PUT|DELETE)|r\.(GET|POST)" --type go -A 2 -B 1 | head -20
   rg "connect\.|grpc\.|rpc" --type go -A 2 | head -10  # gRPC/ConnectRPC
 fi
 
 # Java Spring/Quarkus
 if fd "(pom\.xml|build\.gradle)" . | head -1 >/dev/null; then
-  echo "☕ Analyzing Java web service endpoints..."
+  echo " Analyzing Java web service endpoints..."
   rg "@(GetMapping|PostMapping|PutMapping|DeleteMapping|RequestMapping)" --type java -A 2 -B 1 | head -20
   rg "@Path\(|@GET|@POST" --type java -A 1 | head -10  # JAX-RS
 fi
 
 # Deno Fresh
 if fd "deno\.json" . | head -1 >/dev/null; then
-  echo "🦕 Analyzing Deno Fresh API routes..."
+  echo " Analyzing Deno Fresh API routes..."
   rg "handler|export.*function.*(GET|POST)" --type ts -A 2 -B 1 | head -20
 fi
 ```

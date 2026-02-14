@@ -8,7 +8,7 @@ description: Comprehensive performance analysis and optimization orchestrator wi
 - Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Benchmark target: $ARGUMENTS
 - Project type: !`fd "(Cargo.toml|go.mod|package.json|pom.xml|deno.json)" . -d 2 | head -3 || echo "No build files detected"`
-- Available performance tools: !`echo "hyperfine: $(which hyperfine >/dev/null && echo ✓ || echo ❌) | wrk: $(which wrk >/dev/null && echo ✓ || echo ❌) | k6: $(which k6 >/dev/null && echo ✓ || echo ❌) | perf: $(which perf >/dev/null && echo ✓ || echo ❌)"`
+- Available performance tools: !`echo "hyperfine: $(which hyperfine >/dev/null && echo  || echo ) | wrk: $(which wrk >/dev/null && echo  || echo ) | k6: $(which k6 >/dev/null && echo  || echo ) | perf: $(which perf >/dev/null && echo  || echo )"`
 - Current directory: !`pwd`
 - System specs: !`echo "CPU: $(sysctl -n hw.ncpu 2>/dev/null || nproc 2>/dev/null || echo 'unknown') cores | RAM: $(echo $(($(sysctl -n hw.memsize 2>/dev/null || grep MemTotal /proc/meminfo 2>/dev/null | awk '{print $2}' || echo 0) / 1024 / 1024))MB 2>/dev/null || echo 'unknown')MB"`
 - Git status: !`git status --porcelain | wc -l | tr -d ' '` uncommitted changes
@@ -105,7 +105,7 @@ STEP 3: Baseline performance measurement with intelligent detection
 ```bash
 # Rust Performance Analysis
 if fd "Cargo.toml" . | head -1 >/dev/null; then
-  echo "🦀 Rust project detected - comprehensive Rust benchmarking"
+  echo " Rust project detected - comprehensive Rust benchmarking"
   
   # Built-in benchmarks with detailed metrics
   cargo bench --bench '*' -- --output-format json > /tmp/rust-bench-$SESSION_ID.json
@@ -128,7 +128,7 @@ fi
 
 # Go Performance Analysis
 if fd "go.mod" . | head -1 >/dev/null; then
-  echo "🐹 Go project detected - comprehensive Go benchmarking"
+  echo " Go project detected - comprehensive Go benchmarking"
   
   # Built-in benchmarks with memory allocation tracking
   go test -bench=. -benchmem -cpuprofile=/tmp/go-cpu-$SESSION_ID.prof \
@@ -153,12 +153,12 @@ fi
 
 # Java Performance Analysis
 if fd "pom.xml" . | head -1 >/dev/null; then
-  echo "☕ Java project detected - comprehensive JVM benchmarking"
+  echo " Java project detected - comprehensive JVM benchmarking"
   
   # JMH microbenchmarks
   ./mvnw clean compile exec:exec -Dexec.mainClass="org.openjdk.jmh.Main" \
     -Dexec.args="-rf json -rff /tmp/java-jmh-$SESSION_ID.json" || \
-    echo "⚠️ Add JMH dependency for microbenchmarks"
+    echo "️ Add JMH dependency for microbenchmarks"
   
   # Application-level benchmarking
   java -XX:+UseG1GC -XX:+UnlockExperimentalVMOptions \
@@ -182,7 +182,7 @@ fi
 
 # Deno Performance Analysis
 if fd "deno.json" . | head -1 >/dev/null; then
-  echo "🦕 Deno project detected - comprehensive Deno benchmarking"
+  echo " Deno project detected - comprehensive Deno benchmarking"
   
   # Built-in Deno benchmarks
   fd ".*bench.*\.(ts|js)$" . | xargs -I {} deno bench {} \
@@ -205,7 +205,7 @@ fi
 
 ```bash
 # Comprehensive resource monitoring during execution
-echo "📊 System resource monitoring with statistical analysis"
+echo " System resource monitoring with statistical analysis"
 
 # Multi-parameter performance analysis
 hyperfine --export-json /tmp/baseline-$SESSION_ID.json \
@@ -218,12 +218,12 @@ hyperfine --export-json /tmp/baseline-$SESSION_ID.json \
     --warmup 3 --runs 10 './app'
 
 # Memory profiling with multiple tools
-echo "🧠 Memory analysis"
+echo " Memory analysis"
 if command -v valgrind >/dev/null; then
   valgrind --tool=massif --massif-out-file=/tmp/massif-$SESSION_ID.out ./app 2>/dev/null
   ms_print /tmp/massif-$SESSION_ID.out > /tmp/memory-analysis-$SESSION_ID.txt
 else
-  echo "⚠️ Valgrind not available - using system time for memory analysis"
+  echo "️ Valgrind not available - using system time for memory analysis"
 fi
 
 # Detailed system resource analysis
@@ -236,7 +236,7 @@ if command -v perf >/dev/null; then
   perf report -i /tmp/perf-$SESSION_ID.data > /tmp/perf-analysis-$SESSION_ID.txt
 elif [[ "$(uname)" == "Darwin" ]]; then
   instruments -t "Time Profiler" -D /tmp/instruments-$SESSION_ID.trace ./app 2>/dev/null || \
-    echo "⚠️ Instruments not available on macOS"
+    echo "️ Instruments not available on macOS"
 fi
 ```
 
@@ -245,11 +245,11 @@ STEP 4: Application-level benchmarks with service-oriented analysis
 **HTTP API Performance with Progressive Load Testing:**
 
 ```bash
-echo "🌐 HTTP API performance analysis with progressive load testing"
+echo " HTTP API performance analysis with progressive load testing"
 
 # Intelligent service discovery and startup
 if [[ -f "docker-compose.yml" ]]; then
-  echo "🐳 Docker Compose detected - starting services"
+  echo " Docker Compose detected - starting services"
   docker-compose up -d
   sleep 15
 else
@@ -260,10 +260,10 @@ else
 fi
 
 # Service health verification
-echo "🔍 Verifying service health"
+echo " Verifying service health"
 for attempt in {1..30}; do
   if curl -sf http://localhost:8080/health >/dev/null 2>&1; then
-    echo "✅ Service is healthy"
+    echo " Service is healthy"
     break
   fi
   echo "⏳ Attempt $attempt/30 - waiting for service..."
@@ -271,19 +271,19 @@ for attempt in {1..30}; do
 done
 
 # Baseline API performance with wrk
-echo "📈 Baseline API performance measurement"
+echo " Baseline API performance measurement"
 wrk -t4 -c10 -d30s --latency http://localhost:8080/health > /tmp/api-baseline-$SESSION_ID.txt
 
 # Progressive load testing with detailed metrics
-echo "🚀 Progressive load testing"
+echo " Progressive load testing"
 for conns in 10 25 50 100 200 500 1000; do
-  echo "📊 Testing with $conns connections"
+  echo " Testing with $conns connections"
   wrk -t$(nproc) -c$conns -d15s --latency --timeout 10s \
     http://localhost:8080/api/endpoint > /tmp/api-load-${conns}-$SESSION_ID.txt
   
   # Break if error rate exceeds threshold
   if grep -q "Socket errors" /tmp/api-load-${conns}-$SESSION_ID.txt; then
-    echo "⚠️ Socket errors detected at $conns connections - stopping progressive test"
+    echo "️ Socket errors detected at $conns connections - stopping progressive test"
     break
   fi
   
@@ -291,7 +291,7 @@ for conns in 10 25 50 100 200 500 1000; do
 done
 
 # k6 scenarios for realistic user patterns
-echo "👥 Realistic user pattern simulation with k6"
+echo " Realistic user pattern simulation with k6"
 cat > /tmp/k6-scenario-$SESSION_ID.js << 'EOF'
 import http from 'k6/http';
 import { check, sleep } from 'k6';
@@ -328,7 +328,7 @@ EOF
 if command -v k6 >/dev/null; then
   k6 run --out json=/tmp/k6-results-$SESSION_ID.json /tmp/k6-scenario-$SESSION_ID.js
 else
-  echo "⚠️ k6 not available - install with: brew install k6"
+  echo "️ k6 not available - install with: brew install k6"
 fi
 
 # Cleanup
@@ -340,26 +340,26 @@ fi
 **Database Performance with Connection Pool Optimization:**
 
 ```bash
-echo "🗄️ Database performance analysis with connection pool optimization"
+echo "️ Database performance analysis with connection pool optimization"
 
 # Detect database type and configure accordingly
 if [[ -f "docker-compose.yml" ]] && grep -q "postgres" docker-compose.yml; then
-  echo "🐘 PostgreSQL detected"
+  echo " PostgreSQL detected"
   DB_TYPE="postgres"
   DB_URL="postgresql://localhost:5432/benchmark_db"
 elif [[ -f "docker-compose.yml" ]] && grep -q "mysql" docker-compose.yml; then
-  echo "🐬 MySQL detected"
+  echo " MySQL detected"
   DB_TYPE="mysql"
   DB_URL="mysql://localhost:3306/benchmark_db"
 else
-  echo "📊 Generic database benchmarking"
+  echo " Generic database benchmarking"
   DB_TYPE="generic"
 fi
 
 # Connection pool optimization testing
-echo "🔄 Connection pool optimization analysis"
+echo " Connection pool optimization analysis"
 for pool_size in 5 10 15 25 50 75 100; do
-  echo "📊 Testing pool size: $pool_size"
+  echo " Testing pool size: $pool_size"
   
   DATABASE_POOL_SIZE=$pool_size timeout 60s ./app benchmark-db \
     --output-json > /tmp/db-pool-${pool_size}-$SESSION_ID.json 2>&1 || \
@@ -375,10 +375,10 @@ for pool_size in 5 10 15 25 50 75 100; do
 done
 
 # Bulk operation performance matrix
-echo "📈 Bulk operation performance matrix"
+echo " Bulk operation performance matrix"
 for operation in insert select update delete; do
   for count in 1000 5000 10000 50000; do
-    echo "🔄 Testing $operation with $count records"
+    echo " Testing $operation with $count records"
     
     timeout 120s ./app benchmark-$operation --count $count \
       --json-output > /tmp/db-${operation}-${count}-$SESSION_ID.json 2>&1 || \
@@ -393,7 +393,7 @@ for operation in insert select update delete; do
 done
 
 # Query performance analysis
-echo "🔍 Query performance analysis"
+echo " Query performance analysis"
 if [[ "$DB_TYPE" == "postgres" ]]; then
   # Enable query statistics
   psql $DB_URL -c "SELECT pg_stat_reset();" 2>/dev/null
@@ -802,12 +802,12 @@ CATCH (benchmark_execution_failed):
 - CONTINUE with available tools and partial analysis
 
 ```bash
-echo "⚠️ Benchmark execution encountered issues. Analyzing available alternatives..."
+echo "️ Benchmark execution encountered issues. Analyzing available alternatives..."
 echo "Tool availability check:"
-echo "  hyperfine: $(which hyperfine >/dev/null && echo '✓ available' || echo '❌ missing - install with: brew install hyperfine')"
-echo "  wrk: $(which wrk >/dev/null && echo '✓ available' || echo '❌ missing - install with: brew install wrk')"
-echo "  k6: $(which k6 >/dev/null && echo '✓ available' || echo '❌ missing - install with: brew install k6')"
-echo "  perf: $(which perf >/dev/null && echo '✓ available' || echo '❌ missing - install with: apt install linux-perf')"
+echo "  hyperfine: $(which hyperfine >/dev/null && echo ' available' || echo ' missing - install with: brew install hyperfine')"
+echo "  wrk: $(which wrk >/dev/null && echo ' available' || echo ' missing - install with: brew install wrk')"
+echo "  k6: $(which k6 >/dev/null && echo ' available' || echo ' missing - install with: brew install k6')"
+echo "  perf: $(which perf >/dev/null && echo ' available' || echo ' missing - install with: apt install linux-perf')"
 ````
 
 STEP 13: Results aggregation and performance optimization strategy
@@ -816,7 +816,7 @@ STEP 13: Results aggregation and performance optimization strategy
 
 ```bash
 # Aggregate all benchmark results
-echo "📊 Generating comprehensive performance analysis report"
+echo " Generating comprehensive performance analysis report"
 
 # Create final report structure
 cat > /tmp/performance-report-$SESSION_ID.md << EOF
@@ -866,7 +866,7 @@ $(cat /tmp/perf-analysis-$SESSION_ID.txt 2>/dev/null | head -10 || echo "No prof
 
 EOF
 
-echo "📈 Performance report generated: /tmp/performance-report-$SESSION_ID.md"
+echo " Performance report generated: /tmp/performance-report-$SESSION_ID.md"
 ```
 
 **Session State Finalization:**

@@ -215,12 +215,12 @@ TRY:
 
 - GENERATE comprehensive validation report:
   ```
-  📋 Documentation Validation Results
+   Documentation Validation Results
 
-  ✅ Links: X/Y valid
-  ❌ Code Examples: N syntax errors found
-  ⚠️ Missing Documentation: M items
-  📊 Coverage: P% (A/B public APIs documented)
+   Links: X/Y valid
+   Code Examples: N syntax errors found
+  ️ Missing Documentation: M items
+   Coverage: P% (A/B public APIs documented)
   ```
 
 CATCH (validation_failed):

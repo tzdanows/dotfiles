@@ -16,7 +16,7 @@ description: Intelligent Kubernetes deployment orchestrator with manifest genera
 - Available clusters: !`kubectl config get-contexts -o name 2>/dev/null | head -3 || echo "none"`
 - Helm charts detected: !`fd "Chart.yaml" . -d 3 | head -3 || echo "none"`
 - Docker images in registry: !`docker images --format "table {{.Repository}}:{{.Tag}}" | grep -v "<none>" | head -3 2>/dev/null || echo "none"`
-- Deployment tools status: !`echo "kubectl: $(which kubectl >/dev/null && echo ✓ || echo ✗) | helm: $(which helm >/dev/null && echo ✓ || echo ✗) | docker: $(which docker >/dev/null && echo ✓ || echo ✗)"`
+- Deployment tools status: !`echo "kubectl: $(which kubectl >/dev/null && echo  || echo ) | helm: $(which helm >/dev/null && echo  || echo ) | docker: $(which docker >/dev/null && echo  || echo )"`
 
 ## Your Task
 
@@ -118,8 +118,8 @@ STEP 4: Environment-specific configuration and deployment execution
 target_env=$(echo "$ARGUMENTS" | rg "--to (\w+)" -o -r '$1' || echo "staging")
 tag=$(echo "$ARGUMENTS" | rg "--tag ([\w\.-]+)" -o -r '$1' || git rev-parse --short HEAD)
 
-echo "🎯 Deployment Target: $target_env"
-echo "🏷️ Image Tag: $tag"
+echo " Deployment Target: $target_env"
+echo "️ Image Tag: $tag"
 
 # Environment-specific resource configuration
 case $target_env in
@@ -193,7 +193,7 @@ kubectl rollout status deployment/$app_name -n $target_env --timeout=300s
 kubectl get pods -n $target_env -l app=$app_name -o json | \
   jq -r '.items[] | select(.status.phase != "Running") | .metadata.name' | \
   while read pod; do
-    echo "⚠️ Pod $pod not running"
+    echo "️ Pod $pod not running"
     kubectl describe pod $pod -n $target_env
   done
 
@@ -210,14 +210,14 @@ kubectl get ingress -n $target_env -o json | \
 ```bash
 # Test service connectivity
 service_ip=$(kubectl get svc $app_name -n $target_env -o jsonpath='{.spec.clusterIP}')
-echo "🔍 Testing service connectivity: $service_ip"
+echo " Testing service connectivity: $service_ip"
 
 # Port forward for local testing (if needed)
-echo "💡 For local testing, run:"
+echo " For local testing, run:"
 echo "kubectl port-forward svc/$app_name -n $target_env 8080:80"
 
 # Generate monitoring dashboard links
-echo "📊 Monitoring dashboards:"
+echo " Monitoring dashboards:"
 echo "  Grafana: https://grafana.yourdomain.com/d/kubernetes-app"
 echo "  Prometheus: https://prometheus.yourdomain.com/graph"
 ```
@@ -229,7 +229,7 @@ CATCH (deployment_failed):
 - SUGGEST alternative deployment strategies
 
 ```bash
-echo "❌ Deployment failed. Providing rollback options:"
+echo " Deployment failed. Providing rollback options:"
 echo "kubectl rollout undo deployment/$app_name -n $target_env"
 echo "kubectl get events -n $target_env --sort-by=.metadata.creationTimestamp"
 echo "kubectl logs -l app=$app_name -n $target_env --tail=50"
@@ -253,13 +253,13 @@ mv /tmp/deploy-session-$SESSION_ID.tmp /tmp/deploy-session-$SESSION_ID.json
 **Generate Deployment Summary:**
 
 ```bash
-echo "✅ Deployment completed successfully"
-echo "🎯 Application: $ARGUMENTS"
-echo "🌍 Environment: $target_env"
-echo "🏷️ Image Tag: $tag"
-echo "📁 Manifests: $(ls k8s/*.yaml 2>/dev/null | wc -l | tr -d ' ') files generated"
+echo " Deployment completed successfully"
+echo " Application: $ARGUMENTS"
+echo " Environment: $target_env"
+echo "️ Image Tag: $tag"
+echo " Manifests: $(ls k8s/*.yaml 2>/dev/null | wc -l | tr -d ' ') files generated"
 echo "⏱️ Session: $SESSION_ID"
-echo "💾 Session state: /tmp/deploy-session-$SESSION_ID.json"
+echo " Session state: /tmp/deploy-session-$SESSION_ID.json"
 ```
 
 FINALLY:

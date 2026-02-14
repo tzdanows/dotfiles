@@ -12,7 +12,7 @@ description: Scaffold production-ready Deno automation script with Dax integrati
 - Scripts directory status: !`fd scripts . -t d -d 2 | head -1 || echo "No scripts directory - will create"`
 - Existing scripts: !`fd "\.ts$" scripts/ 2>/dev/null | wc -l | tr -d ' ' || echo "0"` TypeScript files
 - Deno version: !`deno --version | head -1 2>/dev/null || echo "Deno not found"`
-- Modern tools status: !`echo "fd: $(which fd >/dev/null && echo ✓ || echo ✗) | bat: $(which bat >/dev/null && echo ✓ || echo ✗) | jq: $(which jq >/dev/null && echo ✓ || echo ✗)"`
+- Modern tools status: !`echo "fd: $(which fd >/dev/null && echo  || echo ) | bat: $(which bat >/dev/null && echo  || echo ) | jq: $(which jq >/dev/null && echo  || echo )"`
 
 ## Your Task
 
@@ -51,13 +51,13 @@ TRY:
 ```bash
 # Ensure scripts directory exists
 if ! fd scripts . -t d -d 1 >/dev/null 2>&1; then
-  echo "📁 Creating scripts directory..."
+  echo " Creating scripts directory..."
   mkdir -p scripts
 fi
 
 # Check for deno.json configuration
 if ! fd "deno\.json" . -d 1 >/dev/null 2>&1; then
-  echo "⚠️ No deno.json found - will create minimal configuration"
+  echo "️ No deno.json found - will create minimal configuration"
 fi
 ```
 
@@ -66,13 +66,13 @@ fi
 ```bash
 # Check for naming conflicts
 if [[ -f "scripts/$ARGUMENTS.ts" ]]; then
-  echo "⚠️ Script scripts/$ARGUMENTS.ts already exists"
+  echo "️ Script scripts/$ARGUMENTS.ts already exists"
   echo "Options: 1) Choose different name 2) Overwrite existing"
 fi
 
 # Analyze existing scripts for patterns
 existing_count=$(fd "\.ts$" scripts/ 2>/dev/null | wc -l | tr -d ' ')
-echo "📊 Found $existing_count existing TypeScript scripts"
+echo " Found $existing_count existing TypeScript scripts"
 ```
 
 STEP 3: Deno configuration management with smart updates
@@ -155,7 +155,7 @@ const args = parseArgs(Deno.args, {
 
 if (args.help) {
   console.log(`
-${cyan("🛠️  $ARGUMENTS Script")}
+${cyan("️  $ARGUMENTS Script")}
 
 Usage:
   deno task $ARGUMENTS [options]
@@ -178,34 +178,34 @@ Examples:
 // Main script functionality
 async function main(): Promise<void> {
   try {
-    console.log(cyan(`🚀 Starting $ARGUMENTS script...`));
+    console.log(cyan(` Starting $ARGUMENTS script...`));
 
     if (args.verbose) {
-      console.log(yellow(`📊 Arguments: ${JSON.stringify(args, null, 2)}`));
+      console.log(yellow(` Arguments: ${JSON.stringify(args, null, 2)}`));
     }
 
     // Example: Cross-platform file operations
     const currentDir = new Path(".");
-    console.log(green(`📁 Working directory: ${currentDir.toString()}`));
+    console.log(green(` Working directory: ${currentDir.toString()}`));
 
     // Example: Command execution with Dax
     if (args["dry-run"]) {
-      console.log(yellow("🔍 Dry run mode - showing planned operations:"));
+      console.log(yellow(" Dry run mode - showing planned operations:"));
       console.log("  - Would execute cross-platform commands");
       console.log("  - Would process files/directories");
       console.log("  - Would generate output");
     } else {
       // Replace with your actual script logic
-      console.log(green("✅ Script template ready for customization"));
+      console.log(green(" Script template ready for customization"));
 
       // Example Dax usage:
       // const result = await $("echo 'Hello from Dax!'").text();
       // console.log(`Command output: ${result.trim()}`);
     }
 
-    console.log(green(`✅ $ARGUMENTS completed successfully`));
+    console.log(green(` $ARGUMENTS completed successfully`));
   } catch (error) {
-    console.error(red(`❌ Error in $ARGUMENTS: ${error.message}`));
+    console.error(red(` Error in $ARGUMENTS: ${error.message}`));
     if (args.verbose) {
       console.error(red(error.stack));
     }
@@ -225,15 +225,15 @@ STEP 5: Validation and testing setup
 
 ```bash
 # Type check the generated script
-echo "🔍 Type checking generated script..."
+echo " Type checking generated script..."
 deno check scripts/$ARGUMENTS.ts
 
 # Test script execution with help flag
-echo "🧪 Testing script execution..."
+echo " Testing script execution..."
 deno run --allow-all scripts/$ARGUMENTS.ts --help
 
 # Verify task registration
-echo "📋 Verifying deno.json task registration..."
+echo " Verifying deno.json task registration..."
 jq -r '.tasks | keys[]' deno.json 2>/dev/null | grep "^$ARGUMENTS$" || echo "Task not found in deno.json"
 ```
 
@@ -241,7 +241,7 @@ jq -r '.tasks | keys[]' deno.json 2>/dev/null | grep "^$ARGUMENTS$" || echo "Tas
 
 ```bash
 # Test task execution
-echo "⚡ Testing deno task execution..."
+echo " Testing deno task execution..."
 deno task $ARGUMENTS --dry-run --verbose
 ```
 
@@ -253,7 +253,7 @@ CATCH (scaffolding_failed):
 - CLEAN UP partial files if necessary
 
 ```bash
-echo "⚠️ Scaffolding failed. Common issues:"
+echo "️ Scaffolding failed. Common issues:"
 echo "  - Insufficient permissions (try with elevated privileges)"
 echo "  - Invalid script name (use kebab-case naming)"
 echo "  - Missing Deno installation"
@@ -279,18 +279,18 @@ mv /tmp/scaffold-script-session-$SESSION_ID.tmp /tmp/scaffold-script-session-$SE
 **Usage Guidance:**
 
 ```bash
-echo "✅ Script scaffolding completed successfully!"
+echo " Script scaffolding completed successfully!"
 echo ""
-echo "📁 Created files:"
+echo " Created files:"
 echo "  - scripts/$ARGUMENTS.ts (executable script with Dax integration)"
 echo "  - Updated deno.json with task and dependencies"
 echo ""
-echo "🚀 Usage options:"
+echo " Usage options:"
 echo "  deno task $ARGUMENTS --help    # Show script help"
 echo "  deno task $ARGUMENTS --verbose # Run with detailed output"
 echo "  deno task $ARGUMENTS --dry-run # Preview operations"
 echo ""
-echo "🔧 Next steps:"
+echo " Next steps:"
 echo "  1. Customize the script logic in scripts/$ARGUMENTS.ts"
 echo "  2. Add your specific automation functionality"
 echo "  3. Test with: deno task $ARGUMENTS"

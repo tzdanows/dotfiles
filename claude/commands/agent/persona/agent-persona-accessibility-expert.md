@@ -1022,16 +1022,16 @@ jobs:
             const report = JSON.parse(fs.readFileSync('accessibility-report/summary.json', 'utf8'));
 
             const comment = `
-            ## 🔍 Accessibility Test Results
+            ##  Accessibility Test Results
 
             **WCAG Compliance Level:** ${report.wcagLevel}
             **Accessibility Score:** ${report.score}/100
 
             ### Summary
-            - ✅ **Passes:** ${report.passes}
-            - ❌ **Violations:** ${report.totalViolations}
-            - 🔴 **Critical:** ${report.criticalViolations}
-            - 🟠 **Serious:** ${report.seriousViolations}
+            -  **Passes:** ${report.passes}
+            -  **Violations:** ${report.totalViolations}
+            -  **Critical:** ${report.criticalViolations}
+            -  **Serious:** ${report.seriousViolations}
 
             ### Recommendations
             ${report.recommendations.map(rec => `- ${rec}`).join('\n')}

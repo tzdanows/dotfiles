@@ -398,7 +398,7 @@ TEST_HASH=$(find src tests -type f -exec md5sum {} \; | md5sum | cut -d' ' -f1)
 CACHE_FILE=".claude/test-cache/$TEST_HASH"
 
 if [ -f "$CACHE_FILE" ]; then
-    echo "✅ Tests already passed for this code state (cached)"
+    echo " Tests already passed for this code state (cached)"
     exit 0
 fi
 

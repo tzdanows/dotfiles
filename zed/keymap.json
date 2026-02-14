@@ -3,23 +3,23 @@
   {
     // Global Keybindings
     "bindings": {
-      // 💻 Terminal
+      //  Terminal
       "alt-tab": "workspace::ToggleBottomDock",
       "cmd-t": "workspace::NewTerminal",
-      // 🗂 Docks (Files, AI Chat)
+      //  Docks (Files, AI Chat)
       "cmd-1": "workspace::ToggleLeftDock",
       "cmd-2": "workspace::ToggleRightDock",
       "shift shift": "file_finder::Toggle",
       "cmd-s": "task::Spawn",
-      // ⚙️ Settings
+      // ️ Settings
       "cmd-.": "zed::OpenKeymap",
       "cmd-alt-.": "zed::OpenDefaultKeymap",
       "cmd-,": "zed::OpenSettings",
       "cmd-alt-,": "zed::OpenDefaultSettings",
-      // ⬅️ Window ➡️
+      // ⬅️ Window ️
       "cmd-alt-left": "pane::ActivatePreviousItem",
       "cmd-alt-right": "pane::ActivateNextItem",
-      // 🤖 AI Assistant
+      //  AI Assistant
       "cmd-k": "assistant::InlineAssist",
       "cmd-3": "assistant::QuoteSelection"
     }

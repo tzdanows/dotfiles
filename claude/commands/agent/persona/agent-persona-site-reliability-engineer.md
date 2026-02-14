@@ -570,13 +570,13 @@ def automated_deployment_validation(service_name, namespace):
         try:
             response = requests.get(health_url, timeout=10)
             if response.status_code == 200:
-                print(f"✅ Deployment {service_name} is healthy")
+                print(f" Deployment {service_name} is healthy")
                 return True
         except Exception as e:
-            print(f"❌ Health check failed (attempt {attempt + 1}): {e}")
+            print(f" Health check failed (attempt {attempt + 1}): {e}")
             time.sleep(30)
     
-    print(f"🚨 Deployment {service_name} failed health validation")
+    print(f" Deployment {service_name} failed health validation")
     return False
 ```
 

@@ -54,7 +54,7 @@ STEP 2: Build and compilation health check
 TRY:
 
 ```bash
-echo "🔨 BUILD STATUS"
+echo " BUILD STATUS"
 echo "═══════════════"
 
 build_tool=$(jq -r '.buildTool' /tmp/java-status-$SESSION_ID.json)
@@ -63,21 +63,21 @@ case "$build_tool" in
     "gradle")
         # Gradle build
         if ./gradlew build -x test >/dev/null 2>&1 || gradle build -x test >/dev/null 2>&1; then
-            echo "✅ Project builds successfully (Gradle)"
+            echo " Project builds successfully (Gradle)"
             jq '.healthStatus.build = "pass"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
         else
-            echo "❌ Build errors detected"
+            echo " Build errors detected"
             jq '.healthStatus.build = "fail"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
             echo "Run './gradlew build' for details"
         fi
         
         # Check Gradle wrapper
         if [ -f gradlew ]; then
-            echo "✅ Gradle wrapper present"
+            echo " Gradle wrapper present"
             wrapper_version=$(./gradlew --version 2>/dev/null | rg "Gradle" | head -1 || echo "Unknown version")
             echo "   $wrapper_version"
         else
-            echo "⚠️  No Gradle wrapper found"
+            echo "️  No Gradle wrapper found"
             echo "   Generate with: gradle wrapper"
         fi
         ;;
@@ -85,25 +85,25 @@ case "$build_tool" in
     "maven")
         # Maven build
         if mvn compile >/dev/null 2>&1; then
-            echo "✅ Project builds successfully (Maven)"
+            echo " Project builds successfully (Maven)"
             jq '.healthStatus.build = "pass"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
         else
-            echo "❌ Build errors detected"
+            echo " Build errors detected"
             jq '.healthStatus.build = "fail"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
             echo "Run 'mvn compile' for details"
         fi
         
         # Check Maven wrapper
         if [ -f mvnw ]; then
-            echo "✅ Maven wrapper present"
+            echo " Maven wrapper present"
         else
-            echo "⚠️  No Maven wrapper found"
+            echo "️  No Maven wrapper found"
             echo "   Generate with: mvn wrapper:wrapper"
         fi
         ;;
         
     *)
-        echo "❌ No recognized build system found"
+        echo " No recognized build system found"
         echo "   Supported: Gradle (build.gradle) or Maven (pom.xml)"
         jq '.healthStatus.build = "fail"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
         ;;
@@ -117,7 +117,7 @@ echo "   Java files: $src_count"
 CATCH (build_check_failed):
 
 ```bash
-echo "⚠️  Build check failed - checking for common issues:"
+echo "️  Build check failed - checking for common issues:"
 echo "  - JDK version mismatch: check java -version"
 echo "  - Missing dependencies: run dependency download"
 echo "  - Syntax errors: check compiler output"
@@ -127,7 +127,7 @@ STEP 3: Test suite health analysis
 
 ```bash
 echo ""
-echo "🧪 TEST STATUS"
+echo " TEST STATUS"
 echo "═══════════════"
 
 case "$build_tool" in
@@ -135,25 +135,25 @@ case "$build_tool" in
         if [ "${ARGUMENTS:-quick}" = "detailed" ]; then
             # Detailed mode: run all tests
             if ./gradlew test 2>&1 | rg -q "BUILD SUCCESSFUL" || gradle test 2>&1 | rg -q "BUILD SUCCESSFUL"; then
-                echo "✅ All tests pass"
+                echo " All tests pass"
                 jq '.healthStatus.tests = "pass"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
             else
-                echo "❌ Test failures detected"
+                echo " Test failures detected"
                 jq '.healthStatus.tests = "fail"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
                 echo "Run './gradlew test' for details"
             fi
             
             # Test report location
             if [ -d build/reports/tests ]; then
-                echo "📊 Test reports: build/reports/tests/test/index.html"
+                echo " Test reports: build/reports/tests/test/index.html"
             fi
         else
             # Quick mode: just check test compilation
             if ./gradlew testClasses >/dev/null 2>&1 || gradle testClasses >/dev/null 2>&1; then
-                echo "✅ Tests compile successfully"
+                echo " Tests compile successfully"
                 jq '.healthStatus.tests = "pass"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
             else
-                echo "❌ Test compilation failed"
+                echo " Test compilation failed"
                 jq '.healthStatus.tests = "fail"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
             fi
         fi
@@ -163,25 +163,25 @@ case "$build_tool" in
         if [ "${ARGUMENTS:-quick}" = "detailed" ]; then
             # Detailed mode: run all tests
             if mvn test 2>&1 | rg -q "BUILD SUCCESS"; then
-                echo "✅ All tests pass"
+                echo " All tests pass"
                 jq '.healthStatus.tests = "pass"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
             else
-                echo "❌ Test failures detected"
+                echo " Test failures detected"
                 jq '.healthStatus.tests = "fail"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
                 echo "Run 'mvn test' for details"
             fi
             
             # Test report location
             if [ -d target/surefire-reports ]; then
-                echo "📊 Test reports: target/surefire-reports/"
+                echo " Test reports: target/surefire-reports/"
             fi
         else
             # Quick mode: just compile tests
             if mvn test-compile >/dev/null 2>&1; then
-                echo "✅ Tests compile successfully"
+                echo " Tests compile successfully"
                 jq '.healthStatus.tests = "pass"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
             else
-                echo "❌ Test compilation failed"
+                echo " Test compilation failed"
                 jq '.healthStatus.tests = "fail"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
             fi
         fi
@@ -197,7 +197,7 @@ STEP 4: Code quality and static analysis
 
 ```bash
 echo ""
-echo "🔍 CODE QUALITY"
+echo " CODE QUALITY"
 echo "═══════════════"
 
 case "$build_tool" in
@@ -205,10 +205,10 @@ case "$build_tool" in
         # Checkstyle
         if rg -q "checkstyle" build.gradle* 2>/dev/null; then
             if ./gradlew checkstyleMain >/dev/null 2>&1; then
-                echo "✅ Checkstyle passes"
+                echo " Checkstyle passes"
                 jq '.healthStatus.checkstyle = "pass"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
             else
-                echo "⚠️  Checkstyle violations found"
+                echo "️  Checkstyle violations found"
                 jq '.healthStatus.checkstyle = "warn"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
                 echo "Run './gradlew checkstyleMain' for details"
             fi
@@ -219,10 +219,10 @@ case "$build_tool" in
         # SpotBugs
         if rg -q "spotbugs" build.gradle* 2>/dev/null; then
             if ./gradlew spotbugsMain >/dev/null 2>&1; then
-                echo "✅ SpotBugs analysis clean"
+                echo " SpotBugs analysis clean"
                 jq '.healthStatus.spotbugs = "pass"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
             else
-                echo "⚠️  SpotBugs found issues"
+                echo "️  SpotBugs found issues"
                 jq '.healthStatus.spotbugs = "warn"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
                 echo "Report: build/reports/spotbugs/main.html"
             fi
@@ -235,10 +235,10 @@ case "$build_tool" in
         # Checkstyle via Maven
         if rg -q "maven-checkstyle-plugin" pom.xml 2>/dev/null; then
             if mvn checkstyle:check >/dev/null 2>&1; then
-                echo "✅ Checkstyle passes"
+                echo " Checkstyle passes"
                 jq '.healthStatus.checkstyle = "pass"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
             else
-                echo "⚠️  Checkstyle violations found"
+                echo "️  Checkstyle violations found"
                 jq '.healthStatus.checkstyle = "warn"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
                 echo "Run 'mvn checkstyle:check' for details"
             fi
@@ -249,10 +249,10 @@ case "$build_tool" in
         # SpotBugs via Maven
         if rg -q "spotbugs-maven-plugin" pom.xml 2>/dev/null; then
             if mvn spotbugs:check >/dev/null 2>&1; then
-                echo "✅ SpotBugs analysis clean"
+                echo " SpotBugs analysis clean"
                 jq '.healthStatus.spotbugs = "pass"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
             else
-                echo "⚠️  SpotBugs found issues"
+                echo "️  SpotBugs found issues"
                 jq '.healthStatus.spotbugs = "warn"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
             fi
         else
@@ -266,22 +266,22 @@ STEP 5: Dependency and security analysis
 
 ```bash
 echo ""
-echo "📦 DEPENDENCIES & SECURITY"
+echo " DEPENDENCIES & SECURITY"
 echo "══════════════════════════"
 
 case "$build_tool" in
     "gradle")
         # Dependency updates
         if [ "${ARGUMENTS:-quick}" = "detailed" ]; then
-            echo "🔄 Checking for dependency updates..."
+            echo " Checking for dependency updates..."
             if ./gradlew dependencyUpdates >/dev/null 2>&1; then
                 outdated=$(fd "dependency-updates-report" build/reports 2>/dev/null | head -1)
                 if [ -n "$outdated" ]; then
                     updates=$(rg -c "->.*" "$outdated" 2>/dev/null || echo "0")
                     if [ "$updates" -gt 0 ]; then
-                        echo "⚠️  $updates dependencies have updates available"
+                        echo "️  $updates dependencies have updates available"
                     else
-                        echo "✅ All dependencies up to date"
+                        echo " All dependencies up to date"
                     fi
                 fi
             fi
@@ -289,12 +289,12 @@ case "$build_tool" in
         
         # Vulnerability check
         if rg -q "dependency-check" build.gradle* 2>/dev/null; then
-            echo "🔒 Running security vulnerability scan..."
+            echo " Running security vulnerability scan..."
             if ./gradlew dependencyCheckAnalyze >/dev/null 2>&1; then
-                echo "✅ Security scan complete"
+                echo " Security scan complete"
                 echo "   Report: build/reports/dependency-check-report.html"
             else
-                echo "⚠️  Security scan failed"
+                echo "️  Security scan failed"
             fi
         else
             echo "ℹ️  OWASP dependency-check not configured"
@@ -306,11 +306,11 @@ case "$build_tool" in
     "maven")
         # Dependency analysis
         if [ "${ARGUMENTS:-quick}" = "detailed" ]; then
-            echo "🔄 Analyzing dependencies..."
+            echo " Analyzing dependencies..."
             if mvn dependency:analyze >/dev/null 2>&1; then
-                echo "✅ Dependency analysis complete"
+                echo " Dependency analysis complete"
             else
-                echo "⚠️  Dependency issues found"
+                echo "️  Dependency issues found"
             fi
             
             # Check for updates
@@ -321,7 +321,7 @@ case "$build_tool" in
         
         # Security check
         if mvn dependency-check:check >/dev/null 2>&1; then
-            echo "🔒 Security scan complete"
+            echo " Security scan complete"
             echo "   Report: target/dependency-check-report.html"
         else
             echo "ℹ️  OWASP dependency-check not configured"
@@ -338,7 +338,7 @@ IF check_mode is "detailed":
 
 ```bash
 echo ""
-echo "📊 TEST COVERAGE"
+echo " TEST COVERAGE"
 echo "═══════════════"
 
 case "$build_tool" in
@@ -346,7 +346,7 @@ case "$build_tool" in
         # JaCoCo coverage
         if rg -q "jacoco" build.gradle* 2>/dev/null; then
             if ./gradlew jacocoTestReport >/dev/null 2>&1; then
-                echo "✅ Coverage report generated"
+                echo " Coverage report generated"
                 jq '.healthStatus.coverage = "pass"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
                 
                 # Try to extract coverage percentage
@@ -356,7 +356,7 @@ case "$build_tool" in
                     echo "   Report: build/reports/jacoco/test/html/index.html"
                 fi
             else
-                echo "⚠️  Coverage generation failed"
+                echo "️  Coverage generation failed"
             fi
         else
             echo "ℹ️  JaCoCo not configured"
@@ -367,11 +367,11 @@ case "$build_tool" in
         # JaCoCo via Maven
         if rg -q "jacoco-maven-plugin" pom.xml 2>/dev/null; then
             if mvn jacoco:report >/dev/null 2>&1; then
-                echo "✅ Coverage report generated"
+                echo " Coverage report generated"
                 jq '.healthStatus.coverage = "pass"' /tmp/java-status-$SESSION_ID.json > /tmp/java-status-$SESSION_ID.tmp && mv /tmp/java-status-$SESSION_ID.tmp /tmp/java-status-$SESSION_ID.json
                 echo "   Report: target/site/jacoco/index.html"
             else
-                echo "⚠️  Coverage generation failed"
+                echo "️  Coverage generation failed"
             fi
         else
             echo "ℹ️  JaCoCo not configured"
@@ -386,22 +386,22 @@ IF check_mode is "detailed":
 
 ```bash
 echo ""
-echo "📁 PROJECT STRUCTURE"
+echo " PROJECT STRUCTURE"
 echo "══════════════════"
 
 # Check for important files
-[ -f README.md ] && echo "✅ README.md present" || echo "⚠️  Missing README.md"
-[ -f LICENSE ] && echo "✅ LICENSE present" || echo "⚠️  Missing LICENSE file"
-[ -f .gitignore ] && echo "✅ .gitignore present" || echo "⚠️  Missing .gitignore"
-[ -d .github/workflows ] && echo "✅ CI/CD workflows present" || echo "ℹ️  No GitHub Actions workflows"
+[ -f README.md ] && echo " README.md present" || echo "️  Missing README.md"
+[ -f LICENSE ] && echo " LICENSE present" || echo "️  Missing LICENSE file"
+[ -f .gitignore ] && echo " .gitignore present" || echo "️  Missing .gitignore"
+[ -d .github/workflows ] && echo " CI/CD workflows present" || echo "ℹ️  No GitHub Actions workflows"
 
 # Framework detection
 echo ""
-echo "🚀 FRAMEWORKS & TECHNOLOGIES"
+echo " FRAMEWORKS & TECHNOLOGIES"
 
 # Spring Boot
 if rg -q "spring-boot" build.gradle* pom.xml 2>/dev/null; then
-    echo "✅ Spring Boot detected"
+    echo " Spring Boot detected"
     boot_version=$(rg -o "spring-boot:([0-9]+\.[0-9]+\.[0-9]+)" build.gradle* pom.xml 2>/dev/null | rg -o "[0-9]+\.[0-9]+\.[0-9]+" | head -1 || echo "version unknown")
     echo "   Version: $boot_version"
     [ -f src/main/resources/application.properties ] && echo "   Config: application.properties"
@@ -410,23 +410,23 @@ fi
 
 # Quarkus
 if rg -q "quarkus" build.gradle* pom.xml 2>/dev/null; then
-    echo "✅ Quarkus detected"
+    echo " Quarkus detected"
     quarkus_version=$(rg -o "quarkus.*:([0-9]+\.[0-9]+\.[0-9]+)" build.gradle* pom.xml 2>/dev/null | rg -o "[0-9]+\.[0-9]+\.[0-9]+" | head -1 || echo "version unknown")
     echo "   Version: $quarkus_version"
 fi
 
 # Database technologies
 echo ""
-echo "💾 DATABASE TECHNOLOGIES"
-rg -q "jooq" build.gradle* pom.xml 2>/dev/null && echo "✅ jOOQ detected (type-safe SQL)"
-rg -q "hibernate|jpa" build.gradle* pom.xml 2>/dev/null && echo "✅ JPA/Hibernate detected"
-rg -q "flyway" build.gradle* pom.xml 2>/dev/null && echo "✅ Flyway migrations detected"
-rg -q "liquibase" build.gradle* pom.xml 2>/dev/null && echo "✅ Liquibase migrations detected"
+echo " DATABASE TECHNOLOGIES"
+rg -q "jooq" build.gradle* pom.xml 2>/dev/null && echo " jOOQ detected (type-safe SQL)"
+rg -q "hibernate|jpa" build.gradle* pom.xml 2>/dev/null && echo " JPA/Hibernate detected"
+rg -q "flyway" build.gradle* pom.xml 2>/dev/null && echo " Flyway migrations detected"
+rg -q "liquibase" build.gradle* pom.xml 2>/dev/null && echo " Liquibase migrations detected"
 
 # Temporal workflow
 if rg -q "temporal" build.gradle* pom.xml 2>/dev/null; then
     echo ""
-    echo "⚡ Temporal workflow engine detected"
+    echo " Temporal workflow engine detected"
 fi
 ```
 
@@ -435,7 +435,7 @@ FINALLY: Generate executive summary and recommendations
 ```bash
 echo ""
 echo "═══════════════════════════════════════════"
-echo "📊 JAVA PROJECT HEALTH SUMMARY"
+echo " JAVA PROJECT HEALTH SUMMARY"
 echo "═══════════════════════════════════════════"
 echo "Session: $SESSION_ID"
 echo "Build Tool: $(jq -r '.buildTool' /tmp/java-status-$SESSION_ID.json)"
@@ -448,40 +448,40 @@ pass_count=$(echo "$health_data" | jq -r '[.healthStatus[] | select(. == "pass")
 total_checks=$(echo "$health_data" | jq -r '[.healthStatus[] | select(. != "pending")] | length')
 health_percentage=$((pass_count * 100 / total_checks))
 
-echo "🏆 Overall Health Score: $health_percentage%"
+echo " Overall Health Score: $health_percentage%"
 echo ""
 
 # Quick status overview
 echo "Status Overview:"
-echo "$health_data" | jq -r '.healthStatus | to_entries[] | select(.value != "pending") | "  \(.key): \(.value)"' | sed 's/pass/✅/g; s/fail/❌/g; s/warn/⚠️/g'
+echo "$health_data" | jq -r '.healthStatus | to_entries[] | select(.value != "pending") | "  \(.key): \(.value)"' | sed 's/pass//g; s/fail//g; s/warn/️/g'
 
 # Recommendations
 echo ""
-echo "📋 RECOMMENDATIONS"
+echo " RECOMMENDATIONS"
 echo "═════════════════"
 
 if [ "$health_percentage" -eq 100 ]; then
-    echo "✨ Excellent! Your Java project is in great health."
+    echo " Excellent! Your Java project is in great health."
 else
     echo "$health_data" | jq -r '.healthStatus | to_entries[] | select(.value != "pass" and .value != "pending") | .key' | while read -r failing_check; do
         case "$failing_check" in
             "build")
-                echo "🔧 Fix build errors: check compiler output"
+                echo " Fix build errors: check compiler output"
                 ;;
             "tests")
-                echo "🧪 Fix failing tests: review test reports"
+                echo " Fix failing tests: review test reports"
                 ;;
             "checkstyle")
-                echo "💅 Fix code style violations"
+                echo " Fix code style violations"
                 ;;
             "spotbugs")
-                echo "🐛 Address SpotBugs findings"
+                echo " Address SpotBugs findings"
                 ;;
             "dependencies")
-                echo "📦 Update dependencies and check vulnerabilities"
+                echo " Update dependencies and check vulnerabilities"
                 ;;
             "coverage")
-                echo "📊 Improve test coverage"
+                echo " Improve test coverage"
                 ;;
         esac
     done
@@ -490,16 +490,16 @@ fi
 # Build tool specific recommendations
 build_tool=$(jq -r '.buildTool' /tmp/java-status-$SESSION_ID.json)
 if [ "$build_tool" = "gradle" ] && [ ! -f gradlew ]; then
-    echo "🔧 Generate Gradle wrapper: gradle wrapper"
+    echo " Generate Gradle wrapper: gradle wrapper"
 elif [ "$build_tool" = "maven" ] && [ ! -f mvnw ]; then
-    echo "🔧 Generate Maven wrapper: mvn wrapper:wrapper"
+    echo " Generate Maven wrapper: mvn wrapper:wrapper"
 fi
 
-[ ! -f README.md ] && echo "📝 Add a README.md file"
-[ ! -f LICENSE ] && echo "⚖️  Add a LICENSE file"
+[ ! -f README.md ] && echo " Add a README.md file"
+[ ! -f LICENSE ] && echo "️  Add a LICENSE file"
 
 echo ""
-echo "💾 Full report saved to: /tmp/java-status-$SESSION_ID.json"
+echo " Full report saved to: /tmp/java-status-$SESSION_ID.json"
 ```
 
 ## Quick Reference

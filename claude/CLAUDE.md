@@ -2,6 +2,25 @@
 
 IMPORTANT: These are my development preferences and guidelines. YOU MUST follow them when working on my projects.
 
+## Communication Style & Design Guidelines
+
+### NO EMOJIS Policy
+
+- **DO NOT use emojis in any communication, code, comments, or documentation unless explicitly requested by the user.**
+- **NEVER** use emojis in responses, explanations, or status messages
+- **NEVER** add emojis to code comments, commit messages, or documentation
+- **NEVER** use emojis in file names, variable names, or function names
+- **ONLY** use emojis if the user explicitly asks for them (e.g., "add a checkmark emoji here")
+- Plain text and clear communication is preferred - emojis are visual clutter and unprofessional
+- **EXCEPTION**: Terminal output for installation/build scripts may use minimal emojis
+
+### Professional Communication
+
+- Use clear, concise, technical language
+- Avoid decorative or playful elements in responses
+- Focus on accuracy and clarity over personality
+- Maintain a professional, engineering-focused tone
+
 ## Code Style & Workflow
 
 ### Testing
@@ -22,7 +41,7 @@ IMPORTANT: I am primarily a backend developer and prefer these languages and fra
 
 #### Scripting & Automation
 
-**YOU MUST** use Deno for all scripting tasks instead of Bash(potentially occasionally) or Python:
+**YOU MUST** use Deno for all scripting tasks instead of Bash(potentially occasionally) or makefiles or Python:
 
 - Create `deno.json` in project root with tasks for common operations
 - Use JSR imports: `import { walk } from "@std/fs";` NOT `https://deno.land/...`
@@ -85,6 +104,8 @@ IMPORTANT: I run a Talos Linux Kubernetes Cluster. Use these modern alternatives
 - **Cache**: DragonflyDB (NOT Redis)
 - **Streaming**: RedPanda (NOT Kafka)
 - **NoSQL**: ScyllaDB (NOT Cassandra)
+
+NOTE: some of my devices run on Fedora Linux. So when we're not working with kubernetes, assume the OS is Fedora Linux or MacOS.
 
 ## Modern Development Tools
 
@@ -379,25 +400,25 @@ gh api search/issues --raw-field q="is:pr is:open review-requested:@me"
 **Safe for Parallel Execution:**
 
 ```markdown
-✅ File discovery and analysis
-✅ Code pattern searches across multiple files\
-✅ Dependency analysis and mapping
-✅ Documentation gathering
-✅ Test file analysis
-✅ Configuration exploration
-✅ API endpoint discovery
-✅ Database schema analysis
+File discovery and analysis
+Code pattern searches across multiple files\
+Dependency analysis and mapping
+Documentation gathering
+Test file analysis
+Configuration exploration
+API endpoint discovery
+Database schema analysis
 ```
 
 **Requires Sequential Coordination:**
 
 ```markdown
-❌ Shared file modifications
-❌ Integration point changes
-❌ Configuration updates
-❌ Database migrations
-❌ Package dependency updates
-❌ Git operations
+Shared file modifications
+Integration point changes
+Configuration updates
+Database migrations
+Package dependency updates
+Git operations
 ```
 
 ### Multi-Phase Workflow Architecture

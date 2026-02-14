@@ -60,11 +60,11 @@ TRY:
 
 **Progressive TL;DR Structure:**
 
-## 🎯 30-Second Version
+## 30-Second Version
 
 [One paragraph with absolute essentials - what someone needs to know immediately]
 
-## ⚡ 2-Minute Version
+## 2-Minute Version
 
 ### Bottom Line
 
@@ -80,7 +80,7 @@ TRY:
 
 [Single most important next step]
 
-## 📋 5-Minute Version
+## 5-Minute Version
 
 ### Complete Overview
 
@@ -263,11 +263,11 @@ Generate concise, actionable summaries of complex topics, documentation, codebas
 ```markdown
 # TL;DR: [Topic]
 
-## 🎯 Bottom Line
+## Bottom Line
 
 [1-2 sentences with the most critical takeaway]
 
-## ✅ Key Points
+## Key Points
 
 - [Most important fact/decision]
 - [Second most important point]
@@ -275,19 +275,19 @@ Generate concise, actionable summaries of complex topics, documentation, codebas
 - [Supporting detail if needed]
 - [Context or constraint]
 
-## 🚀 Next Steps
+## Next Steps
 
 1. [Immediate action - what to do first]
 2. [Follow-up action - what to do next]
 3. [Future consideration - what to plan for]
 
-## ⚠️ Critical Notes
+## ️ Critical Notes
 
 - [Important warning or constraint]
 - [Key dependency or requirement]
 - [Risk or limitation to be aware of]
 
-## 📚 Resources
+## Resources
 
 - [Essential link or document]
 - [Key person to contact]
@@ -557,9 +557,9 @@ Use Zustand for client state, React Query for server state.
 
 ## Tradeoffs
 
-- ✅ Faster development, fewer bugs
-- ❌ Team relearning curve
-- ❌ Less ecosystem/tooling than Redux
+- Faster development, fewer bugs
+- Team relearning curve
+- Less ecosystem/tooling than Redux
 ```
 
 ## Quality Checklist
@@ -574,11 +574,11 @@ Use Zustand for client state, React Query for server state.
 
 ### Common Mistakes to Avoid
 
-- ❌ Including too much background/context
-- ❌ Using jargon without explanation
-- ❌ Listing facts without actionable conclusions
-- ❌ Burying the most important information
-- ❌ Making it longer than the original content
+- Including too much background/context
+- Using jargon without explanation
+- Listing facts without actionable conclusions
+- Burying the most important information
+- Making it longer than the original content
 
 ### Audience Considerations
 

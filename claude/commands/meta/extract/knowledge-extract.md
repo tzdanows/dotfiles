@@ -411,7 +411,7 @@ FINALLY:
 
 ## Session State
 
-- **Status**: ✅ Completed successfully
+- **Status**: Completed successfully
 - **Artifacts Generated**: 5 comprehensive documentation files
 - **Knowledge Coverage**: Architecture, Domain, API, Operations, Testing
 - **Quality Assurance**: Validation and cross-referencing completed
@@ -430,7 +430,7 @@ FINALLY:
 # Archive session state for future reference
 mv /tmp/knowledge-extract-state-$SESSION_ID.json docs/extracted-knowledge/session-state-$(gdate +%Y%m%d-%H%M%S).json 2>/dev/null || mv /tmp/knowledge-extract-state-$SESSION_ID.json docs/extracted-knowledge/session-state-$(date +%Y%m%d-%H%M%S).json
 
-echo "✅ Knowledge extraction completed successfully"
-echo "📚 Documentation available in: docs/extracted-knowledge/"
-echo "🔄 Next: Review and validate extracted knowledge with domain experts"
+echo " Knowledge extraction completed successfully"
+echo " Documentation available in: docs/extracted-knowledge/"
+echo " Next: Review and validate extracted knowledge with domain experts"
 ```

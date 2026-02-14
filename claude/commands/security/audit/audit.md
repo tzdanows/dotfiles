@@ -97,7 +97,7 @@ LAUNCH 8 parallel sub-agents for comprehensive security analysis:
 **Sub-Agent Coordination Pattern:**
 
 ```bash
-echo "🔍 Launching parallel security audit agents..."
+echo " Launching parallel security audit agents..."
 echo "Each agent focuses on specific security domains"
 echo "Results will be aggregated into comprehensive report"
 echo "Session tracking: /tmp/audit-session-$SESSION_ID.json"
@@ -112,7 +112,7 @@ WHEN "Java detected":
 
 ```bash
 # Java security scanning
-echo "☕ Java project security analysis"
+echo " Java project security analysis"
 
 # Spring Security misconfigurations
 rg "@EnableWebSecurity|@PreAuthorize|@Secured" --type java -A 3 -B 1
@@ -134,7 +134,7 @@ WHEN "Go detected":
 
 ```bash
 # Go security scanning
-echo "🐹 Go project security analysis"
+echo " Go project security analysis"
 
 # SQL injection patterns
 rg "(Exec|Query|QueryRow).*\+" --type go -A 2
@@ -156,7 +156,7 @@ WHEN "Rust detected":
 
 ```bash
 # Rust security scanning
-echo "🦀 Rust project security analysis"
+echo " Rust project security analysis"
 
 # Unsafe block analysis
 rg "unsafe" --type rust -A 5 -B 2
@@ -175,7 +175,7 @@ WHEN "JavaScript/TypeScript detected":
 
 ```bash
 # JavaScript/TypeScript security scanning
-echo "⚡ JavaScript/TypeScript security analysis"
+echo " JavaScript/TypeScript security analysis"
 
 # Potential XSS vulnerabilities
 rg "(innerHTML|outerHTML|dangerouslySetInnerHTML)" --type-add 'js:*.{js,ts,jsx,tsx}' --type js -A 2
@@ -197,7 +197,7 @@ STEP 4: Infrastructure security assessment with container scanning
 IF Docker files detected:
 
 ```bash
-echo "🐳 Docker security analysis"
+echo " Docker security analysis"
 
 # Dockerfile security patterns
 rg "(FROM.*:latest|USER root|COPY \. |ADD http)" . --type-add 'docker:Dockerfile*' --type docker
@@ -223,7 +223,7 @@ done
 IF Kubernetes manifests detected:
 
 ```bash
-echo "☸️ Kubernetes security analysis"
+echo "️ Kubernetes security analysis"
 
 # Security context analysis
 rg "(privileged.*true|runAsRoot.*true|allowPrivilegeEscalation.*true)" --type yaml -A 2 -B 2
@@ -235,7 +235,7 @@ rg "(kind.*ClusterRole|verbs.*\[.*\*|resources.*\[.*\*)" --type yaml -A 5
 fd "\.ya?ml$" . | while read k8s_file; do
   if rg -q "(apiVersion|kind):" "$k8s_file"; then
     if ! rg -q "securityContext:" "$k8s_file"; then
-      echo "❌ Missing securityContext in: $k8s_file"
+      echo " Missing securityContext in: $k8s_file"
     fi
   fi
 done
@@ -244,7 +244,7 @@ done
 CATCH (security_scan_failed):
 
 ```bash
-echo "⚠️ Security scanning encountered errors:"
+echo "️ Security scanning encountered errors:"
 echo "- Some tools may not be installed (trivy, gosec, etc.)"
 echo "- Continuing with available analysis methods"
 echo "- Manual review recommended for complete coverage"
@@ -256,7 +256,7 @@ STEP 5: Comprehensive findings aggregation and risk assessment
 
 ```bash
 # Aggregate findings from all agents
-echo "📊 Aggregating security audit results..."
+echo " Aggregating security audit results..."
 
 # Update audit session state
 jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
@@ -278,7 +278,7 @@ STEP 6: Generate comprehensive security audit report
 ```bash
 # Generate comprehensive audit report
 report_file="/tmp/security-audit-$SESSION_ID.md"
-echo "📝 Generating security audit report: $report_file"
+echo " Generating security audit report: $report_file"
 
 cat > "$report_file" << 'EOF'
 # Security Audit Report
@@ -405,7 +405,7 @@ Audit Scope: $(pwd)
 **Next Review Date**: $(gdate -d "+3 months" -Iseconds 2>/dev/null || date -d "+3 months" -Iseconds 2>/dev/null || echo "Schedule manually")
 EOF
 
-echo "✅ Security audit report generated: $report_file"
+echo " Security audit report generated: $report_file"
 ```
 
 STEP 7: Session state finalization and follow-up recommendations
@@ -421,25 +421,25 @@ jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
 ' /tmp/audit-session-$SESSION_ID.json > /tmp/audit-session-$SESSION_ID.tmp && \
 mv /tmp/audit-session-$SESSION_ID.tmp /tmp/audit-session-$SESSION_ID.json
 
-echo "🎯 Security audit completed successfully"
-echo "📊 Session: $SESSION_ID"
-echo "📝 Report: /tmp/security-audit-$SESSION_ID.md"
-echo "💾 Session state: /tmp/audit-session-$SESSION_ID.json"
-echo "🔍 Scan artifacts: /tmp/*-$SESSION_ID.json"
+echo " Security audit completed successfully"
+echo " Session: $SESSION_ID"
+echo " Report: /tmp/security-audit-$SESSION_ID.md"
+echo " Session state: /tmp/audit-session-$SESSION_ID.json"
+echo " Scan artifacts: /tmp/*-$SESSION_ID.json"
 ```
 
 **Next Steps Guidance:**
 
 ```bash
 echo ""
-echo "🚀 Recommended Follow-up Actions:"
+echo " Recommended Follow-up Actions:"
 echo "1. Review generated report for critical and high-priority issues"
 echo "2. Implement immediate security fixes for critical vulnerabilities"
 echo "3. Set up automated security scanning in CI/CD pipeline"
 echo "4. Schedule regular security audits (quarterly recommended)"
 echo "5. Consider professional penetration testing for production systems"
 echo ""
-echo "🛡️ Security is an ongoing process - stay vigilant!"
+echo "️ Security is an ongoing process - stay vigilant!"
 ```
 
 FINALLY:

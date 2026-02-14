@@ -74,7 +74,7 @@ ELSE:
 EXECUTE focused single-agent analysis for targeted recommendations:
 
 ```bash
-echo "🎯 Executing focused analysis for: $ARGUMENTS"
+echo " Executing focused analysis for: $ARGUMENTS"
 ```
 
 ## Analysis Process
@@ -87,7 +87,7 @@ TRY:
 
 ```bash
 # Priority analysis framework
-echo "📊 Applying impact-effort matrix to identified tasks..."
+echo " Applying impact-effort matrix to identified tasks..."
 ```
 
 CASE priority_category:
@@ -183,13 +183,13 @@ TRY:
 IF [task_system_available]:
   FOR EACH high_priority_recommendation:
     # Offer task creation in management system
-    echo "📝 Creating task: $TASK_NAME"
+    echo " Creating task: $TASK_NAME"
     echo "   Priority: $PRIORITY_LEVEL"
     echo "   Effort: $EFFORT_ESTIMATE"
     echo "   Dependencies: $TASK_DEPENDENCIES"
 ELSE:
   # Use TodoWrite for immediate task tracking
-  echo "📋 Adding to todo system for immediate action"
+  echo " Adding to todo system for immediate action"
 FI
 ```
 
@@ -197,8 +197,8 @@ FI
 
 ```bash
 # Create task dependency graph
-echo "🔗 Mapping task dependencies and relationships..."
-echo "📊 Generating priority matrix visualization..."
+echo " Mapping task dependencies and relationships..."
+echo " Generating priority matrix visualization..."
 ```
 
 CATCH (analysis_failed):
@@ -208,8 +208,8 @@ CATCH (analysis_failed):
 - SUGGEST manual analysis steps
 
 ```bash
-echo "⚠️ Analysis execution failed. Providing fallback recommendations:"
-echo "🔍 Manual analysis steps:"
+echo "️ Analysis execution failed. Providing fallback recommendations:"
+echo " Manual analysis steps:"
 echo "  1. Review git log and recent changes"
 echo "  2. Check TodoRead for pending items"
 echo "  3. Examine project build files for updates needed"
@@ -233,11 +233,11 @@ mv /tmp/next-steps-session-$SESSION_ID.tmp /tmp/next-steps-session-$SESSION_ID.j
 **Analysis Summary Report:**
 
 ```bash
-echo "✅ Next Steps Analysis Completed"
-echo "🎯 Target: ${ARGUMENTS:-"General project analysis"}"
-echo "📊 Recommendations: $(jq -r '.recommendationCount // 0' /tmp/next-steps-session-$SESSION_ID.json)"
+echo " Next Steps Analysis Completed"
+echo " Target: ${ARGUMENTS:-"General project analysis"}"
+echo " Recommendations: $(jq -r '.recommendationCount // 0' /tmp/next-steps-session-$SESSION_ID.json)"
 echo "⏱️ Session: $SESSION_ID"
-echo "💾 Results cached in: /tmp/next-steps-session-$SESSION_ID.json"
+echo " Results cached in: /tmp/next-steps-session-$SESSION_ID.json"
 ```
 
 FINALLY:

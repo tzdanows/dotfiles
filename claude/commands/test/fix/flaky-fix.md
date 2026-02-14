@@ -105,7 +105,7 @@ detect_test_framework() {
     TEST_FILES=$(fd "test_.*\.py$|.*_test\.py$" | head -20)
     STABILITY_TOOLS="pytest_rerunfailures"
   else
-    echo "❌ Unknown testing framework - manual analysis required"
+    echo " Unknown testing framework - manual analysis required"
     exit 1
   fi
   
@@ -131,7 +131,7 @@ analyze_github_ci() {
   local session_id="$SESSION_ID"
   
   if [ -d ".github/workflows" ]; then
-    echo "🔍 Analyzing GitHub Actions test history..."
+    echo " Analyzing GitHub Actions test history..."
     
     # Extract comprehensive CI data
     gh run list --limit 100 --json status,conclusion,createdAt,workflowName,databaseId > /tmp/ci_history_$session_id.json
@@ -139,7 +139,7 @@ analyze_github_ci() {
     # Analyze failure patterns with enhanced extraction
     jq -r '.[] | select(.conclusion == "failure") | .databaseId' /tmp/ci_history_$session_id.json | \
     head -10 | while read run_id; do
-      echo "📋 Processing run: $run_id"
+      echo " Processing run: $run_id"
       
       # Extract structured failure data
       gh run view "$run_id" --log 2>/dev/null | \
@@ -176,7 +176,7 @@ analyze_gitlab_ci() {
   local session_id="$SESSION_ID"
   
   if [ -f ".gitlab-ci.yml" ]; then
-    echo "🦊 Analyzing GitLab CI test history..."
+    echo " Analyzing GitLab CI test history..."
     
     # Enhanced GitLab CI analysis (requires GITLAB_TOKEN)
     if [ -n "$GITLAB_TOKEN" ] && [ -n "$CI_PROJECT_ID" ]; then
@@ -184,7 +184,7 @@ analyze_gitlab_ci() {
         "https://gitlab.com/api/v4/projects/$CI_PROJECT_ID/pipelines?status=failed&per_page=50" \
         > "/tmp/gitlab_failures_$session_id.json" || true
     else
-      echo "⚠️ GitLab analysis requires GITLAB_TOKEN and CI_PROJECT_ID environment variables"
+      echo "️ GitLab analysis requires GITLAB_TOKEN and CI_PROJECT_ID environment variables"
     fi
   fi
 }
@@ -204,7 +204,7 @@ analyze_flaky_patterns() {
   local test_logs="$1"
   local session_id="$SESSION_ID"
   
-  echo "🧠 Executing intelligent flaky pattern analysis..."
+  echo " Executing intelligent flaky pattern analysis..."
   
   # Create comprehensive pattern detection
   if [ -f "$test_logs" ]; then
@@ -274,11 +274,11 @@ analyze_flaky_patterns() {
 }
 EOF
   else
-    echo "⚠️ Test log file not found: $test_logs"
+    echo "️ Test log file not found: $test_logs"
     echo '{}' > "/tmp/flaky_patterns_$session_id.json"
   fi
   
-  echo "📊 Pattern analysis complete. Results: /tmp/flaky_patterns_$session_id.json"
+  echo " Pattern analysis complete. Results: /tmp/flaky_patterns_$session_id.json"
 }
 ```
 
@@ -634,7 +634,7 @@ export class EnhancedFlakyTestAnalyzer {
 }
 EOF
 
-  echo "✅ Generated enhanced stability analyzer: /tmp/flaky_test_analyzer_$session_id.ts"
+  echo " Generated enhanced stability analyzer: /tmp/flaky_test_analyzer_$session_id.ts"
 }
 
 generate_stability_analyzer
@@ -648,7 +648,7 @@ STEP 7: Advanced git history mining with statistical trend analysis
 # Comprehensive test history extraction with trend analysis
 extract_enhanced_test_history() {
   local session_id="$SESSION_ID"
-  echo "📊 Executing comprehensive test history mining..."
+  echo " Executing comprehensive test history mining..."
   
   # Multi-timeframe analysis for trend detection
   for period in "7 days ago" "30 days ago" "90 days ago"; do
@@ -703,7 +703,7 @@ extract_enhanced_test_history() {
 # Advanced test modification pattern analysis
 analyze_advanced_test_modifications() {
   local session_id="$SESSION_ID"
-  echo "🔄 Executing advanced test modification pattern analysis..."
+  echo " Executing advanced test modification pattern analysis..."
   
   # Identify test maintenance hotspots
   git log --since="30 days ago" --name-only --pretty=format: | \
@@ -723,7 +723,7 @@ analyze_advanced_test_modifications() {
     hotspot_files=$(wc -l < "/tmp/test_hotspots_$session_id.txt")
     maintenance_burden=$(( (hotspot_files * 100) / (total_test_files + 1) ))
     
-    echo "📈 Test Maintenance Metrics:"
+    echo " Test Maintenance Metrics:"
     echo "   Total test files: $total_test_files"
     echo "   Frequently modified: $hotspot_files"
     echo "   Maintenance burden: ${maintenance_burden}%"
@@ -1067,7 +1067,7 @@ export class FlakeNotifier {
     if (!webhook) return;
 
     const message = {
-      text: `🚨 Flaky Test Alert: ${alert.testName}`,
+      text: ` Flaky Test Alert: ${alert.testName}`,
       blocks: [
         {
           type: "section",

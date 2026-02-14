@@ -11,7 +11,7 @@ description: Comprehensive health monitoring orchestrator with parallel system a
 - Kubernetes context: !`kubectl config current-context 2>/dev/null || echo "No K8s context"`
 - Docker daemon: !`docker info --format '{{.ServerVersion}}' 2>/dev/null || echo "Docker unavailable"`
 - System load: !`uptime | awk '{print $10, $11, $12}' 2>/dev/null || echo "Load unavailable"`
-- Available tools: !`echo "kubectl: $(which kubectl >/dev/null && echo ✓ || echo ✗) | docker: $(which docker >/dev/null && echo ✓ || echo ✗) | curl: $(which curl >/dev/null && echo ✓ || echo ✗)"`
+- Available tools: !`echo "kubectl: $(which kubectl >/dev/null && echo  || echo ) | docker: $(which docker >/dev/null && echo  || echo ) | curl: $(which curl >/dev/null && echo  || echo )"`
 
 **Live System Assessment:**
 
@@ -93,16 +93,16 @@ TRY:
 
 ```bash
 # Discover system configuration files
-echo "📁 Discovering system configuration..."
+echo " Discovering system configuration..."
 fd "(docker-compose|k8s|deployment|health)" --type f -d 3 | head -10
 
 # Find existing health check implementations
-echo "🔍 Locating health check implementations..."
+echo " Locating health check implementations..."
 rg "health|status|ping|ready|live" --type-add 'config:*.{yaml,yml,json,toml}' --type config -l | head -5
 rg "(/health|/ping|/status|healthcheck)" --type-add 'code:*.{ts,js,go,rs,java,py}' --type code -l | head -5
 
 # Check for monitoring tools
-echo "📊 Checking monitoring infrastructure..."
+echo " Checking monitoring infrastructure..."
 fd "(prometheus|grafana|datadog|newrelic|monitoring)" --type f -d 2 | head -5
 ```
 
@@ -122,13 +122,13 @@ WHEN "kubernetes":
 
 ```bash
 # Comprehensive cluster health assessment
-echo "🎯 Kubernetes cluster health analysis:"
+echo " Kubernetes cluster health analysis:"
 
 # Node health and resource availability
 kubectl get nodes -o json | jq -r '.items[] | "Node: \(.metadata.name) | Status: \(.status.conditions[-1].type) | Resources: CPU=\(.status.allocatable.cpu) Memory=\(.status.allocatable.memory)"'
 
 # Pod health across all namespaces
-kubectl get pods --all-namespaces -o json | jq -r '.items[] | select(.status.phase != "Running") | "⚠️ \(.metadata.namespace)/\(.metadata.name): \(.status.phase)"' | head -10
+kubectl get pods --all-namespaces -o json | jq -r '.items[] | select(.status.phase != "Running") | "️ \(.metadata.namespace)/\(.metadata.name): \(.status.phase)"' | head -10
 
 # Service endpoints and connectivity
 kubectl get services --all-namespaces -o json | jq -r '.items[] | select(.spec.type == "LoadBalancer" or .spec.type == "NodePort") | "Service: \(.metadata.namespace)/\(.metadata.name) | Type: \(.spec.type)"'
@@ -143,7 +143,7 @@ WHEN "docker":
 **Docker Container Health Assessment:**
 
 ```bash
-echo "🐳 Docker container health analysis:"
+echo " Docker container health analysis:"
 
 # Container status and health
 docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" | head -15
@@ -152,11 +152,11 @@ docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" | head -15
 docker stats --no-stream --format "table {{.Container}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.NetIO}}" | head -10
 
 # Health check configurations
-docker inspect $(docker ps -q) | jq -r '.[] | select(.Config.Healthcheck) | "✓ \(.Name): \(.Config.Healthcheck.Test[1:] | join(" "))"' 2>/dev/null | head -5
+docker inspect $(docker ps -q) | jq -r '.[] | select(.Config.Healthcheck) | " \(.Name): \(.Config.Healthcheck.Test[1:] | join(" "))"' 2>/dev/null | head -5
 
 # Volume and network status
-docker volume ls | wc -l | awk '{print "📂 Volumes: " $1}'
-docker network ls | wc -l | awk '{print "🌐 Networks: " $1}'
+docker volume ls | wc -l | awk '{print " Volumes: " $1}'
+docker network ls | wc -l | awk '{print " Networks: " $1}'
 ```
 
 WHEN "application":
@@ -164,7 +164,7 @@ WHEN "application":
 **Application-Level Health Monitoring:**
 
 ```bash
-echo "🚀 Application health endpoint analysis:"
+echo " Application health endpoint analysis:"
 
 # Test primary health endpoints
 for port in 8080 3000 8000 8090 9000; do
@@ -173,11 +173,11 @@ for port in 8080 3000 8000 8090 9000; do
 done
 
 # Discover application configurations
-echo "📋 Application configuration discovery:"
+echo " Application configuration discovery:"
 fd "(package\.json|deno\.json|Cargo\.toml|pom\.xml|go\.mod)" --type f | head -5
 
 # Find health check implementations in code
-echo "💻 Code-level health check implementations:"
+echo " Code-level health check implementations:"
 rg "(healthcheck|health.*endpoint|/health|/ping)" --type-add 'src:*.{ts,js,go,rs,java,py}' --type src -A 2 -B 1 | head -10
 ```
 
@@ -210,7 +210,7 @@ cat > /tmp/health-monitor-$SESSION_ID/dashboard.html << 'EOF'
     </style>
 </head>
 <body>
-    <h1>🏥 System Health Dashboard</h1>
+    <h1> System Health Dashboard</h1>
     <div class="timestamp">Last updated: $(date)</div>
     <div class="health-grid">
         <!-- Health cards will be populated by monitoring script -->
@@ -223,7 +223,7 @@ cat > /tmp/health-monitor-$SESSION_ID/dashboard.html << 'EOF'
 </html>
 EOF
 
-echo "📊 Health dashboard created: /tmp/health-monitor-$SESSION_ID/dashboard.html"
+echo " Health dashboard created: /tmp/health-monitor-$SESSION_ID/dashboard.html"
 ```
 
 STEP 6: Automated health check implementation
@@ -1258,7 +1258,7 @@ cat > /tmp/health-monitor-$SESSION_ID/live-dashboard.html << 'EOF'
 <body>
     <div class="dashboard">
         <div class="header">
-            <h1 class="title">🏥 Health Monitor</h1>
+            <h1 class="title"> Health Monitor</h1>
             <div class="status-indicator status-healthy" id="overall-status">
                 System Healthy
             </div>
@@ -1291,7 +1291,7 @@ cat > /tmp/health-monitor-$SESSION_ID/live-dashboard.html << 'EOF'
         </div>
         
         <div class="health-checks">
-            <div class="checks-header">🔍 Component Health Status</div>
+            <div class="checks-header"> Component Health Status</div>
             <div id="health-checks-list">
                 <div class="check-item">
                     <span class="check-name">Loading health checks...</span>
@@ -1305,7 +1305,7 @@ cat > /tmp/health-monitor-$SESSION_ID/live-dashboard.html << 'EOF'
         
         <div class="timestamp">
             <div>Last updated: <span id="last-update">$(date)</span></div>
-            <div class="auto-refresh">⚡ Auto-refresh every 15 seconds</div>
+            <div class="auto-refresh"> Auto-refresh every 15 seconds</div>
         </div>
     </div>
     
@@ -1357,14 +1357,14 @@ cat > /tmp/health-monitor-$SESSION_ID/live-dashboard.html << 'EOF'
         setInterval(updateHealthData, 15000);
         
         // Update page title with status
-        document.title = '🏥 Health Monitor - System Healthy';
+        document.title = ' Health Monitor - System Healthy';
     </script>
 </body>
 </html>
 EOF
 
-echo "✅ Live dashboard created: /tmp/health-monitor-$SESSION_ID/live-dashboard.html"
-echo "🌐 Open in browser: file:///tmp/health-monitor-$SESSION_ID/live-dashboard.html"
+echo " Live dashboard created: /tmp/health-monitor-$SESSION_ID/live-dashboard.html"
+echo " Open in browser: file:///tmp/health-monitor-$SESSION_ID/live-dashboard.html"
 ```
 
 STEP 9: Final session summary and monitoring setup
@@ -1373,37 +1373,37 @@ STEP 9: Final session summary and monitoring setup
 
 ```bash
 # Generate comprehensive health monitoring summary
-echo "🎯 Health monitoring setup completed successfully!"
+echo " Health monitoring setup completed successfully!"
 echo ""
-echo "📊 Session Summary:"
+echo " Session Summary:"
 echo "  Session ID: $SESSION_ID"
 echo "  Target System: $ARGUMENTS"
 echo "  Generated Files:"
 echo "    - Live Dashboard: /tmp/health-monitor-$SESSION_ID/live-dashboard.html"
 echo "    - Session State: /tmp/health-session-$SESSION_ID.json"
 echo ""
-echo "🚀 Next Steps:"
+echo " Next Steps:"
 echo "  1. Review generated health check templates"
 echo "  2. Implement language-specific health services"
 echo "  3. Configure Kubernetes probes (if applicable)"
 echo "  4. Set up Prometheus monitoring"
 echo "  5. Configure alerting rules"
 echo ""
-echo "📋 Health Check Endpoints to Implement:"
+echo " Health Check Endpoints to Implement:"
 echo "  - GET /health        - Comprehensive health status"
 echo "  - GET /health/live   - Liveness probe (Kubernetes)"
 echo "  - GET /health/ready  - Readiness probe (Kubernetes)"
 echo "  - GET /health/startup - Startup probe (Kubernetes)"
 echo "  - GET /metrics       - Prometheus metrics"
 echo ""
-echo "⚠️ Critical Configuration Notes:"
+echo "️ Critical Configuration Notes:"
 echo "  - Set appropriate timeouts for all health checks"
 echo "  - Implement circuit breaker patterns for external dependencies"
 echo "  - Use parallel execution for multiple health checks"
 echo "  - Include meaningful error messages and response times"
 echo "  - Monitor trends, not just current state"
 echo ""
-echo "🔗 Additional Resources:"
+echo " Additional Resources:"
 echo "  - Kubernetes Health Checks: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/"
 echo "  - Prometheus Monitoring: https://prometheus.io/docs/guides/"
 echo "  - Health Check Best Practices: https://microservices.io/patterns/observability/health-check-api.html"
@@ -1553,14 +1553,14 @@ CMD ["node", "server.js"]
 HEALTH_ENDPOINT="http://localhost:8080/health"
 TIMEOUT=5
 
-echo "🏥 Performing health check..."
+echo " Performing health check..."
 
 # Test HTTP endpoint
 if curl -sf --max-time $TIMEOUT "$HEALTH_ENDPOINT" >/dev/null; then
-    echo "✅ Health check passed"
+    echo " Health check passed"
     exit 0
 else
-    echo "❌ Health check failed"
+    echo " Health check failed"
     exit 1
 fi
 ```

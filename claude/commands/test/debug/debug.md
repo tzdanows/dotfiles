@@ -71,7 +71,7 @@ EXECUTE streamlined single-service debugging workflow:
 
 ```bash
 # Direct debugging analysis for simpler issues
-echo "🔍 Executing focused debugging analysis..."
+echo " Executing focused debugging analysis..."
 ```
 
 STEP 3: Technology-specific debugging strategy execution
@@ -82,7 +82,7 @@ WHEN "java":
 
 ```bash
 # Java-specific debugging workflow
-echo "☕ Java debugging strategy activated"
+echo " Java debugging strategy activated"
 
 # Check for running Java processes
 jps -v || ps aux | rg java
@@ -110,7 +110,7 @@ WHEN "go":
 
 ```bash
 # Go-specific debugging workflow
-echo "🐹 Go debugging strategy activated"
+echo " Go debugging strategy activated"
 
 # Check for Go binaries and build info
 fd -e go . | head -5
@@ -138,7 +138,7 @@ WHEN "rust":
 
 ```bash
 # Rust-specific debugging workflow
-echo "🦀 Rust debugging strategy activated"
+echo " Rust debugging strategy activated"
 
 # Check Cargo configuration and recent builds
 fd Cargo.toml . | head -3
@@ -164,7 +164,7 @@ WHEN "deno":
 
 ```bash
 # Deno-specific debugging workflow
-echo "⚡ Deno debugging strategy activated"
+echo " Deno debugging strategy activated"
 
 # Check Deno configuration and permissions
 fd deno.json . | head -3
@@ -193,7 +193,7 @@ WHEN "docker":
 
 ```bash
 # Docker/Container debugging workflow
-echo "🐳 Container debugging strategy activated"
+echo " Container debugging strategy activated"
 
 # Check container status and logs
 docker ps -a | head -5 2>/dev/null || echo "Docker not available"
@@ -218,12 +218,12 @@ CATCH (debugging_tool_unavailable):
 - SUGGEST tool installation commands
 
 ```bash
-echo "⚠️ Some debugging tools unavailable. Checking alternatives..."
+echo "️ Some debugging tools unavailable. Checking alternatives..."
 echo "Available tools:"
-echo "  rg: $(which rg >/dev/null && echo '✓' || echo '❌ - install with: brew install ripgrep')"
-echo "  fd: $(which fd >/dev/null && echo '✓' || echo '❌ - install with: brew install fd')"
-echo "  bat: $(which bat >/dev/null && echo '✓' || echo '❌ - install with: brew install bat')"
-echo "  jq: $(which jq >/dev/null && echo '✓' || echo '❌ - install with: brew install jq')"
+echo "  rg: $(which rg >/dev/null && echo '' || echo ' - install with: brew install ripgrep')"
+echo "  fd: $(which fd >/dev/null && echo '' || echo ' - install with: brew install fd')"
+echo "  bat: $(which bat >/dev/null && echo '' || echo ' - install with: brew install bat')"
+echo "  jq: $(which jq >/dev/null && echo '' || echo ' - install with: brew install jq')"
 ```
 
 STEP 4: Systematic common pitfall analysis with pattern recognition
@@ -237,7 +237,7 @@ FOR EACH detected_technology IN project_stack:
 ```bash
 # Analyze Java-specific patterns
 if fd -e java . | head -1 >/dev/null; then
-  echo "🔍 Analyzing Java pitfall patterns..."
+  echo " Analyzing Java pitfall patterns..."
   
   # Check for NPE-prone patterns
   rg "\.)" --type java | head -5 && echo "Potential NPE chains found"
@@ -264,7 +264,7 @@ fi
 ```bash
 # Analyze Go-specific patterns
 if fd -e go . | head -1 >/dev/null; then
-  echo "🔍 Analyzing Go pitfall patterns..."
+  echo " Analyzing Go pitfall patterns..."
   
   # Nil pointer checks
   rg "\*.*\.|\[.*\]" --type go | head -5
@@ -291,7 +291,7 @@ fi
 ```bash
 # Analyze Rust-specific patterns
 if fd -e rs . | head -1 >/dev/null; then
-  echo "🔍 Analyzing Rust pitfall patterns..."
+  echo " Analyzing Rust pitfall patterns..."
   
   # Borrow checker violation patterns
   rg "&mut.*&mut|&.*&mut" --type rust | head -3
@@ -318,7 +318,7 @@ fi
 ```bash
 # Analyze Deno-specific patterns
 if fd -e ts -e js . | head -1 >/dev/null; then
-  echo "🔍 Analyzing Deno/TypeScript pitfall patterns..."
+  echo " Analyzing Deno/TypeScript pitfall patterns..."
   
   # Permission error patterns
   rg "Deno\.(read|write|run)|--allow" . | head -3
@@ -467,12 +467,12 @@ mv /tmp/debug-session-$SESSION_ID.tmp /tmp/debug-session-$SESSION_ID.json
 **Generate Comprehensive Debug Report:**
 
 ```bash
-echo "✅ Debug Analysis Complete"
-echo "🎯 Target: $ARGUMENTS"
-echo "🔍 Session: $SESSION_ID"
-echo "📊 Findings: $(jq '.findings | length' /tmp/debug-session-$SESSION_ID.json) issues identified"
-echo "💡 Solutions: $(jq '.recommendedActions | length' /tmp/debug-session-$SESSION_ID.json) recommendations"
-echo "📁 Report saved to: /tmp/debug-report-$SESSION_ID.md"
+echo " Debug Analysis Complete"
+echo " Target: $ARGUMENTS"
+echo " Session: $SESSION_ID"
+echo " Findings: $(jq '.findings | length' /tmp/debug-session-$SESSION_ID.json) issues identified"
+echo " Solutions: $(jq '.recommendedActions | length' /tmp/debug-session-$SESSION_ID.json) recommendations"
+echo " Report saved to: /tmp/debug-report-$SESSION_ID.md"
 ```
 
 FINALLY:

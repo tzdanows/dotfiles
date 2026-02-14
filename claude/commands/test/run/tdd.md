@@ -11,7 +11,7 @@ description: Comprehensive test-driven development orchestrator with language-aw
 - Project structure: !`eza -la --tree --level=2 2>/dev/null | head -10 || fd . -t d -d 2 | head -8`
 - Build files detected: !`fd "(package\.json|Cargo\.toml|go\.mod|pom\.xml|build\.gradle|deno\.json)" . -d 3 | head -5 || echo "No build files detected"`
 - Existing test files: !`fd "(test|spec)" . -t f | head -5 || echo "No test files found"`
-- Language tools status: !`echo "deno: $(which deno >/dev/null && echo ✓ || echo ✗) | cargo: $(which cargo >/dev/null && echo ✓ || echo ✗) | go: $(which go >/dev/null && echo ✓ || echo ✗) | mvn: $(which mvn >/dev/null && echo ✓ || echo ✗)"`
+- Language tools status: !`echo "deno: $(which deno >/dev/null && echo  || echo ) | cargo: $(which cargo >/dev/null && echo  || echo ) | go: $(which go >/dev/null && echo  || echo ) | mvn: $(which mvn >/dev/null && echo  || echo )"`
 - Git status: !`git status --porcelain 2>/dev/null | head -3 || echo "Not a git repository"`
 
 ## Your Task
@@ -265,7 +265,7 @@ FOR each test created:
 jq '.tddPhase = "red"' /tmp/tdd-session-$SESSION_ID.json > /tmp/tdd-session-$SESSION_ID.tmp && \
 mv /tmp/tdd-session-$SESSION_ID.tmp /tmp/tdd-session-$SESSION_ID.json
 
-echo "🔴 RED Phase: Creating failing tests..."
+echo " RED Phase: Creating failing tests..."
 ```
 
 1. CREATE test file with comprehensive test cases
@@ -294,7 +294,7 @@ WHEN "deno":
 jq '.tddPhase = "green"' /tmp/tdd-session-$SESSION_ID.json > /tmp/tdd-session-$SESSION_ID.tmp && \
 mv /tmp/tdd-session-$SESSION_ID.tmp /tmp/tdd-session-$SESSION_ID.json
 
-echo "🟢 GREEN Phase: Implementing minimal solution..."
+echo " GREEN Phase: Implementing minimal solution..."
 ```
 
 5. CREATE skeleton implementation that compiles
@@ -309,7 +309,7 @@ echo "🟢 GREEN Phase: Implementing minimal solution..."
 jq '.tddPhase = "refactor"' /tmp/tdd-session-$SESSION_ID.json > /tmp/tdd-session-$SESSION_ID.tmp && \
 mv /tmp/tdd-session-$SESSION_ID.tmp /tmp/tdd-session-$SESSION_ID.json
 
-echo "🔵 REFACTOR Phase: Cleaning and optimizing..."
+echo " REFACTOR Phase: Cleaning and optimizing..."
 ```
 
 9. REFACTOR implementation while keeping tests green
@@ -333,14 +333,14 @@ WHEN "rust":
         cargo install cargo-watch
     fi
 
-    echo "🔄 Starting Rust TDD watch mode..."
+    echo " Starting Rust TDD watch mode..."
     cargo watch -x "test ${target_component} --lib"
     ```
 
 WHEN "go":
 `bash
     # Use built-in or external watch tools
-    echo "🔄 Starting Go TDD watch mode..."
+    echo " Starting Go TDD watch mode..."
     if which reflex >/dev/null; then
         reflex -r '\.go$' go test -v ./...
     else
@@ -351,7 +351,7 @@ WHEN "go":
 
 WHEN "java":
 `bash
-    echo "🔄 Starting Java TDD watch mode..."
+    echo " Starting Java TDD watch mode..."
     if [ -f "pom.xml" ]; then
         mvn test-compile compile -q
         mvn surefire:test -Dtest=${TargetComponent}Test -q
@@ -361,7 +361,7 @@ WHEN "java":
 
 WHEN "deno":
 `bash
-    echo "🔄 Starting Deno TDD watch mode..."
+    echo " Starting Deno TDD watch mode..."
     deno test --watch --filter "${target_component}"`
 
 CATCH (watch_mode_failed):
@@ -388,13 +388,13 @@ mv /tmp/tdd-session-$SESSION_ID.tmp /tmp/tdd-session-$SESSION_ID.json
 **Progress Reporting:**
 
 ```bash
-echo "✅ TDD Session Progress:"
-echo "🎯 Target: $ARGUMENTS"
-echo "📝 Language: $(jq -r '.detectedLanguage' /tmp/tdd-session-$SESSION_ID.json)"
-echo "🧪 Framework: $(jq -r '.testingFramework' /tmp/tdd-session-$SESSION_ID.json)"
-echo "📊 Phase: $(jq -r '.tddPhase' /tmp/tdd-session-$SESSION_ID.json)"
-echo "📁 Test File: $(jq -r '.testFilePath' /tmp/tdd-session-$SESSION_ID.json)"
-echo "💾 Session: $SESSION_ID"
+echo " TDD Session Progress:"
+echo " Target: $ARGUMENTS"
+echo " Language: $(jq -r '.detectedLanguage' /tmp/tdd-session-$SESSION_ID.json)"
+echo " Framework: $(jq -r '.testingFramework' /tmp/tdd-session-$SESSION_ID.json)"
+echo " Phase: $(jq -r '.tddPhase' /tmp/tdd-session-$SESSION_ID.json)"
+echo " Test File: $(jq -r '.testFilePath' /tmp/tdd-session-$SESSION_ID.json)"
+echo " Session: $SESSION_ID"
 ```
 
 FINALLY:

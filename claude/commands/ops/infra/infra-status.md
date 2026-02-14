@@ -81,16 +81,16 @@ WHEN "all" OR empty:
 
 ```bash
 # Quick node health check
-echo "🔍 Node Health Analysis:"
+echo " Node Health Analysis:"
 kubectl get nodes -o json | jq -r '.items[] | "\(.metadata.name): \(.status.conditions[] | select(.type=="Ready") | .status)"'
 
 # Resource utilization with error handling
-echo "📊 Resource Utilization:"
-kubectl top nodes --use-protocol-buffers=false 2>/dev/null || echo "⚠️ Metrics server unavailable"
-kubectl top pods --all-namespaces --use-protocol-buffers=false 2>/dev/null | head -10 || echo "⚠️ Pod metrics unavailable"
+echo " Resource Utilization:"
+kubectl top nodes --use-protocol-buffers=false 2>/dev/null || echo "️ Metrics server unavailable"
+kubectl top pods --all-namespaces --use-protocol-buffers=false 2>/dev/null | head -10 || echo "️ Pod metrics unavailable"
 
 # Critical system pods
-echo "🏗️ Critical System Pods:"
+echo "️ Critical System Pods:"
 kubectl get pods -n kube-system -o json | jq -r '.items[] | select(.metadata.name | test("(etcd|api-server|controller|scheduler)")) | "\(.metadata.name): \(.status.phase)"'
 ```
 
@@ -164,18 +164,18 @@ mv /tmp/infra-status-$SESSION_ID.tmp /tmp/infra-status-$SESSION_ID.json
 
 ```bash
 # Identify critical issues requiring immediate attention
-echo "🚨 Critical Issue Analysis:"
+echo " Critical Issue Analysis:"
 
 # Control plane health
-kubectl get componentstatuses 2>/dev/null || echo "⚠️ Component status unavailable"
+kubectl get componentstatuses 2>/dev/null || echo "️ Component status unavailable"
 
 # Resource exhaustion detection
-echo "💾 Resource Exhaustion Check:"
-kubectl describe nodes | grep -E '(OutOfmemory|OutOfcpu|OutOfStorage)' || echo "✅ No resource exhaustion detected"
+echo " Resource Exhaustion Check:"
+kubectl describe nodes | grep -E '(OutOfmemory|OutOfcpu|OutOfStorage)' || echo " No resource exhaustion detected"
 
 # Failed/stuck pods
-echo "🔄 Failed Pod Analysis:"
-kubectl get pods -A --field-selector=status.phase!=Running,status.phase!=Succeeded 2>/dev/null | head -10 || echo "✅ No failed pods detected"
+echo " Failed Pod Analysis:"
+kubectl get pods -A --field-selector=status.phase!=Running,status.phase!=Succeeded 2>/dev/null | head -10 || echo " No failed pods detected"
 ```
 
 CATCH (monitoring_failed):
@@ -185,9 +185,9 @@ CATCH (monitoring_failed):
 - SUGGEST alternative monitoring approaches
 
 ```bash
-echo "⚠️ Infrastructure monitoring failed. Checking cluster accessibility:"
+echo "️ Infrastructure monitoring failed. Checking cluster accessibility:"
 echo "Kubectl context: $(kubectl config current-context 2>/dev/null || echo 'Not configured')"
-echo "Cluster reachability: $(kubectl cluster-info --request-timeout=3s 2>/dev/null && echo '✅ Reachable' || echo '❌ Unreachable')"
+echo "Cluster reachability: $(kubectl cluster-info --request-timeout=3s 2>/dev/null && echo ' Reachable' || echo ' Unreachable')"
 echo "Suggested actions:"
 echo "  1. Verify kubectl configuration: kubectl config view"
 echo "  2. Check cluster status: kubectl get nodes"
@@ -199,7 +199,7 @@ STEP 5: Executive dashboard generation and actionable recommendations
 **Infrastructure Health Dashboard:**
 
 ```bash
-echo "📊 TALOS KUBERNETES INFRASTRUCTURE HEALTH DASHBOARD"
+echo " TALOS KUBERNETES INFRASTRUCTURE HEALTH DASHBOARD"
 echo "═══════════════════════════════════════════════════════"
 echo "Session: $SESSION_ID"
 echo "Timestamp: $(gdate -Iseconds 2>/dev/null || date -Iseconds)"
@@ -207,14 +207,14 @@ echo "Check Scope: ${ARGUMENTS:-comprehensive}"
 echo ""
 
 # Cluster overview
-echo "🏗️ CLUSTER OVERVIEW"
+echo "️ CLUSTER OVERVIEW"
 echo "Nodes: $(kubectl get nodes --no-headers 2>/dev/null | wc -l | tr -d ' ') total"
 echo "Pods: $(kubectl get pods -A --no-headers 2>/dev/null | wc -l | tr -d ' ') running"
 echo "Namespaces: $(kubectl get namespaces --no-headers 2>/dev/null | wc -l | tr -d ' ') active"
 echo ""
 
 # Modern infrastructure services status
-echo "🔧 MODERN INFRASTRUCTURE SERVICES"
+echo " MODERN INFRASTRUCTURE SERVICES"
 echo "Postgres: $(kubectl get pods -n postgres-system --no-headers 2>/dev/null | grep -c Running || echo 0)/$(kubectl get pods -n postgres-system --no-headers 2>/dev/null | wc -l || echo 0) pods ready"
 echo "DragonflyDB: $(kubectl get pods -n dragonfly-system --no-headers 2>/dev/null | grep -c Running || echo 0)/$(kubectl get pods -n dragonfly-system --no-headers 2>/dev/null | wc -l || echo 0) pods ready"
 echo "RedPanda: $(kubectl get pods -n redpanda-system --no-headers 2>/dev/null | grep -c Running || echo 0)/$(kubectl get pods -n redpanda-system --no-headers 2>/dev/null | wc -l || echo 0) pods ready"
@@ -231,11 +231,11 @@ FINALLY:
 **Session Summary:**
 
 ```bash
-echo "✅ Infrastructure health check completed"
-echo "🎯 Target: ${ARGUMENTS:-comprehensive analysis}"
+echo " Infrastructure health check completed"
+echo " Target: ${ARGUMENTS:-comprehensive analysis}"
 echo "⏱️ Session: $SESSION_ID"
-echo "💾 Report cached in: /tmp/infra-status-$SESSION_ID.json"
-echo "📈 Overall Status: $(jq -r '.healthScore // "Calculating..."' /tmp/infra-status-$SESSION_ID.json 2>/dev/null)"
+echo " Report cached in: /tmp/infra-status-$SESSION_ID.json"
+echo " Overall Status: $(jq -r '.healthScore // "Calculating..."' /tmp/infra-status-$SESSION_ID.json 2>/dev/null)"
 ```
 
 ## Advanced Infrastructure Monitoring Patterns

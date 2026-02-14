@@ -20,7 +20,7 @@ deno task test:actions -w ci.yml -j quality
 
 ## Available Workflows
 
-### 🔧 CI Workflow (`ci.yml`)
+### CI Workflow (`ci.yml`)
 
 **Purpose**: Comprehensive testing and validation
 **Triggers**: Push to main/develop, Pull Requests, Weekly schedule
@@ -45,7 +45,7 @@ deno task test:actions -w ci.yml -j quality
 deno task test:actions -w ci.yml -j integration-tests
 ```
 
-### 🔄 Maintenance Workflow (`maintenance.yml`)
+### Maintenance Workflow (`maintenance.yml`)
 
 **Purpose**: Automated maintenance and health checks
 **Triggers**: Daily at 2 AM UTC, Manual trigger
@@ -62,7 +62,7 @@ deno task test:actions -w ci.yml -j integration-tests
 deno task test:actions -w maintenance.yml
 ```
 
-### 📚 Documentation Workflow (`docs.yml`)
+### Documentation Workflow (`docs.yml`)
 
 **Purpose**: Documentation validation and updates
 **Triggers**: Changes to markdown files or core scripts

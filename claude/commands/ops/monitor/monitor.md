@@ -818,19 +818,19 @@ CATCH (deployment_failed):
 - ENABLE partial deployment recovery
 
 ```bash
-echo "⚠️ Monitoring deployment failed. Analyzing failure mode..." | tee -a /tmp/monitoring-deployment-$SESSION_ID.log
+echo "️ Monitoring deployment failed. Analyzing failure mode..." | tee -a /tmp/monitoring-deployment-$SESSION_ID.log
 
 # Common failure scenarios and resolutions
 if kubectl cluster-info >/dev/null 2>&1; then
-  echo "✓ Kubernetes connectivity: OK"
+  echo " Kubernetes connectivity: OK"
 else
-  echo "❌ Kubernetes connectivity: FAILED - Check cluster access and credentials"
+  echo " Kubernetes connectivity: FAILED - Check cluster access and credentials"
 fi
 
 if helm list >/dev/null 2>&1; then
-  echo "✓ Helm access: OK" 
+  echo " Helm access: OK" 
 else
-  echo "❌ Helm access: FAILED - Install Helm or check RBAC permissions"
+  echo " Helm access: FAILED - Install Helm or check RBAC permissions"
 fi
 ```
 
@@ -840,7 +840,7 @@ STEP 13: Monitoring deployment validation and health verification
 
 ```bash
 # Comprehensive monitoring stack health validation
-echo "🔍 Validating monitoring deployment..."
+echo " Validating monitoring deployment..."
 
 # Metrics collection validation
 prometheus_health=$(curl -s http://prometheus:9090/-/healthy 2>/dev/null || echo "unreachable")
@@ -880,13 +880,13 @@ jq --arg status "completed" --arg timestamp "$(gdate -Iseconds 2>/dev/null || da
 ' /tmp/monitoring-deployment-$SESSION_ID.json > /tmp/monitoring-deployment-$SESSION_ID.tmp && \
 mv /tmp/monitoring-deployment-$SESSION_ID.tmp /tmp/monitoring-deployment-$SESSION_ID.json
 
-echo "✅ Monitoring deployment completed for $ARGUMENTS"
-echo "📊 Session: $SESSION_ID"
-echo "💾 Configuration saved to: /tmp/monitoring-deployment-$SESSION_ID.json"
-echo "🔗 Grafana: http://grafana:3000 (admin/admin)"
-echo "📈 Prometheus: http://prometheus:9090"
-echo "🔍 Jaeger: http://jaeger:16686"
-echo "📋 Next steps:"
+echo " Monitoring deployment completed for $ARGUMENTS"
+echo " Session: $SESSION_ID"
+echo " Configuration saved to: /tmp/monitoring-deployment-$SESSION_ID.json"
+echo " Grafana: http://grafana:3000 (admin/admin)"
+echo " Prometheus: http://prometheus:9090"
+echo " Jaeger: http://jaeger:16686"
+echo " Next steps:"
 echo "  1. Configure application instrumentation"
 echo "  2. Import pre-built dashboards"
 echo "  3. Set up alert notification channels"

@@ -396,7 +396,7 @@ CATCH (scaffold_failed):
 - CLEAN UP partial project creation
 
 ```bash
-echo "⚠️ Scaffolding failed. Debugging information:"
+echo "️ Scaffolding failed. Debugging information:"
 echo "Rust toolchain: $(rustc --version 2>&1)"
 echo "Cargo status: $(cargo --version 2>&1)"
 echo "Directory permissions: $(ls -la . | head -1)"
@@ -413,11 +413,11 @@ STEP 8: Project initialization and validation
 
 ```bash
 # Validate project creation
-echo "✅ Project scaffolding completed"
-echo "📁 Project: $ARGUMENTS"
-echo "🦀 Rust version: $(rustc --version)"
-echo "📦 Dependencies: $(cargo metadata --format-version 1 | jq '.packages | length') packages"
-echo "🧪 Test status: $(cargo test --quiet 2>&1 | tail -1)"
+echo " Project scaffolding completed"
+echo " Project: $ARGUMENTS"
+echo " Rust version: $(rustc --version)"
+echo " Dependencies: $(cargo metadata --format-version 1 | jq '.packages | length') packages"
+echo " Test status: $(cargo test --quiet 2>&1 | tail -1)"
 echo "⏱️ Session: $SESSION_ID"
 ```
 
