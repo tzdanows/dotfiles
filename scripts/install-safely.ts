@@ -61,8 +61,10 @@ const ZED_CONFIG_FILES = ["keymap.json", "settings.json", "tasks.json"];
 // Claude configuration files to manage
 const CLAUDE_CONFIG_FILES = ["CLAUDE.md", "settings.json", "mcp.json"];
 
-// Claude commands directory to manage
+// Claude directories to manage
 const CLAUDE_COMMANDS_DIR = "commands";
+const CLAUDE_SKILLS_DIR = "skills";
+const CLAUDE_AGENTS_DIR = "agents";
 
 // Gemini configuration files to manage
 const GEMINI_CONFIG_FILES = ["GEMINI.md", "settings.json"];
@@ -276,21 +278,23 @@ async function backupClaudeConfig(
       }
     }
 
-    // Backup commands directory if it exists
-    const commandsSourceDir = join(claudeConfigDir, CLAUDE_COMMANDS_DIR);
-    const commandsBackupDir = join(claudeBackupDir, CLAUDE_COMMANDS_DIR);
+    // Backup commands, skills, and agents directories if they exist
+    for (const dirName of [CLAUDE_COMMANDS_DIR, CLAUDE_SKILLS_DIR, CLAUDE_AGENTS_DIR]) {
+      const dirSourcePath = join(claudeConfigDir, dirName);
+      const dirBackupPath = join(claudeBackupDir, dirName);
 
-    if (await exists(commandsSourceDir)) {
-      try {
-        await copy(commandsSourceDir, commandsBackupDir, { overwrite: true });
-        printStatus(`Backed up Claude commands directory`);
-        backedUpFiles.push(`claude/${CLAUDE_COMMANDS_DIR}`);
-      } catch (error) {
-        printWarning(
-          `Could not backup Claude commands directory: ${
-            error instanceof Error ? error.message : String(error)
-          }`,
-        );
+      if (await exists(dirSourcePath)) {
+        try {
+          await copy(dirSourcePath, dirBackupPath, { overwrite: true });
+          printStatus(`Backed up Claude ${dirName} directory`);
+          backedUpFiles.push(`claude/${dirName}`);
+        } catch (error) {
+          printWarning(
+            `Could not backup Claude ${dirName} directory: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
+          );
+        }
       }
     }
   } catch (error) {
@@ -663,26 +667,28 @@ async function copyClaudeConfig(
       }
     }
 
-    // Copy commands directory if it exists
-    const commandsSourceDir = join(claudeSourceDir, CLAUDE_COMMANDS_DIR);
-    const commandsDestDir = join(claudeConfigDir, CLAUDE_COMMANDS_DIR);
+    // Copy commands, skills, and agents directories if they exist
+    for (const dirName of [CLAUDE_COMMANDS_DIR, CLAUDE_SKILLS_DIR, CLAUDE_AGENTS_DIR]) {
+      const dirSourcePath = join(claudeSourceDir, dirName);
+      const dirDestPath = join(claudeConfigDir, dirName);
 
-    if (await exists(commandsSourceDir)) {
-      try {
-        await copy(commandsSourceDir, commandsDestDir, { overwrite: true });
-        printStatus(`Copied Claude commands directory`);
-        copiedCount++;
-      } catch (error) {
-        printWarning(
-          `Could not copy Claude commands directory: ${
-            error instanceof Error ? error.message : String(error)
-          }`,
+      if (await exists(dirSourcePath)) {
+        try {
+          await copy(dirSourcePath, dirDestPath, { overwrite: true });
+          printStatus(`Copied Claude ${dirName} directory`);
+          copiedCount++;
+        } catch (error) {
+          printWarning(
+            `Could not copy Claude ${dirName} directory: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
+          );
+        }
+      } else {
+        console.log(
+          `   ${colors.yellow}No ${dirName} directory found in claude directory${colors.reset}`,
         );
       }
-    } else {
-      console.log(
-        `   ${colors.yellow}No commands directory found in claude directory${colors.reset}`,
-      );
     }
 
     if (copiedCount > 0) {
@@ -1936,7 +1942,7 @@ This script will:
       );
       console.log("   ✅ Installed new dotfiles from repository");
       console.log("   ✅ Installed Zed configuration files");
-      console.log("   ✅ Installed Claude configuration files and custom commands");
+      console.log("   ✅ Installed Claude configuration files, commands, skills, and agents");
       console.log("   ✅ Configured Claude MCP servers from mcp.json");
       console.log("   ✅ Installed Gemini configuration files");
       console.log("   ✅ Installed scripts to ~/.tools directory");

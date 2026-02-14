@@ -16,6 +16,10 @@ dotfiles for unix systems (specifically MacOS/Fedora 42)
 
 **TL;DR:** Treat slash commands as executable programs, not conversations. Use minimal permissions, unique session IDs (`!`gdate +%s%N``), and explicit control flow (STEP, IF/ELSE, FOR EACH). Follow the `/commit` command as the gold standard example.
 
+- skills/CLAUDE.md - Full skills reference (format, patterns, troubleshooting)
+- skills/USAGE-GUIDE.md - Minimal practical usage guide
+- agents/CLAUDE.md - Sub-agents guide with design principles and roster
+
 ### Core Principles
 
 - **Think "Program" not "Conversation"** - Design deterministic workflows with clear inputs/outputs
