@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Bash(jq:*), Bash(gdate:*), Bash(wc:*)
+allowed-tools: Read, Bash(jq:*), Bash(date:*), Bash(wc:*)
 description: Generate structured conversation summary with key decisions, action items, and essential code snippets
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Conversation length: !`echo "Calculating conversation size..." | wc -c || echo "unknown"`
 - Target format: Structured business summary with actionable insights
 

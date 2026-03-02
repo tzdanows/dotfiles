@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Bash(fd:*), Bash(rg:*), Bash(eza:*), Bash(jq:*), Bash(yq:*), Bash(gdate:*), Task
+allowed-tools: Read, Bash(fd:*), Bash(rg:*), Bash(eza:*), Bash(jq:*), Bash(yq:*), Bash(date:*), Task
 description: Generate intelligent project-specific slash command ideas through comprehensive codebase analysis
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Target project context: $ARGUMENTS
 - Project structure: !`fd . -t d -d 2 | head -10 || echo "No subdirectories found"`

@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(top:*), Bash(htop:*), Bash(iostat:*), Bash(free:*), Bash(uptime:*), Bash(ps:*), Bash(netstat:*), Bash(rg:*), Bash(fd:*), Bash(jq:*), Bash(gdate:*), Bash(psql:*), Bash(mysql:*), Read, Write, Task
+allowed-tools: Bash(top:*), Bash(htop:*), Bash(iostat:*), Bash(free:*), Bash(uptime:*), Bash(ps:*), Bash(netstat:*), Bash(rg:*), Bash(fd:*), Bash(jq:*), Bash(date:*), Bash(psql:*), Bash(mysql:*), Read, Write, Task
 description: Systematic performance bottleneck analysis and optimization across application stack
 ---
 
@@ -7,7 +7,7 @@ description: Systematic performance bottleneck analysis and optimization across 
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s000000000 2>/dev/null || echo "session-$(date +%s)000000000"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s000000000 2>/dev/null || echo "session-$(date +%s)000000000"`
 - Target system: $ARGUMENTS
 - Current system load: !`uptime | awk -F'load average:' '{print $2}' || echo "Load info unavailable"`
 - Memory usage: !`free -h 2>/dev/null | head -2 || vm_stat 2>/dev/null | head -5 || echo "Memory info unavailable"`

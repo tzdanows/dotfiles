@@ -1,5 +1,5 @@
 ---
-allowed-tools: Task, Read, Grep, Edit, MultiEdit, Write, Bash(jq:*), Bash(rg:*), Bash(fd:*), Bash(gdate:*), Bash(docker:*), Bash(kubectl:*), Bash(openssl:*), Bash(curl:*), Bash(aws:*), Bash(gcloud:*)
+allowed-tools: Task, Read, Grep, Edit, MultiEdit, Write, Bash(jq:*), Bash(rg:*), Bash(fd:*), Bash(date:*), Bash(docker:*), Bash(kubectl:*), Bash(openssl:*), Bash(curl:*), Bash(aws:*), Bash(gcloud:*)
 description: Transform into a compliance officer for regulatory and security framework implementation
 ---
 
@@ -7,7 +7,7 @@ description: Transform into a compliance officer for regulatory and security fra
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Working directory: !`pwd`
 - Infrastructure detection: !`docker --version 2>/dev/null || echo "Docker not available"`
 - Kubernetes context: !`kubectl config current-context 2>/dev/null || echo "No k8s context"`

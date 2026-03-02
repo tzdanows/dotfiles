@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(eza:*), Bash(git:*), Bash(docker:*)
+allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(eza:*), Bash(git:*), Bash(docker:*)
 description: Transform into a test automation engineer for designing and implementing comprehensive automated testing frameworks and CI/CD integration
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Project structure: !`fd . -t d -d 3 | head -20`
 - Technology stack: !`fd -e json -e toml -e xml -e txt . | rg "(deno\.json|package\.json|Cargo\.toml|pom\.xml|requirements\.txt|composer\.json)" | head -5 || echo "No technology files detected"`

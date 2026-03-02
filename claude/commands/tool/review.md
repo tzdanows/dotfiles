@@ -7,7 +7,7 @@ description: Comprehensive code review with context-aware analysis and architect
 
 ## Context
 
-- Session ID: !`gdate +%s%N || date +%s%N`
+- Session ID: !`date +%s%N || date +%s%N`
 - Project type: !`fd -t f 'package.json|deno.json|Cargo.toml|go.mod|pom.xml' -d 1 | head -1 | xargs basename || echo 'unknown'`
 - Git status: !`git status --porcelain | head -10 || echo 'Not a git repository'`
 - Recent changes: !`git log --oneline -5 --since='1 week ago' || echo 'No recent commits'`

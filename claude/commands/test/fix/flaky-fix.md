@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(bat:*), Bash(jq:*), Bash(gdate:*), Bash(git:*), Bash(gh:*), Bash(docker:*), Bash(deno:*), Bash(cargo:*), Bash(go:*), Bash(mvn:*), Bash(gradle:*), Bash(python:*), Bash(pytest:*), Bash(jest:*), Bash(wc:*), Bash(head:*), Bash(tail:*), Bash(sort:*), Bash(uniq:*)
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(bat:*), Bash(jq:*), Bash(date:*), Bash(git:*), Bash(gh:*), Bash(docker:*), Bash(deno:*), Bash(cargo:*), Bash(go:*), Bash(mvn:*), Bash(gradle:*), Bash(python:*), Bash(pytest:*), Bash(jest:*), Bash(wc:*), Bash(head:*), Bash(tail:*), Bash(sort:*), Bash(uniq:*)
 description: Intelligent flaky test detection and stabilization system with automated pattern recognition and framework-specific fixes
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target test: $ARGUMENTS
 - Current directory: !`pwd`
 - Test framework detected: !`if [ -f "deno.json" ]; then echo "deno"; elif [ -f "Cargo.toml" ]; then echo "rust"; elif [ -f "go.mod" ]; then echo "go"; elif [ -f "package.json" ]; then echo "node"; elif [ -f "pyproject.toml" ] || [ -f "requirements.txt" ]; then echo "python"; else echo "unknown"; fi`
@@ -224,7 +224,7 @@ analyze_flaky_patterns() {
     # Generate enhanced pattern report with severity assessment
     cat > "/tmp/flaky_patterns_$session_id.json" << EOF
 {
-  "analysisTimestamp": "$(gdate -Iseconds 2>/dev/null || date -Iseconds)",
+  "analysisTimestamp": "$(date -Iseconds 2>/dev/null || date -Iseconds)",
   "testLogFile": "$test_logs",
   "patterns": {
     "timing_issues": {
@@ -669,7 +669,7 @@ extract_enhanced_test_history() {
   
   # Generate comprehensive history analysis
   echo '{
-    "analysisTimestamp": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'",
+    "analysisTimestamp": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'",
     "periods": {
       "7_days": {},
       "30_days": {},

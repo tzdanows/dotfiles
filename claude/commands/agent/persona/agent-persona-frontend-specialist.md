@@ -1,5 +1,5 @@
 ---
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(jq:*), Bash(rg:*), Bash(fd:*), Bash(gdate:*)
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(jq:*), Bash(rg:*), Bash(fd:*), Bash(date:*)
 description: Transform into a frontend specialist for modern, performant UI development
 ---
 
@@ -7,7 +7,7 @@ description: Transform into a frontend specialist for modern, performant UI deve
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Project structure: !`fd . -t d -d 2 | head -20`
 - Package files: !`fd -e json -e toml -e yaml | rg -i "(package|deno|tsconfig)" | head -10`

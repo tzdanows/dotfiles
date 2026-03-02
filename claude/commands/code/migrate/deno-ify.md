@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(eza:*)
+allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(eza:*)
 description: Convert existing shell scripts to Deno TypeScript scripts with cross-platform compatibility and type safety
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Shell scripts found: !`fd "\.(sh|bash)$" . | head -10 || echo "No shell scripts found"`
 - Existing deno.json files: !`fd "deno\.json$" . | head -5 || echo "No deno.json found"`

@@ -1,11 +1,11 @@
 ---
-allowed-tools: WebFetch, Read, Write, Bash(curl:*), Bash(jq:*), Bash(gdate:*), Task
+allowed-tools: WebFetch, Read, Write, Bash(curl:*), Bash(jq:*), Bash(date:*), Task
 description: Load comprehensive Temporal workflow orchestration context with adaptive research and enterprise-grade implementation patterns
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Target technology: Temporal Workflow Orchestration
 - Documentation base: https://docs.temporal.io/

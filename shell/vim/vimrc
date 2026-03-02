@@ -30,7 +30,7 @@ if exists("&undodir")
 endif
 
 " Don’t create backups when editing files in certain directories
-set backupskip=/tmp/*,/private/tmp/*
+set backupskip=/tmp/*,$TEMP/*
 
 " Respect modeline in files
 set modeline

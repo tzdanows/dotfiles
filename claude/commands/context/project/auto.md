@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Grep, Glob, Bash(git:*), Bash(rg:*), Bash(fd:*), Bash(jq:*), Bash(bat:*), Bash(eza:*), Bash(gdate:*), TodoWrite, Task
+allowed-tools: Read, Grep, Glob, Bash(git:*), Bash(rg:*), Bash(fd:*), Bash(jq:*), Bash(bat:*), Bash(eza:*), Bash(date:*), TodoWrite, Task
 description: Automatically detect and load comprehensive project context with intelligent environment analysis
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Git branch: !`git branch --show-current 2>/dev/null || echo "Not a git repository"`
 - Project name: !`basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)"`

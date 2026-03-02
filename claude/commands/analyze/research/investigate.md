@@ -1,5 +1,5 @@
 ---
-allowed-tools: Task, WebFetch, Read, Grep, Bash(rg:*), Bash(fd:*), Bash(gdate:*), Bash(jq:*), Bash(git:status), Bash(git:branch), Bash(pwd:*)
+allowed-tools: Task, WebFetch, Read, Grep, Bash(rg:*), Bash(fd:*), Bash(date:*), Bash(jq:*), Bash(git:status), Bash(git:branch), Bash(pwd:*)
 description: Conduct thorough investigation using codebase analysis and web research for optimal solutions
 ---
 
@@ -9,7 +9,7 @@ Conduct thorough investigation of a topic, technology, or approach using codebas
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Investigation target: $ARGUMENTS
 - Current directory: !`pwd`
 - Project structure: !`fd . -t d -d 2 | head -10 || echo "No subdirectories"`

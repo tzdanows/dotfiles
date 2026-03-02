@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(eza:*), Bash(bat:*), Bash(gdate:*), Bash(deno:*)
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(eza:*), Bash(bat:*), Bash(date:*), Bash(deno:*)
 description: Orchestrate multi-editor configuration synchronization with intelligent conflict resolution and rollback capabilities
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target editors: $ARGUMENTS
 - Editor config files detected: !`fd "(keybindings\.json|keymap\.json|settings\.json)" . -d 3 | head -10 || echo "No editor config files found"`
 - Cursor config: !`fd "keybindings\.json" cursor/ -d 2 | head -1 || echo "cursor/keybindings.json not found"`
@@ -28,7 +28,7 @@ STEP 1: Initialize synchronization session and backup existing configurations
 echo '{
   "sessionId": "'$SESSION_ID'",
   "targetEditors": "'$ARGUMENTS'",
-  "backupTimestamp": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'",
+  "backupTimestamp": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'",
   "conflictsDetected": [],
   "syncStrategy": "intelligent-merge"
 }' > /tmp/sync-session-$SESSION_ID.json
@@ -343,7 +343,7 @@ FINALLY:
 
 ```bash
 # Update sync session with results
-jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
+jq --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" '
   .completedAt = $timestamp |
   .status = "completed" |
   .syncResults = {

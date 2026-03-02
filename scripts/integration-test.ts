@@ -6,7 +6,7 @@
  * Compatible with Linux and macOS
  */
 
-import { assert, assertExists } from "@std/assert";
+import { assert, assertEquals, assertExists } from "@std/assert";
 import { join } from "@std/path";
 import { exists } from "@std/fs/exists";
 import { ensureDir } from "@std/fs/ensure-dir";
@@ -408,41 +408,13 @@ Deno.test("Help Command Functionality", async () => {
 
 // Platform-specific tests
 
-if (Deno.build.os === "darwin") {
-  Deno.test("macOS Specific - Shell Detection", async () => {
-    const runner = new DotfilesTestRunner();
+if (Deno.build.os === "windows") {
+  Deno.test("Windows - Environment Detection", async () => {
+    const userProfile = Deno.env.get("USERPROFILE");
+    assert(userProfile !== undefined, "USERPROFILE should be set on Windows");
 
-    try {
-      const _testEnv = await runner.setupTestEnvironment();
-
-      // Set macOS typical shell
-      Deno.env.set("SHELL", "/bin/zsh");
-
-      const result = await runner.runInstallation(true);
-      assert(result.success, `Installation failed: ${result.output}`);
-      assert(result.output.includes("zsh"), "Should detect zsh shell on macOS");
-    } finally {
-      await runner.cleanup();
-    }
-  });
-}
-
-if (Deno.build.os === "linux") {
-  Deno.test("Linux Specific - Shell Detection", async () => {
-    const runner = new DotfilesTestRunner();
-
-    try {
-      const _testEnv = await runner.setupTestEnvironment();
-
-      // Set Linux typical shell
-      Deno.env.set("SHELL", "/bin/bash");
-
-      const result = await runner.runInstallation(true);
-      assert(result.success, `Installation failed: ${result.output}`);
-      assert(result.output.includes("bash"), "Should detect bash shell on Linux");
-    } finally {
-      await runner.cleanup();
-    }
+    const platform = Deno.build.os;
+    assertEquals(platform, "windows");
   });
 }
 

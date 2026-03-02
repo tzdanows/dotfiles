@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(jq:*), Bash(gdate:*), Task
+allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(jq:*), Bash(date:*), Task
 description: Comprehensive technical debt analysis with actionable remediation strategies
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Project root: !`pwd`
 - Technology stack: !`fd "(Cargo\.toml|go\.mod|pom\.xml|deno\.json|package\.json)" . -d 2 | head -5 || echo "No technology files detected"`
 - Project structure: !`fd . -t d -d 3 | head -10 || echo "No directories found"`

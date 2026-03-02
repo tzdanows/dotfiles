@@ -1,13 +1,13 @@
 # Platform and shell detection utilities
 # This file is sourced by both bash and zsh configurations
 
-# Detect operating system
-if [[ "$(uname)" == "Darwin" ]]; then
+# Detect operating system (Windows-primary)
+if [[ "$(uname -s)" == MINGW* ]] || [[ "$(uname -s)" == MSYS* ]] || [[ "$(uname -s)" == CYGWIN* ]]; then
+    export DOTFILES_OS="windows"
+elif [[ "$(uname)" == "Darwin" ]]; then
     export DOTFILES_OS="macos"
 elif [[ "$(uname)" == "Linux" ]]; then
     export DOTFILES_OS="linux"
-elif [[ "$(uname -s)" == CYGWIN* ]] || [[ "$(uname -s)" == MINGW* ]]; then
-    export DOTFILES_OS="windows"
 else
     export DOTFILES_OS="unknown"
 fi
@@ -38,19 +38,27 @@ fi
 
 # Platform-specific configurations
 case "$DOTFILES_OS" in
+    "windows")
+        # Windows specific settings (Git Bash / MSYS2)
+        if command -v scoop >/dev/null 2>&1; then
+            export DOTFILES_PACKAGE_MANAGER="scoop"
+        elif command -v choco >/dev/null 2>&1; then
+            export DOTFILES_PACKAGE_MANAGER="choco"
+        elif command -v winget.exe >/dev/null 2>&1; then
+            export DOTFILES_PACKAGE_MANAGER="winget"
+        fi
+        ;;
     "macos")
-        # macOS specific settings
         export DOTFILES_PACKAGE_MANAGER="brew"
         if command -v brew >/dev/null 2>&1; then
             export DOTFILES_BREW_PREFIX="$(brew --prefix)"
         fi
         ;;
     "linux")
-        # Linux specific settings
         if command -v apt >/dev/null 2>&1; then
             export DOTFILES_PACKAGE_MANAGER="apt"
-        elif command -v yum >/dev/null 2>&1; then
-            export DOTFILES_PACKAGE_MANAGER="yum"
+        elif command -v dnf >/dev/null 2>&1; then
+            export DOTFILES_PACKAGE_MANAGER="dnf"
         elif command -v pacman >/dev/null 2>&1; then
             export DOTFILES_PACKAGE_MANAGER="pacman"
         fi
@@ -60,14 +68,12 @@ esac
 # Shell-specific optimizations
 case "$DOTFILES_SHELL" in
     "bash")
-        # Bash-specific environment variables
         export DOTFILES_COMPLETION_ENABLED="true"
         if [ -d "$HOME/.bash_completion.d" ]; then
             export DOTFILES_COMPLETION_DIR="$HOME/.bash_completion.d"
         fi
         ;;
     "zsh")
-        # ZSH-specific environment variables  
         export DOTFILES_COMPLETION_ENABLED="true"
         if [ -d "$HOME/.zsh/completions" ]; then
             export DOTFILES_COMPLETION_DIR="$HOME/.zsh/completions"
@@ -94,27 +100,27 @@ fi
 
 # Quick info function
 dotfiles_info() {
-    echo "🔧 Dotfiles Environment Information"
+    echo "Dotfiles Environment Information"
     echo "=================================="
     echo "OS: $DOTFILES_OS"
     echo "Shell: $DOTFILES_SHELL ($DOTFILES_SHELL_VERSION)"
     echo "Config: $DOTFILES_SHELL_CONFIG"
     echo "Terminal: $DOTFILES_TERMINAL"
     echo "Colors: $DOTFILES_COLORS_SUPPORTED"
-    
+
     if [ -n "$DOTFILES_PACKAGE_MANAGER" ]; then
         echo "Package Manager: $DOTFILES_PACKAGE_MANAGER"
     fi
-    
+
     if [ -n "$DOTFILES_PYTHON_ENV" ]; then
         echo "Python Environment: $DOTFILES_PYTHON_ENV"
     fi
-    
+
     local project_types=""
     [ "$DOTFILES_NODE_PROJECT" = "true" ] && project_types="$project_types Node.js"
     [ "$DOTFILES_RUST_PROJECT" = "true" ] && project_types="$project_types Rust"
     [ "$DOTFILES_GO_PROJECT" = "true" ] && project_types="$project_types Go"
-    
+
     if [ -n "$project_types" ]; then
         echo "Detected Projects:$project_types"
     fi

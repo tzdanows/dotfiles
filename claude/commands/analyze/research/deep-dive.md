@@ -1,5 +1,5 @@
 ---
-allowed-tools: Read, Task, Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(wc:*), Bash(sort:*), Bash(head:*), Bash(jq:*), Bash(gdate:*), Bash(npm:*), Bash(cargo:*), Bash(go:*), Bash(strace:*), Bash(perf:*), Bash(time:*)
+allowed-tools: Read, Task, Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(wc:*), Bash(sort:*), Bash(head:*), Bash(jq:*), Bash(date:*), Bash(npm:*), Bash(cargo:*), Bash(go:*), Bash(strace:*), Bash(perf:*), Bash(time:*)
 description: Systematic multi-perspective investigation with extended thinking and state management
 ---
 
@@ -7,7 +7,7 @@ description: Systematic multi-perspective investigation with extended thinking a
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Investigation target: $ARGUMENTS
 - Project structure: !`fd . -t d -d 3 | head -15 || echo "No directories found"`

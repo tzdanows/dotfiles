@@ -1,11 +1,11 @@
 ---
-allowed-tools: Bash(gh:*), Bash(git:*), Bash(jq:*), Bash(gdate:*), Bash(osascript:*), Write, Read
+allowed-tools: Bash(gh:*), Bash(git:*), Bash(jq:*), Bash(date:*), Bash(osascript:*), Write, Read
 description: Comprehensive PR status monitoring with CI/CD state analysis and merge readiness validation
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Current directory: !`pwd`
 - Current branch: !`git branch --show-current 2>/dev/null || echo "no-git-repo"`
 - Git status: !`git status --porcelain 2>/dev/null | wc -l | tr -d ' ' || echo "0"` files changed
@@ -26,7 +26,7 @@ STEP 1: Initialize PR monitoring session and parameter validation
   ```json
   {
     "sessionId": "$SESSION_ID",
-    "timestamp": "$(gdate -Iseconds 2>/dev/null || date -Iseconds)",
+    "timestamp": "$(date -Iseconds 2>/dev/null || date -Iseconds)",
     "pr_number": null,
     "monitoring_mode": "single_check",
     "analysis_depth": "standard"
@@ -196,7 +196,7 @@ IF $ARGUMENTS contains "watch" OR "monitor":
   ```bash
   while true; do
     clear
-    echo "PR #$PR_NUMBER Status - $(gdate '+%Y-%m-%d %H:%M:%S' 2>/dev/null || date '+%Y-%m-%d %H:%M:%S')"
+    echo "PR #$PR_NUMBER Status - $(date '+%Y-%m-%d %H:%M:%S' 2>/dev/null || date '+%Y-%m-%d %H:%M:%S')"
     echo "=====================================\n"
     
     # Status summary

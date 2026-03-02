@@ -26,12 +26,7 @@
     "pre-commit:fix": "deno run --allow-all scripts/pre-commit-check.ts --fix",
     "agent": "deno run --allow-all scripts/launch-agent.ts",
     "claim-task": "deno run --allow-all scripts/claim-next-task.ts",
-    "clean-backups": "deno run --allow-all scripts/clean-backups.ts",
-    "docs:dev": "cd docs-prototype && npm start",
-    "docs:build": "cd docs-prototype && npm run build",
-    "docs:serve": "cd docs-prototype && npm run serve",
-    "docs:typecheck": "cd docs-prototype && npm run typecheck",
-    "docs:install": "cd docs-prototype && npm install"
+    "clean-backups": "deno run --allow-all scripts/clean-backups.ts"
   },
   "lint": {
     "rules": {
@@ -47,6 +42,6 @@
     "semiColons": true,
     "singleQuote": false,
     "proseWrap": "preserve",
-    "exclude": ["docs-prototype/", "claude/commands/*.md"]
+    "exclude": ["claude/commands/*.md"]
   }
 }

@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Write, Edit, Grep, Bash(fd:*), Bash(rg:*), Bash(gdate:*)
+allowed-tools: Task, Read, Write, Edit, Grep, Bash(fd:*), Bash(rg:*), Bash(date:*)
 description: Transform into backend specialist for scalable API and system design
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N || date +%s%N`
+- Session ID: !`date +%s%N || date +%s%N`
 - Project structure: !`fd . -t d -d 2 | head -10 || echo "No project structure detected"`
 - Backend files: !`fd -e go -e rs -e java -e py -e js -e ts | grep -E "(server|api|backend|service)" | head -5 || echo "No backend files detected"`
 - Database files: !`fd -e sql -e migration -e schema | head -3 || echo "No database files found"`
@@ -16,7 +16,7 @@ description: Transform into backend specialist for scalable API and system desig
 
 STEP 1: Initialize backend specialist persona with session state
 
-- Session ID: !`gdate +%s%N || date +%s%N`
+- Session ID: !`date +%s%N || date +%s%N`
 - State file: /tmp/backend-specialist-state-$SESSION_ID.json
 - Initialize persona configuration for backend development focus
 

@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*)
+allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*)
 description: Load comprehensive Deno scripting documentation context with project-specific optimization
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Deno projects: !`fd "(deno\.json|deno\.jsonc)" . | head -5 || echo "No Deno projects found"`
 - Existing scripts: !`fd "\.(ts|js)$" . | wc -l | tr -d ' ' || echo "0"`

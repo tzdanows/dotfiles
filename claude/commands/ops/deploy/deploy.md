@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(kubectl:*), Bash(helm:*), Bash(git:*), Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(yq:*), Bash(gdate:*), Bash(docker:*), Bash(gh:*)
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(kubectl:*), Bash(helm:*), Bash(git:*), Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(yq:*), Bash(date:*), Bash(docker:*), Bash(gh:*)
 description: Intelligent Kubernetes deployment orchestrator with manifest generation and CI/CD integration
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target application: $ARGUMENTS
 - Current directory: !`pwd`
 - Git status: !`git status --porcelain | head -5 || echo "No git repository"`

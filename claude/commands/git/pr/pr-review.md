@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Bash(gh pr view:*), Bash(gh pr list:*), Bash(gh pr review:*), Bash(gh pr diff:*), Bash(gh pr checks:*), Bash(gh pr edit:*), Bash(gh api:*), Bash(git branch:*), Bash(rg:*), Bash(delta:*), Bash(jq:*), Bash(gdate:*)
+allowed-tools: Task, Bash(gh pr view:*), Bash(gh pr list:*), Bash(gh pr review:*), Bash(gh pr diff:*), Bash(gh pr checks:*), Bash(gh pr edit:*), Bash(gh api:*), Bash(git branch:*), Bash(rg:*), Bash(delta:*), Bash(jq:*), Bash(date:*)
 description: Review and manage pull requests with comprehensive analysis and smart recommendations
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current branch: !`git branch --show-current 2>/dev/null || echo "detached-head"`
 - Current branch PR: !`gh pr list --head "$(git branch --show-current 2>/dev/null || echo none)" --json number,title,state | jq -r '.[0].number // "none"' 2>/dev/null || echo "none"`
 - PRs for review: !`gh pr list --search "review-requested:@me" --json number,title,author | jq length 2>/dev/null || echo "0"`

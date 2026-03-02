@@ -5,7 +5,7 @@ description: Comprehensive database performance optimization with intelligent an
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Database systems detected: !`(command -v psql >/dev/null && echo "PostgreSQL") || true; (command -v mysql >/dev/null && echo "MySQL") || true; (command -v mongosh >/dev/null && echo "MongoDB") || true; fd "\.(sqlite|db)$" . -t f | head -1 >/dev/null && echo "SQLite" || true`
 - Docker services: !`docker-compose ps 2>/dev/null | rg "(postgres|mysql|mongo)" | head -5 || echo "No database containers running"`
@@ -19,7 +19,7 @@ Perform comprehensive database performance optimization for $ARGUMENTS using int
 
 STEP 1: Database Discovery and Environment Analysis
 
-- Initialize session state: /tmp/db-optimize-!`gdate +%s%N`.json
+- Initialize session state: /tmp/db-optimize-!`date +%s%N`.json
 - Detect available database systems (PostgreSQL, MySQL, MongoDB, SQLite)
 - Test connectivity and gather connection status
 - Identify configuration files and environment setup

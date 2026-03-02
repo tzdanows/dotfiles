@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(which:*), Bash(cargo:*), Bash(go:*), Bash(deno:*), Bash(docker:*), Bash(kubectl:*), Bash(gdate:*), Bash(cp:*), Bash(ln:*), Bash(git:*), Task
+allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(which:*), Bash(cargo:*), Bash(go:*), Bash(deno:*), Bash(docker:*), Bash(kubectl:*), Bash(date:*), Bash(cp:*), Bash(ln:*), Bash(git:*), Task
 description: Set up complete development environment for new team members with automated toolchain validation
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Target project: $ARGUMENTS
 - Project type detection: !`fd "(deno\.json|package\.json|Cargo\.toml|go\.mod|pom\.xml|build\.gradle)" . -d 3 | head -5 || echo "No build files detected"`

@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Edit, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(gdate:*), Task
+allowed-tools: Read, Write, Edit, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(date:*), Task
 description: Transform into an API design specialist who creates well-structured, developer-friendly APIs
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Project structure: !`fd . -t d -d 2 | head -10`
 - Existing APIs: !`rg -l "app\.|router\.|@RestController|@GetMapping|@PostMapping|service|rpc" --type ts --type js --type java --type go 2>/dev/null | head -5 || echo "No existing APIs found"`
 - API frameworks: !`rg -l "express|fastify|axum|spring|gin|echo|flask|django|connectrpc|grpc" package.json Cargo.toml go.mod pom.xml requirements.txt 2>/dev/null | head -3 || echo "No frameworks detected"`

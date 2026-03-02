@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Bash(kubectl:*), Bash(docker:*), Bash(rg:*), Bash(fd:*), Bash(yq:*), Bash(jq:*), Bash(gdate:*), Read, Write
+allowed-tools: Task, Bash(kubectl:*), Bash(docker:*), Bash(rg:*), Bash(fd:*), Bash(yq:*), Bash(jq:*), Bash(date:*), Read, Write
 description: Generate comprehensive threat models using STRIDE methodology with parallel analysis and session management
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target system: $ARGUMENTS
 - Current directory: !`pwd`
 - Session state: /tmp/threat-model-state-$SESSION_ID.json
@@ -33,7 +33,7 @@ echo '{
   "sessionId": "'$SESSION_ID'",
   "targetSystem": "'$ARGUMENTS'", 
   "phase": "discovery",
-  "startTime": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'",
+  "startTime": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'",
   "progress": {},
   "threats": [],
   "mitigations": []
@@ -98,7 +98,7 @@ execute_stride_analysis() {
   echo " Executing STRIDE threat analysis..."
   
   # Update session state
-  jq '.phase = "stride_analysis" | .progress.stride_started = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"' \
+  jq '.phase = "stride_analysis" | .progress.stride_started = "'$(date -Iseconds 2>/dev/null || date -Iseconds)'"' \
     "$session_state" > "${session_state}.tmp" && mv "${session_state}.tmp" "$session_state"
 }
 ```
@@ -159,7 +159,7 @@ calculate_risk_scores() {
   echo " Calculating threat risk scores..."
   
   # Update session phase
-  jq '.phase = "risk_assessment" | .progress.risk_assessment_started = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"' \
+  jq '.phase = "risk_assessment" | .progress.risk_assessment_started = "'$(date -Iseconds 2>/dev/null || date -Iseconds)'"' \
     "$session_state" > "${session_state}.tmp" && mv "${session_state}.tmp" "$session_state"
   
   # Risk factors assessment
@@ -211,7 +211,7 @@ generate_mitigation_strategies() {
   echo "️ Generating mitigation strategies..."
   
   # Update session phase
-  jq '.phase = "mitigation_planning" | .progress.mitigation_started = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"' \
+  jq '.phase = "mitigation_planning" | .progress.mitigation_started = "'$(date -Iseconds 2>/dev/null || date -Iseconds)'"' \
     "$session_state" > "${session_state}.tmp" && mv "${session_state}.tmp" "$session_state"
   
   # Technology-specific mitigations
@@ -255,7 +255,7 @@ generate_threat_model_report() {
   echo " Generating comprehensive threat model report..."
   
   # Update session phase
-  jq '.phase = "reporting" | .progress.reporting_started = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"' \
+  jq '.phase = "reporting" | .progress.reporting_started = "'$(date -Iseconds 2>/dev/null || date -Iseconds)'"' \
     "$session_state" > "${session_state}.tmp" && mv "${session_state}.tmp" "$session_state"
   
   # Create executive summary
@@ -263,7 +263,7 @@ generate_threat_model_report() {
 # Threat Model Assessment Report
 
 **Target System:** $ARGUMENTS
-**Assessment Date:** $(gdate +%Y-%m-%d 2>/dev/null || date +%Y-%m-%d)
+**Assessment Date:** $(date +%Y-%m-%d 2>/dev/null || date +%Y-%m-%d)
 **Session ID:** $SESSION_ID
 **Overall Risk Score:** $(jq -r '.riskScore // "Pending"' "$session_state")
 
@@ -291,13 +291,13 @@ STEP 7: Session state management and resumability
 # Checkpoint current progress
 save_checkpoint() {
   local session_state="/tmp/threat-model-state-$SESSION_ID.json"
-  local checkpoint_file="/tmp/threat-model-checkpoints-$SESSION_ID/checkpoint-$(gdate +%s 2>/dev/null || date +%s).json"
+  local checkpoint_file="/tmp/threat-model-checkpoints-$SESSION_ID/checkpoint-$(date +%s 2>/dev/null || date +%s).json"
   
   # Save current state as checkpoint
   cp "$session_state" "$checkpoint_file"
   
   # Update session with checkpoint info
-  jq --arg checkpoint "$checkpoint_file" '.lastCheckpoint = $checkpoint | .lastUpdated = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"' \
+  jq --arg checkpoint "$checkpoint_file" '.lastCheckpoint = $checkpoint | .lastUpdated = "'$(date -Iseconds 2>/dev/null || date -Iseconds)'"' \
     "$session_state" > "${session_state}.tmp" && mv "${session_state}.tmp" "$session_state"
   
   echo " Progress checkpointed: $checkpoint_file"
@@ -342,7 +342,7 @@ finalize_threat_analysis() {
   local session_state="/tmp/threat-model-state-$SESSION_ID.json"
   
   # Mark session as complete
-  jq '.phase = "complete" | .completedAt = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"' \
+  jq '.phase = "complete" | .completedAt = "'$(date -Iseconds 2>/dev/null || date -Iseconds)'"' \
     "$session_state" > "${session_state}.tmp" && mv "${session_state}.tmp" "$session_state"
   
   echo " Threat model analysis completed"

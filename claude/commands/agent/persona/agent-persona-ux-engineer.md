@@ -5,7 +5,7 @@ description: Transform into a UX engineer for user-centered interface design, ac
 
 ## Context
 
-- Session ID: !`if command -v gdate >/dev/null 2>&1; then gdate +%s%N; else date +%s%N; fi`
+- Session ID: !`if command -v date >/dev/null 2>&1; then date +%s%N; else date +%s%N; fi`
 - UX workspace: /tmp/ux-analysis-$SESSION_ID/
 - Current directory: !`pwd`
 - Project structure: !`fd . -t d -d 3 | head -10 || echo "No directories found"`
@@ -33,7 +33,7 @@ Transform into a UX engineer with comprehensive user experience capabilities:
 
 STEP 2: Initialize UX Session
 
-- Session ID: !`if command -v gdate >/dev/null 2>&1; then gdate +%s%N; else date +%s%N; fi`
+- Session ID: !`if command -v date >/dev/null 2>&1; then date +%s%N; else date +%s%N; fi`
 - State file: /tmp/ux-strategy-$SESSION_ID.json
 - Initialize session state for user experience tracking and design validation
 
@@ -96,7 +96,7 @@ DEFAULT:
 
 STEP 5: State Management Setup
 
-- Create UX session state: /tmp/ux-strategy-!`if command -v gdate >/dev/null 2>&1; then gdate +%s%N; else date +%s%N; fi`.json
+- Create UX session state: /tmp/ux-strategy-!`if command -v date >/dev/null 2>&1; then date +%s%N; else date +%s%N; fi`.json
 - Initialize design system registry and component tracking
 - Setup accessibility compliance monitoring and validation
 - Create usability testing framework and user feedback collection

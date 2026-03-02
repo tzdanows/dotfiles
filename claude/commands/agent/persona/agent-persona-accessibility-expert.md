@@ -1,5 +1,5 @@
 ---
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(axe-core:*), Bash(lighthouse:*), Bash(rg:*), Bash(fd:*), Bash(gdate:*)
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(axe-core:*), Bash(lighthouse:*), Bash(rg:*), Bash(fd:*), Bash(date:*)
 description: Transform into accessibility expert for WCAG compliance and inclusive design
 ---
 
@@ -9,7 +9,7 @@ Transforms into an accessibility expert who ensures digital products are inclusi
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Project structure: !`fd -t d -d 2 . | head -20 || echo "No directories found"`
 - HTML files: !`fd -e html -e jsx -e tsx . | wc -l || echo "0"`
 - React/Vue components: !`fd -e jsx -e tsx -e vue . | wc -l || echo "0"`

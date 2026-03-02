@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Bash(mkdir:*), Bash(fd:*), Bash(ls:*), Bash(git:*), Bash(gdate:*)
+allowed-tools: Read, Write, Bash(mkdir:*), Bash(fd:*), Bash(ls:*), Bash(git:*), Bash(date:*)
 description: Interactive generator for project-level slash commands with best practices validation
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Existing .claude directory: !`ls -la .claude 2>/dev/null || echo "No .claude directory found"`
 - Current command structure: !`fd "\.md$" .claude/commands 2>/dev/null | head -5 || echo "No existing commands"`
@@ -79,7 +79,7 @@ IF command_complexity == "simple":
 
   ## Context
 
-  - Session ID: !`gdate +%s%N`
+  - Session ID: !`date +%s%N`
   [context_commands_based_on_purpose]
 
   ## Your task

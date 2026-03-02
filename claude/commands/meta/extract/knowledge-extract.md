@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Write, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(eza:*), Bash(bat:*)
+allowed-tools: Task, Read, Write, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(eza:*), Bash(bat:*)
 description: Extract comprehensive domain knowledge and architectural patterns using parallel analysis
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Target project: $ARGUMENTS
 - Project structure: !`fd . -t d -d 3 | head -10 || echo "No directories found"`
 - Build system detection: !`fd "(deno\.json|package\.json|Cargo\.toml|go\.mod|pom\.xml|build\.gradle)" . -d 3 | head -5 || echo "No build files detected"`
@@ -25,7 +25,7 @@ STEP 1: Initialize knowledge extraction session with state management
 ```bash
 echo '{' > /tmp/knowledge-extract-state-$SESSION_ID.json
 echo '  "sessionId": "'$SESSION_ID'",' >> /tmp/knowledge-extract-state-$SESSION_ID.json
-echo '  "timestamp": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'",' >> /tmp/knowledge-extract-state-$SESSION_ID.json
+echo '  "timestamp": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'",' >> /tmp/knowledge-extract-state-$SESSION_ID.json
 echo '  "project": "'$ARGUMENTS'",' >> /tmp/knowledge-extract-state-$SESSION_ID.json
 echo '  "phase": "initialization",' >> /tmp/knowledge-extract-state-$SESSION_ID.json
 echo '  "completed_phases": [],' >> /tmp/knowledge-extract-state-$SESSION_ID.json
@@ -137,7 +137,7 @@ jq '.architectural_patterns += [{
   "serviceLayerCount": '$pattern_count',
   "domainEntityCount": '$entity_count',
   "errorHandlingCount": '$error_count',
-  "timestamp": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"
+  "timestamp": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'"
 }]' /tmp/knowledge-extract-state-$SESSION_ID.json > /tmp/temp-state.json
 mv /tmp/temp-state.json /tmp/knowledge-extract-state-$SESSION_ID.json
 ```
@@ -170,7 +170,7 @@ echo "Generating comprehensive knowledge documentation..."
 mkdir -p docs/extracted-knowledge/{architecture,domain,api,deployment,testing}
 
 # Generate timestamp for artifact tracking
-doc_timestamp=$(gdate -Iseconds 2>/dev/null || date -Iseconds)
+doc_timestamp=$(date -Iseconds 2>/dev/null || date -Iseconds)
 
 # Update session state with artifact generation
 jq '.phase = "artifact_generation" | .knowledge_artifacts += [{
@@ -367,7 +367,7 @@ FINALLY:
 
 - **Project**: $ARGUMENTS
 - **Session ID**: $SESSION_ID
-- **Extraction Date**: $(gdate -Iseconds 2>/dev/null || date -Iseconds)
+- **Extraction Date**: $(date -Iseconds 2>/dev/null || date -Iseconds)
 - **Analysis Scope**: [Comprehensive architectural and domain analysis]
 
 ## Discovered Knowledge Assets
@@ -428,7 +428,7 @@ FINALLY:
 
 ```bash
 # Archive session state for future reference
-mv /tmp/knowledge-extract-state-$SESSION_ID.json docs/extracted-knowledge/session-state-$(gdate +%Y%m%d-%H%M%S).json 2>/dev/null || mv /tmp/knowledge-extract-state-$SESSION_ID.json docs/extracted-knowledge/session-state-$(date +%Y%m%d-%H%M%S).json
+mv /tmp/knowledge-extract-state-$SESSION_ID.json docs/extracted-knowledge/session-state-$(date +%Y%m%d-%H%M%S).json 2>/dev/null || mv /tmp/knowledge-extract-state-$SESSION_ID.json docs/extracted-knowledge/session-state-$(date +%Y%m%d-%H%M%S).json
 
 echo " Knowledge extraction completed successfully"
 echo " Documentation available in: docs/extracted-knowledge/"

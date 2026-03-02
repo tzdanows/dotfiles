@@ -1,5 +1,5 @@
 ---
-allowed-tools: Read, Write, Edit, MultiEdit, Bash(rg:*), Bash(fd:*), Bash(git:*), Bash(wc:*), Bash(gdate:*), Bash(head:*), Bash(grep:*), Bash(xargs:*)
+allowed-tools: Read, Write, Edit, MultiEdit, Bash(rg:*), Bash(fd:*), Bash(git:*), Bash(wc:*), Bash(date:*), Bash(head:*), Bash(grep:*), Bash(xargs:*)
 description: Systematic code simplification with complexity analysis and refactoring automation
 ---
 
@@ -7,7 +7,7 @@ description: Systematic code simplification with complexity analysis and refacto
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Target file/directory: $ARGUMENTS
 - Code complexity hotspots: !`rg "if.*if.*if|for.*for|while.*while" . | wc -l | tr -d ' '` nested structures found

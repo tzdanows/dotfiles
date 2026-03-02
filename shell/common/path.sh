@@ -1,15 +1,10 @@
-export PATH="/usr/local/bin:$PATH"
-
 # Go tools
-export PATH=$PATH:$(go env GOPATH)/bin
+if command -v go >/dev/null 2>&1; then
+    export PATH=$PATH:$(go env GOPATH)/bin
+fi
 
 # DuckDB CLI
-export PATH='/Users/tzdanows/.duckdb/cli/latest':$PATH
-
-# Homebrew tools
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
-export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+export PATH="$HOME/.duckdb/cli/latest:$PATH"
 
 # Kubernetes tools
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
@@ -18,13 +13,11 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH="$HOME/.jbang/bin:$PATH"
 export PATH="$HOME/.deno/bin:$PATH"
 
-# Rancher Desktop (managed section)
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/tzdanows/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+# User scripts
+export PATH="$HOME/.tools:$PATH"
 
-# pnpm
-export PNPM_HOME="/Users/tzdanows/Library/pnpm"
+# pnpm (Windows path)
+export PNPM_HOME="$HOME/AppData/Local/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;

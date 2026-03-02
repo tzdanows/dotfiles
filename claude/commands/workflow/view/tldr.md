@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Task, Bash(fd:*), Bash(rg:*), Bash(bat:*), Bash(wc:*), Bash(head:*), Bash(tail:*), Bash(eza:*), Bash(gdate:*)
+allowed-tools: Read, Task, Bash(fd:*), Bash(rg:*), Bash(bat:*), Bash(wc:*), Bash(head:*), Bash(tail:*), Bash(eza:*), Bash(date:*)
 description: Generate concise, actionable TL;DR summaries with progressive disclosure and strategic thinking
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target content: $ARGUMENTS
 - Content type: !`if [ -f "$ARGUMENTS" ]; then echo "file" && eza -la "$ARGUMENTS" 2>/dev/null | head -1; elif [ -d "$ARGUMENTS" ]; then echo "directory" && eza -la "$ARGUMENTS" 2>/dev/null | head -3; else echo "topic/discussion"; fi`
 - Content size: !`if [ -f "$ARGUMENTS" ]; then wc -l "$ARGUMENTS" 2>/dev/null | head -1; elif [ -d "$ARGUMENTS" ]; then fd . "$ARGUMENTS" -t f | wc -l 2>/dev/null; else echo "unknown"; fi`
@@ -223,7 +223,7 @@ STEP 6: Generate final TL;DR with session summary
 
 ```bash
 # Update session completion
-jq --arg status "completed" --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
+jq --arg status "completed" --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" '
   .status = $status |
   .completed_timestamp = $timestamp |
   .analysis_method = "progressive_disclosure"

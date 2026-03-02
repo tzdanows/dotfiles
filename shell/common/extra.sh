@@ -1,10 +1,13 @@
-# Git configuration (universal)
-GIT_AUTHOR_NAME="Tom Zdanowski"
+# Load dotfiles environment (sensitive values like git identity, SSH hosts)
+if [ -f "$HOME/.dotfiles.env" ]; then
+    source "$HOME/.dotfiles.env"
+fi
+
+# Git configuration (identity loaded from ~/.dotfiles.env)
 GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
-git config --global user.name "$GIT_AUTHOR_NAME"
-GIT_AUTHOR_EMAIL="tomzdanows@gmail.com"
+git config --global user.name "${GIT_AUTHOR_NAME:-}"
 GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
-git config --global user.email "$GIT_AUTHOR_EMAIL"
+git config --global user.email "${GIT_AUTHOR_EMAIL:-}"
 
 # Shell-specific configurations
 if [ -n "$ZSH_VERSION" ]; then
@@ -14,17 +17,21 @@ if [ -n "$ZSH_VERSION" ]; then
     zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
     autoload -Uz compinit && compinit
 
-    # zsh syntax highlighting (if available)
-    if [ -f /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-        source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    fi
+    # zsh syntax highlighting (check common locations)
+    for zsh_hl in /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
+                  /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh; do
+        if [ -f "$zsh_hl" ]; then
+            source "$zsh_hl"
+            break
+        fi
+    done
 
     # fzf integration for zsh (if available)
     [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
     # mise activation for zsh
     if command -v mise >/dev/null 2>&1; then
-        eval "$(/opt/homebrew/bin/mise activate zsh)"
+        eval "$(mise activate zsh)"
     fi
 
 elif [ -n "$BASH_VERSION" ]; then
@@ -35,21 +42,18 @@ elif [ -n "$BASH_VERSION" ]; then
     
     # mise activation for bash
     if command -v mise >/dev/null 2>&1; then
-        eval "$(/opt/homebrew/bin/mise activate bash)"
+        eval "$(mise activate bash)"
     fi
-    
-    # Additional bash completion sources
-    if command -v brew >/dev/null 2>&1; then
-        # Git completion for bash
-        if [ -f "$(brew --prefix)/etc/bash_completion.d/git-completion.bash" ]; then
-            source "$(brew --prefix)/etc/bash_completion.d/git-completion.bash"
+
+    # Git completion for bash (check common locations)
+    for git_completion in /usr/share/bash-completion/completions/git \
+                          /mingw64/share/git/completion/git-completion.bash \
+                          /etc/bash_completion.d/git; do
+        if [ -f "$git_completion" ]; then
+            source "$git_completion"
+            break
         fi
-        
-        # Docker completion for bash
-        if [ -f "$(brew --prefix)/etc/bash_completion.d/docker" ]; then
-            source "$(brew --prefix)/etc/bash_completion.d/docker"
-        fi
-    fi
+    done
 fi
 
 # Universal tool integrations (work in both shells)

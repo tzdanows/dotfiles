@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(jq:*), Bash(gdate:*), Task
+allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(jq:*), Bash(date:*), Task
 description: Generate comprehensive user-facing documentation with intelligent analysis and state management
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s000000000 2>/dev/null || echo "session-$(date +%s)000000000"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s000000000 2>/dev/null || echo "session-$(date +%s)000000000"`
 - Current directory: !`pwd`
 - Target scope: $ARGUMENTS
 - Project files: !`fd "(package\.json|Cargo\.toml|go\.mod|deno\.json|pom\.xml|build\.gradle)" . | head -5 || echo "No project files detected"`

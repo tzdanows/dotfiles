@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Write, Edit, Bash(rg:*), Bash(fd:*), Bash(bat:*), Bash(eza:*), Bash(jq:*), Bash(gdate:*), Bash(git:*), Bash(docker:*), Bash(kubectl:*), Bash(ps:*), Bash(netstat:*), Bash(lsof:*), Bash(strace:*), Bash(gdb:*), Bash(lldb:*), Bash(jstack:*), Bash(jcmd:*), Bash(delve:*), Bash(go:*), Bash(cargo:*), Bash(mvn:*), Bash(gradle:*), Bash(deno:*)
+allowed-tools: Task, Read, Write, Edit, Bash(rg:*), Bash(fd:*), Bash(bat:*), Bash(eza:*), Bash(jq:*), Bash(date:*), Bash(git:*), Bash(docker:*), Bash(kubectl:*), Bash(ps:*), Bash(netstat:*), Bash(lsof:*), Bash(strace:*), Bash(gdb:*), Bash(lldb:*), Bash(jstack:*), Bash(jcmd:*), Bash(delve:*), Bash(go:*), Bash(cargo:*), Bash(mvn:*), Bash(gradle:*), Bash(deno:*)
 description: Systematic debugging orchestrator with multi-language support and intelligent root cause analysis
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Debug target: $ARGUMENTS
 - Current directory: !`pwd`
 - Project structure: !`eza -la --tree --level=2 2>/dev/null | head -10 || fd . -t d -d 2 | head -8`

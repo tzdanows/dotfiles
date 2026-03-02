@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(git:*), Bash(gh:*), Bash(npm:*), Bash(cargo:*), Bash(go:*), Bash(mvn:*), Bash(gradle:*), Bash(deno:*), Bash(docker:*), Bash(jq:*), Bash(gdate:*), Bash(fd:*), Bash(rg:*), Bash(bat:*)
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(git:*), Bash(gh:*), Bash(npm:*), Bash(cargo:*), Bash(go:*), Bash(mvn:*), Bash(gradle:*), Bash(deno:*), Bash(docker:*), Bash(jq:*), Bash(date:*), Bash(fd:*), Bash(rg:*), Bash(bat:*)
 description: Production-ready release orchestrator with semantic versioning, changelog generation, and multi-platform distribution
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target release: $ARGUMENTS
 - Current directory: !`pwd`
 - Git status: !`git status --porcelain`
@@ -169,7 +169,7 @@ done
 # Update build info
 if fd "build\.go|version\.go" . | head -1 >/dev/null; then
   current_commit=$(git rev-parse --short HEAD)
-  build_date=$(gdate -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)
+  build_date=$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)
   sed -i.bak "s/BuildDate = \".*\"/BuildDate = \"$build_date\"/" $(fd "version\.go" . | head -1)
   sed -i.bak "s/GitCommit = \".*\"/GitCommit = \"$current_commit\"/" $(fd "version\.go" . | head -1)
 fi
@@ -247,7 +247,7 @@ Changes in this release:
 $(cat /tmp/changelog-excerpt-$SESSION_ID.md 2>/dev/null || echo "See CHANGELOG.md for details")
 
 Release Info:
-- Build Date: $(gdate -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)
+- Build Date: $(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)
 - Git Commit: $(git rev-parse --short HEAD)
 - Release Type: $release_type
 - Session ID: $SESSION_ID
@@ -425,7 +425,7 @@ notification_content=" Release $(basename $(pwd)) v$next_version is now availabl
 
  Release Type: $release_type
 ️ Tag: v$next_version
- Released: $(gdate -u +%Y-%m-%d 2>/dev/null || date -u +%Y-%m-%d)
+ Released: $(date -u +%Y-%m-%d 2>/dev/null || date -u +%Y-%m-%d)
  Release Notes: https://github.com/$(gh repo view --json owner,name -q '.owner.login + "/" + .name')/releases/tag/v$next_version
 
 $(head -5 /tmp/changelog-$SESSION_ID.md 2>/dev/null || echo "See full changelog for details")"
@@ -497,7 +497,7 @@ if [[ $validation_errors -eq 0 ]]; then
   echo " Release v$next_version completed successfully"
   
   # Update final session state
-  jq --arg status "completed" --arg timestamp "$(gdate -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)" \
+  jq --arg status "completed" --arg timestamp "$(date -u +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)" \
     '.status = $status | .completedAt = $timestamp | .published = true' \
     /tmp/release-session-$SESSION_ID.json > /tmp/release-session-$SESSION_ID.tmp && \
     mv /tmp/release-session-$SESSION_ID.tmp /tmp/release-session-$SESSION_ID.json

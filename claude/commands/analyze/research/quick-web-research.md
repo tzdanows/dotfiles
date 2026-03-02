@@ -1,14 +1,14 @@
 ---
-allowed-tools: WebSearch, WebFetch, Write, Bash(gdate:*)
+allowed-tools: WebSearch, WebFetch, Write, Bash(date:*)
 description: Perform fast web research with structured analysis and result synthesis
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Research query: $ARGUMENTS
 - Results directory: /tmp/research-results-$SESSION_ID/
-- Current timestamp: !`gdate '+%Y-%m-%d %H:%M:%S'`
+- Current timestamp: !`date '+%Y-%m-%d %H:%M:%S'`
 - Working directory: !`pwd`
 
 ## Your Task

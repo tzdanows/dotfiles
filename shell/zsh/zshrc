@@ -24,6 +24,6 @@ else
 fi
 
 # Change to development directory when starting from home directory
-if [ "$PWD" = "$HOME" ] && [ -d "$HOME/dev" ]; then
-	cd "$HOME/dev"
+if [ "$PWD" = "$HOME" ] && [ -d "$HOME/Desktop/dev" ]; then
+	cd "$HOME/Desktop/dev"
 fi

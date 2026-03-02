@@ -6,7 +6,7 @@ description: Apply five why's root cause analysis to a problem
 ## Context
 
 - Problem description: $ARGUMENTS
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Analysis file: /tmp/five-whys-$SESSION_ID.md
 
 ## Your task

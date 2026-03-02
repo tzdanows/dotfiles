@@ -5,7 +5,7 @@ description: Comprehensive code review with security, quality, and maintainabili
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Working directory: !`pwd`
 - Git status: !`git status --porcelain || echo "Not a git repository"`
 - Project files: !`fd -t f -e js -e ts -e py -e go -e rs -e java -e md | head -20 || echo "No common code files found"`

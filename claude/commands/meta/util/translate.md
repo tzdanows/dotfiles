@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(cargo:*), Bash(go:*), Bash(deno:*), Bash(mvn:*), Bash(gradle:*), Task
+allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(cargo:*), Bash(go:*), Bash(deno:*), Bash(mvn:*), Bash(gradle:*), Task
 description: Convert code between programming languages with automated analysis and intelligent translation
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Target translation: $ARGUMENTS
 - Source language detection: !`fd "(package\.json|Cargo\.toml|go\.mod|pom\.xml|build\.gradle|deno\.json)" . -d 3 | head -3 || echo "No build files detected"`
 - Current directory structure: !`fd . -t f -d 2 | head -10 || echo "Limited file access"`
@@ -32,7 +32,7 @@ session_file="/tmp/translate-session-$SESSION_ID.json"
 # Create session state with project analysis
 jq -n --arg session_id "$SESSION_ID" \
       --arg target "$ARGUMENTS" \
-      --arg timestamp "$(gdate -Iseconds)" \
+      --arg timestamp "$(date -Iseconds)" \
       --arg source_dir "$(pwd)" \
       '{
         sessionId: $session_id,

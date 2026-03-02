@@ -7,7 +7,7 @@ description: Activate infrastructure engineer persona for cloud-native infrastru
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Working directory: !`pwd`
 - Cloud environment: !`kubectl config current-context 2>/dev/null || echo "no-k8s-context"`
 - Infrastructure tools: !`command -v terraform && command -v kubectl && command -v helm | wc -l || echo "0"`

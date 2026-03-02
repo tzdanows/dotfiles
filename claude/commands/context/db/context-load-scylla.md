@@ -1,11 +1,11 @@
 ---
-allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebFetch, Write, Bash(gdate:*)
+allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebFetch, Write, Bash(date:*)
 description: Load comprehensive ScyllaDB documentation context for development
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Database configs: !`fd "(docker-compose|scylla|cassandra)" --max-depth 3 | head -5 || echo "No database configs found"`
 - Existing Cassandra usage: !`rg "(cassandra|scylla|cql)" --type js --type ts --type go --type py | head -5 || echo "No Cassandra/ScyllaDB usage found"`

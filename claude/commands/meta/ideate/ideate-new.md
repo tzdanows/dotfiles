@@ -1,12 +1,12 @@
 ---
-allowed-tools: Task, Read, Bash(fd:*), Bash(rg:*), Bash(wc:*), Bash(jq:*), Bash(gdate:*), Bash(eza:*)
+allowed-tools: Task, Read, Bash(fd:*), Bash(rg:*), Bash(wc:*), Bash(jq:*), Bash(date:*), Bash(eza:*)
 description: Discover and propose new Claude command opportunities through systematic analysis and parallel research
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)000000"`
-- Current time: !`gdate -Iseconds 2>/dev/null || date -Iseconds`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)000000"`
+- Current time: !`date -Iseconds 2>/dev/null || date -Iseconds`
 - Target focus area: $ARGUMENTS
 - Existing commands count: !`fd "\.md$" claude/commands | wc -l | tr -d ' ' || echo "unknown"`
 - Command categories: !`fd -t d . claude/commands -d 1 | eza --oneline 2>/dev/null | tr '\n' ', ' | sed 's/,$//' || echo "analysis, code, context, docs, git, meta, ops, scaffold, security, task, test, tool, workflow"`

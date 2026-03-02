@@ -7,7 +7,7 @@ description: Systematically diagnose and troubleshoot Kubernetes issues
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Cluster status: !`kubectl cluster-info 2>/dev/null || echo "No cluster connection"`
 - Node availability: !`kubectl get nodes -o json 2>/dev/null | jq -r '.items[] | "\(.metadata.name): \(.status.conditions[] | select(.type=="Ready") | .status)"' || echo "Cannot reach nodes"`
 - Failed pods count: !`kubectl get pods --all-namespaces -o json 2>/dev/null | jq '[.items[] | select(.status.phase == "Failed" or .status.phase == "Unknown" or .status.phase == "Pending" or .status.phase == "Error")] | length' || echo "0"`

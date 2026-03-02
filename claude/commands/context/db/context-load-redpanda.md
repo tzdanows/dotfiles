@@ -1,11 +1,11 @@
 ---
-allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebFetch, Read, Write, Bash(gdate:*)
+allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebFetch, Read, Write, Bash(date:*)
 description: Load comprehensive Redpanda streaming platform documentation context
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Technology stack: !`fd "(deno\.json|package\.json|Cargo\.toml|go\.mod)" --max-depth 2 | head -5 || echo "No framework files detected"`
 - Streaming configs: !`echo "No streaming configurations found"`

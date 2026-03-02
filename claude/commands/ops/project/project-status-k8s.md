@@ -1,11 +1,11 @@
 ---
-allowed-tools: Bash(kubectl:*), Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(echo:*), Bash(which:*), Bash(eza:*), Bash(yq:*)
+allowed-tools: Bash(kubectl:*), Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(echo:*), Bash(which:*), Bash(eza:*), Bash(yq:*)
 description: Comprehensive Kubernetes cluster state inspection with health checks, resource usage, and failure detection
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Check mode: $ARGUMENTS (optional - quick or detailed, default: quick)
 - Cluster context: !`kubectl config current-context 2>/dev/null || echo "No active context"`
 - Cluster reachable: !`kubectl cluster-info --request-timeout=5s >/dev/null 2>&1 && echo " Connected" || echo " Unreachable"`
@@ -26,7 +26,7 @@ STEP 1: Initialize Kubernetes cluster health check session
 # Initialize session state
 echo '{
   "sessionId": "'$SESSION_ID'",
-  "timestamp": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'",
+  "timestamp": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'",
   "checkMode": "'${ARGUMENTS:-quick}'",
   "clusterContext": "'$(kubectl config current-context 2>/dev/null || echo "none")'",
   "healthStatus": {

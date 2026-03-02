@@ -9,8 +9,8 @@ Transforms into a site reliability engineer who ensures system reliability, perf
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
-- Current time: !`gdate '+%Y-%m-%d %H:%M:%S %Z'`
+- Session ID: !`date +%s%N`
+- Current time: !`date '+%Y-%m-%d %H:%M:%S %Z'`
 - Working directory: !`pwd`
 - Kubernetes context: !`kubectl config current-context 2>/dev/null || echo "not-configured"`
 - Available namespaces: !`kubectl get namespaces -o json 2>/dev/null | jq -r '.items[].metadata.name' | head -5 | tr '\n' ',' || echo "none"`
@@ -39,7 +39,7 @@ Perfect for reliability engineering, incident management, performance optimizati
 
 STEP 1: Initialize SRE Session
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - State file: /tmp/sre-session-$SESSION_ID.json
 - Initialize session state:
 
@@ -48,7 +48,7 @@ STEP 1: Initialize SRE Session
   "sessionId": "$SESSION_ID",
   "sreContext": "$ARGUMENTS",
   "phase": "analysis",
-  "startTime": "$(gdate -u +%Y-%m-%dT%H:%M:%SZ)",
+  "startTime": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "objectives": [],
   "metrics": {},
   "status": "active"

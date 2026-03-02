@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(npm:*), Bash(cargo:*), Bash(go:*), Bash(jq:*), Bash(gdate:*), Read, Write, Task
+allowed-tools: Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(npm:*), Bash(cargo:*), Bash(go:*), Bash(jq:*), Bash(date:*), Read, Write, Task
 description: Comprehensive dependency analysis with relationship mapping, impact assessment, and optimization recommendations
 ---
 
@@ -7,7 +7,7 @@ description: Comprehensive dependency analysis with relationship mapping, impact
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Project structure: !`fd . -t d -d 2 | head -10 || echo "Limited directory access"`
 - Technology files: !`fd -e json -e toml -e xml -e txt -e lock . | rg "(package\.json|Cargo\.toml|go\.mod|pom\.xml|requirements\.txt|composer\.json|yarn\.lock|Cargo\.lock)" | head -10 || echo "No dependency files found"`

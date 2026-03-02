@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, WebFetch, Read, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(mvn:*), Bash(gradle:*)
+allowed-tools: Task, WebFetch, Read, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(mvn:*), Bash(gradle:*)
 description: Load comprehensive Java Temporal workflow documentation with project-specific optimization
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Java projects: !`fd "(pom\.xml|build\.gradle|build\.gradle\.kts)" . | head -5 || echo "No Java projects found"`
 - Temporal usage: !`rg "temporal|workflow|activity" . --type java | wc -l | tr -d ' ' || echo "0"`

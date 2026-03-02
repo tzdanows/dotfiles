@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(fd:*), Bash(rg:*), Bash(eza:*), Bash(jq:*), Bash(gdate:*), Bash(kubectl:*), Bash(docker:*), Bash(git:*)
+allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(fd:*), Bash(rg:*), Bash(eza:*), Bash(jq:*), Bash(date:*), Bash(kubectl:*), Bash(docker:*), Bash(git:*)
 description: Transform into a software architect for comprehensive system design, technology evaluation, and architectural standards establishment
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Project structure: !`fd . -t d -d 3`
 - Architecture documentation: !`fd -e md . | rg "(ARCH|DESIGN|README)" || echo "No architecture docs found"`
@@ -72,7 +72,7 @@ DEFAULT:
 
 STEP 4: State Management and Session Tracking
 
-- Create architecture session state: /tmp/architecture-analysis-!`gdate +%s%N`.json
+- Create architecture session state: /tmp/architecture-analysis-!`date +%s%N`.json
 - Initialize component registry and technology matrix
 - Setup quality attribute tracking
 - Create decision record framework

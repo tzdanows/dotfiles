@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(deno:*)
+allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(deno:*)
 description: Load comprehensive Deno testing documentation context with project-specific optimization
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s000000000 2>/dev/null || echo "session-$(date +%s)000000000"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s000000000 2>/dev/null || echo "session-$(date +%s)000000000"`
 - Current directory: !`pwd`
 - Deno projects: !`fd "deno\\.json" . | head -5 || echo "No Deno projects found"`
 - Test files: !`fd "*_test\\.(ts|js)$" . | head -5 || echo "No Deno test files found"`

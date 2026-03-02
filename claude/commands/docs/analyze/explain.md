@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(gdate:*), Bash(jq:*), Bash(wc:*), Task, WebFetch
+allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(date:*), Bash(jq:*), Bash(wc:*), Task, WebFetch
 description: Provide comprehensive technical explanations with adaptive analysis depth and project-specific context
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Explanation target: $ARGUMENTS
 - Project structure: !`fd . -t d -d 2 | head -10 || echo "No directories found"`

@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(ps:*), Bash(top:*), Bash(htop:*), Bash(btop:*), Bash(fd:*), Bash(rg:*), Bash(deno:*), Bash(cargo:*), Bash(go:*), Bash(java:*), Bash(curl:*), Bash(wrk:*), Bash(ab:*), Bash(gdate:*), Task, Read, Write, Edit, MultiEdit
+allowed-tools: Bash(ps:*), Bash(top:*), Bash(htop:*), Bash(btop:*), Bash(fd:*), Bash(rg:*), Bash(deno:*), Bash(cargo:*), Bash(go:*), Bash(java:*), Bash(curl:*), Bash(wrk:*), Bash(ab:*), Bash(date:*), Task, Read, Write, Edit, MultiEdit
 description: Systematic performance optimization with measurement, profiling, and scalable solutions
 ---
 
@@ -7,7 +7,7 @@ description: Systematic performance optimization with measurement, profiling, an
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Working directory: !`pwd`
 - System resources: !`top -l 1 -n 0 | head -5`
 - Memory usage: !`ps aux | head -10`

@@ -9,7 +9,7 @@ Prepares branches from multiple worktrees for clean merging by checking for conf
 
 ## Context
 
-- **Session ID**: !`gdate +%s%N 2>/dev/null || date +%s000000000`
+- **Session ID**: !`date +%s%N 2>/dev/null || date +%s000000000`
 - **Current branch**: !`git branch --show-current`
 - **Active worktrees**: !`git worktree list | rg -v "bare" | wc -l | xargs -I {} echo "{} active worktrees"`
 - **Worktree details**: !`git worktree list | rg -v "bare" | awk '{print $1 " → " $3}' | sed 's/\[//g' | sed 's/\]//g'`
@@ -44,7 +44,7 @@ $ARGUMENTS
 STEP 1: Initialize session and parse arguments
 
 ```typescript
-const SESSION_ID = await $`gdate +%s%N 2>/dev/null || date +%s000000000`.text().trim();
+const SESSION_ID = await $`date +%s%N 2>/dev/null || date +%s000000000`.text().trim();
 const PROJECT = await $`basename "$(git rev-parse --show-toplevel)"`.text();
 const STATE_FILE = `/tmp/${PROJECT}/merge-prep-state-${SESSION_ID}.json`;
 const COORDINATION_DIR = `/tmp/${PROJECT}`;

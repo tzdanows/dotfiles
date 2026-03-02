@@ -5,7 +5,7 @@ description: Create a git commit and push to remote
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s000000000 2>/dev/null || echo "1751901083972081000"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s000000000 2>/dev/null || echo "1751901083972081000"`
 - Current git status: !`git status`
 - Current git diff (staged and unstaged changes): !`git diff HEAD`
 - Current branch: !`git branch --show-current`

@@ -1,5 +1,5 @@
 ---
-allowed-tools: Task, Read, Grep, Edit, MultiEdit, Write, Bash(go:*), Bash(cargo:*), Bash(java:*), Bash(deno:*), Bash(node:*), Bash(dlv:*), Bash(gdb:*), Bash(jdb:*), Bash(rg:*), Bash(fd:*), Bash(ps:*), Bash(lsof:*), Bash(netstat:*), Bash(strace:*), Bash(dtrace:*), Bash(docker:*), Bash(kubectl:*), Bash(jq:*), Bash(gdate:*)
+allowed-tools: Task, Read, Grep, Edit, MultiEdit, Write, Bash(go:*), Bash(cargo:*), Bash(java:*), Bash(deno:*), Bash(node:*), Bash(dlv:*), Bash(gdb:*), Bash(jdb:*), Bash(rg:*), Bash(fd:*), Bash(ps:*), Bash(lsof:*), Bash(netstat:*), Bash(strace:*), Bash(dtrace:*), Bash(docker:*), Bash(kubectl:*), Bash(jq:*), Bash(date:*)
 description: Transform into a systematic debugger for methodical bug investigation and resolution
 ---
 
@@ -7,7 +7,7 @@ description: Transform into a systematic debugger for methodical bug investigati
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - System info: !`uname -a`
 - Process list (top 10 CPU): !`ps aux | head -11`

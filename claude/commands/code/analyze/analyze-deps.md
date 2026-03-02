@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(git:*), Bash(npm:*), Bash(yarn:*), Bash(cargo:*), Bash(go:*), Bash(deno:*), Task
+allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(git:*), Bash(npm:*), Bash(yarn:*), Bash(cargo:*), Bash(go:*), Bash(deno:*), Task
 description: Comprehensive dependency analysis with security auditing and maintenance insights
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Project files: !`fd "(deno\.json|package\.json|Cargo\.toml|go\.mod|pom\.xml|requirements\.txt|composer\.json)" . -t f | head -10 || echo "No project files detected"`
 - Directory structure: !`fd . -t d -d 2 | head -10 || echo "No directories found"`

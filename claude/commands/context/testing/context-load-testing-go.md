@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(gdate:*), Bash(jq:*), Bash(wc:*), WebFetch, Task, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
+allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(date:*), Bash(jq:*), Bash(wc:*), WebFetch, Task, mcp__context7__resolve-library-id, mcp__context7__get-library-docs
 description: Load comprehensive Go testing documentation with adaptive project analysis and framework detection
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Go modules detected: !`fd go.mod . -d 3 | wc -l | tr -d ' ' || echo "0"`
 - Test files count: !`fd "_test\.go$" . | wc -l | tr -d ' ' || echo "0"`

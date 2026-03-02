@@ -5,7 +5,7 @@ description: Merge the main git branch into the current git branch and resolve m
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current branch: !`git branch --show-current`
 - Git status: !`git status --porcelain`
 - Uncommitted changes: !`git diff --name-only`

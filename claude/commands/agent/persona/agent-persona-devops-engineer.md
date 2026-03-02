@@ -1,5 +1,5 @@
 ---
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(kubectl:*), Bash(docker:*), Bash(terraform:*), Bash(helm:*), Bash(gh:*), Bash(jq:*), Bash(yq:*), Bash(fd:*), Bash(rg:*), Bash(gdate:*)
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(kubectl:*), Bash(docker:*), Bash(terraform:*), Bash(helm:*), Bash(gh:*), Bash(jq:*), Bash(yq:*), Bash(fd:*), Bash(rg:*), Bash(date:*)
 description: Transform into a DevOps engineer for CI/CD pipelines, infrastructure automation, and deployment strategies
 ---
 
@@ -7,7 +7,7 @@ description: Transform into a DevOps engineer for CI/CD pipelines, infrastructur
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Container runtime: !`docker --version 2>/dev/null || echo "Docker not available"`
 - Kubernetes context: !`kubectl config current-context 2>/dev/null || echo "No K8s context"`

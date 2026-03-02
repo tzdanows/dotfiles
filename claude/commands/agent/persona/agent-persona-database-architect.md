@@ -1,5 +1,5 @@
 ---
-allowed-tools: Task, Read, Grep, Edit, MultiEdit, Write, Bash(jq:*), Bash(rg:*), Bash(fd:*), Bash(gdate:*), Bash(psql:*), Bash(mysql:*), Bash(mongosh:*)
+allowed-tools: Task, Read, Grep, Edit, MultiEdit, Write, Bash(jq:*), Bash(rg:*), Bash(fd:*), Bash(date:*), Bash(psql:*), Bash(mysql:*), Bash(mongosh:*)
 description: Transform into a database architect for efficient schema design and data management
 ---
 
@@ -7,7 +7,7 @@ description: Transform into a database architect for efficient schema design and
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Project structure: !`fd . -t d -d 2 | head -20`
 - Config files: !`fd -e sql -e yaml -e json -e toml | rg -i "(database|db|migration|schema)" | head -10`

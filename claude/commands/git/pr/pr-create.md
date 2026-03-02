@@ -1,11 +1,11 @@
 ---
-allowed-tools: Bash(gh pr create:*), Bash(gh pr list:*), Bash(gh auth status:*), Bash(git status:*), Bash(git push:*), Bash(git branch:*), Bash(git diff:*), Bash(git log:*), Bash(gh issue view:*), Bash(gdate:*), Bash(jq:*)
+allowed-tools: Bash(gh pr create:*), Bash(gh pr list:*), Bash(gh auth status:*), Bash(git status:*), Bash(git push:*), Bash(git branch:*), Bash(git diff:*), Bash(git log:*), Bash(gh issue view:*), Bash(date:*), Bash(jq:*)
 description: Create pull requests with intelligent analysis and programmatic workflow
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Current branch: !`git branch --show-current 2>/dev/null || echo "unknown"`
 - Git status: !`git status --porcelain 2>/dev/null | wc -l | tr -d ' ' || echo "0"` uncommitted changes
 - Remote status: !`git status -b --porcelain 2>/dev/null | head -1 || echo "No remote tracking"`
@@ -24,7 +24,7 @@ STEP 1: Initialize PR creation session and validate prerequisites
   ```json
   {
     "sessionId": "$SESSION_ID",
-    "timestamp": "$(gdate -Iseconds 2>/dev/null || date -Iseconds)",
+    "timestamp": "$(date -Iseconds 2>/dev/null || date -Iseconds)",
     "branch": "$(git branch --show-current)",
     "arguments": "$ARGUMENTS",
     "phase": "validation",

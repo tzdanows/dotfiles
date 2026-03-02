@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Bash(rg:*), Bash(fd:*), Bash(bat:*), Bash(fzf:*), Bash(eza:*), Bash(jq:*), Bash(gdate:*), Bash(wc:*), Bash(head:*), Bash(tail:*)
+allowed-tools: Task, Bash(rg:*), Bash(fd:*), Bash(bat:*), Bash(fzf:*), Bash(eza:*), Bash(jq:*), Bash(date:*), Bash(wc:*), Bash(head:*), Bash(tail:*)
 description: Intelligent code search orchestrator using modern tools with parallel analysis capabilities
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Current directory: !`pwd`
 - Search target: $ARGUMENTS
 - Project languages: !`fd "(package\.json|Cargo\.toml|go\.mod|deno\.json|pom\.xml|build\.gradle)" . -d 3 | head -5 || echo "No build files detected"`
@@ -215,7 +215,7 @@ STEP 6: Session state management and search history
 
 ```bash
 # Update search session with results
-jq --arg query "$ARGUMENTS" --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
+jq --arg query "$ARGUMENTS" --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" '
   .searchHistory += [{
     "query": $query,
     "timestamp": $timestamp,

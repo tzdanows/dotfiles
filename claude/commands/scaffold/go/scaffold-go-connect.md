@@ -1,11 +1,11 @@
 ---
-allowed-tools: Write, MultiEdit, Bash(go:*), Bash(buf:*), Bash(mkdir:*), Bash(cd:*), Bash(gdate:*), Bash(which:*)
+allowed-tools: Write, MultiEdit, Bash(go:*), Bash(buf:*), Bash(mkdir:*), Bash(cd:*), Bash(date:*), Bash(which:*)
 description: Scaffold production-ready Go ConnectRPC server with Protocol Buffers and type-safe service definitions
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Project name: $ARGUMENTS
 - Current directory: !`pwd`
 - Go version: !`go version 2>/dev/null || echo "Go not installed"`
@@ -22,7 +22,7 @@ echo '{
   "sessionId": "'$SESSION_ID'",
   "projectName": "'$ARGUMENTS'",
   "scaffoldType": "go-connectrpc",
-  "timestamp": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'",
+  "timestamp": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'",
   "status": "initializing"
 }' > /tmp/scaffold-session-$SESSION_ID.json
 ```
@@ -318,7 +318,7 @@ go mod tidy
 go build -o bin/server cmd/server/main.go
 
 # Update session state
-jq '.status = "completed" | .completedAt = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"' /tmp/scaffold-session-$SESSION_ID.json > /tmp/scaffold-session-$SESSION_ID.tmp && mv /tmp/scaffold-session-$SESSION_ID.tmp /tmp/scaffold-session-$SESSION_ID.json
+jq '.status = "completed" | .completedAt = "'$(date -Iseconds 2>/dev/null || date -Iseconds)'"' /tmp/scaffold-session-$SESSION_ID.json > /tmp/scaffold-session-$SESSION_ID.tmp && mv /tmp/scaffold-session-$SESSION_ID.tmp /tmp/scaffold-session-$SESSION_ID.json
 ```
 
 **Project Validation:**

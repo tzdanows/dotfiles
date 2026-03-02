@@ -105,7 +105,7 @@ IMPORTANT: I run a Talos Linux Kubernetes Cluster. Use these modern alternatives
 - **Streaming**: RedPanda (NOT Kafka)
 - **NoSQL**: ScyllaDB (NOT Cassandra)
 
-NOTE: some of my devices run on Fedora Linux. So when we're not working with kubernetes, assume the OS is Fedora Linux or MacOS.
+NOTE: The primary development OS is Windows 11 with Warp terminal (Git Bash + PowerShell).
 
 ## Modern Development Tools
 
@@ -257,9 +257,9 @@ go mod download
 git worktree list
 
 # Example output:
-# /Users/you/projects/myapp          abc123 [main]
-# /Users/you/projects/myapp-oauth    def456 [feature-oauth]
-# /Users/you/projects/myapp-fix      ghi789 [fix-memory-leak]
+# C:/Users/you/projects/myapp          abc123 [main]
+# C:/Users/you/projects/myapp-oauth    def456 [feature-oauth]
+# C:/Users/you/projects/myapp-fix      ghi789 [fix-memory-leak]
 
 # Clean up completed features
 cd ../myapp-oauth
@@ -1072,7 +1072,7 @@ When given complex tasks, internally structure them using familiar programming p
 ### Session Management
 
 - Always use unique identifiers for parallel work
-- Prefer nanosecond timestamps: `$(gdate +%s%N)`
+- Prefer nanosecond timestamps: `$(date +%s%N)`
 - Isolate state to prevent conflicts
 - Design for checkpoint/resume capabilities
 

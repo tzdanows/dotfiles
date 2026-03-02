@@ -1,11 +1,11 @@
 ---
-allowed-tools: WebFetch, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, Read, Bash(fd:*), Bash(rg:*), Bash(yq:*), Bash(gdate:*), Bash(git:*), Bash(wc:*)
+allowed-tools: WebFetch, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, Read, Bash(fd:*), Bash(rg:*), Bash(yq:*), Bash(date:*), Bash(git:*), Bash(wc:*)
 description: Load comprehensive GitHub Actions CI/CD documentation with adaptive project-specific context and modern workflow patterns
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Project type detection: !`fd "(package\.json|Cargo\.toml|go\.mod|pom\.xml|deno\.json|requirements\.txt|composer\.json|build\.gradle)$" . -d 2 | head -5 || echo "No config files detected"`
 - GitHub workflows directory: !`fd "\.github" . -t d -d 3 || echo "No .github directory found"`
@@ -25,7 +25,7 @@ STEP 1: Initialize adaptive GitHub Actions context loading session
   ```json
   {
     "sessionId": "$SESSION_ID",
-    "timestamp": "$(gdate -Iseconds 2>/dev/null || date -Iseconds)",
+    "timestamp": "$(date -Iseconds 2>/dev/null || date -Iseconds)",
     "project_type": "auto-detect",
     "existing_workflows": 0,
     "technology_stack": [],

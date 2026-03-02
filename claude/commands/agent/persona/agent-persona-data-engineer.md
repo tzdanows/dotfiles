@@ -7,7 +7,7 @@ description: Activate data engineer persona for scalable pipeline and ETL develo
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Working directory: !`pwd`
 - Project type: !`fd -t f "deno.json|package.json|pom.xml|Cargo.toml|go.mod|build.gradle" -d 2 | head -1 || echo "unknown"`
 

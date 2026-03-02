@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Bash(kubectl:*), Bash(jq:*), Bash(gdate:*), Bash(echo:*), Bash(curl:*), Bash(top:*), Bash(df:*), Bash(uname:*)
+allowed-tools: Task, Bash(kubectl:*), Bash(jq:*), Bash(date:*), Bash(echo:*), Bash(curl:*), Bash(top:*), Bash(df:*), Bash(uname:*)
 description: Comprehensive Talos Kubernetes cluster health monitoring with parallel infrastructure analysis
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Check target: $ARGUMENTS (optional - specific component: nodes, pods, services, storage, network, all)
 - Cluster context: !`kubectl config current-context 2>/dev/null || echo "No active context"`
 - Cluster info: !`kubectl cluster-info --request-timeout=5s 2>/dev/null | head -2 || echo "Cluster unreachable"`
@@ -27,7 +27,7 @@ STEP 1: Initialize infrastructure health monitoring session
 # Initialize infrastructure monitoring session
 echo '{
   "sessionId": "'$SESSION_ID'",
-  "timestamp": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'",
+  "timestamp": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'",
   "checkScope": "'${ARGUMENTS:-all}'",
   "clusterStatus": "unknown",
   "infrastructureServices": {},
@@ -202,7 +202,7 @@ STEP 5: Executive dashboard generation and actionable recommendations
 echo " TALOS KUBERNETES INFRASTRUCTURE HEALTH DASHBOARD"
 echo "═══════════════════════════════════════════════════════"
 echo "Session: $SESSION_ID"
-echo "Timestamp: $(gdate -Iseconds 2>/dev/null || date -Iseconds)"
+echo "Timestamp: $(date -Iseconds 2>/dev/null || date -Iseconds)"
 echo "Check Scope: ${ARGUMENTS:-comprehensive}"
 echo ""
 

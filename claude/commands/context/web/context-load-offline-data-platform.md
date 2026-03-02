@@ -1,5 +1,5 @@
 ---
-allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebFetch, Task, Read, Write, Bash(gdate:*), Bash(fd:*), Bash(rg:*), Bash(kubectl:*), Bash(jq:*), Bash(wc:*)
+allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebFetch, Task, Read, Write, Bash(date:*), Bash(fd:*), Bash(rg:*), Bash(kubectl:*), Bash(jq:*), Bash(wc:*)
 description: Load comprehensive lakehouse architecture context with parallel documentation loading and project-specific optimization
 ---
 
@@ -7,7 +7,7 @@ description: Load comprehensive lakehouse architecture context with parallel doc
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Current directory: !`pwd`
 - Project structure: !`fd . -t d -d 3 | head -10 || echo "No directories found"`
 - Kubernetes manifests: !`fd "\.(yaml|yml)$" . | rg -l "(kind:|apiVersion:)" | wc -l | tr -d ' ' || echo "0"`

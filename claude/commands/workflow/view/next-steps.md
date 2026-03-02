@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, TodoRead, Read, Write, Bash(git:*), Bash(fd:*), Bash(rg:*), Bash(eza:*), Bash(bat:*), Bash(jq:*), Bash(gdate:*), Bash(gh:*)
+allowed-tools: Task, TodoRead, Read, Write, Bash(git:*), Bash(fd:*), Bash(rg:*), Bash(eza:*), Bash(bat:*), Bash(jq:*), Bash(date:*), Bash(gh:*)
 description: Intelligent project state analyzer with priority-based task recommendations and sub-agent coordination
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Current directory: !`pwd`
 - Git status: !`git status --porcelain 2>/dev/null | head -10 || echo "Not a git repository"`
 - Current branch: !`git branch --show-current 2>/dev/null || echo "No git repository"`
@@ -132,7 +132,7 @@ STEP 4: Intelligent recommendation synthesis with actionable task breakdown
 
 ```bash
 # Generate prioritized recommendations
-jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
+jq --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" '
   .recommendations = [] |
   .analysisTimestamp = $timestamp |
   .priorityFramework = "impact-effort-matrix"
@@ -222,7 +222,7 @@ STEP 6: Session state management and recommendation persistence
 
 ```bash
 # Save analysis results and recommendations
-jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" --arg status "completed" '
+jq --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" --arg status "completed" '
   .analysisStatus = $status |
   .completionTimestamp = $timestamp |
   .recommendationCount = (.recommendations | length)

@@ -94,7 +94,7 @@ async function collectFilesToRestore(
     } else if (dirEntry.isDirectory) {
       // Handle special directories
       if (
-        dirEntry.name === ".config" || dirEntry.name === ".claude" || dirEntry.name === "Library"
+        dirEntry.name === ".config" || dirEntry.name === ".claude" || dirEntry.name === "AppData"
       ) {
         // Recursively collect files from these directories
         const subFiles = await collectFilesToRestore(backupDir, relativePath);
@@ -200,7 +200,7 @@ async function main() {
     }
 
     const backupDir = String(args._[0]);
-    const homeDir = Deno.env.get("HOME") || Deno.cwd();
+    const homeDir = Deno.env.get("HOME") || Deno.env.get("USERPROFILE") || Deno.cwd();
     const force = args.force || false;
 
     const config: RollbackConfig = {

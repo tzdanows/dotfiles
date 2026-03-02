@@ -2,3 +2,5 @@
 .platform.sh
 **/.DS_Store
 .cache
+# User-specific secrets (SSH hosts, git identity, etc.)
+shell/common/.env

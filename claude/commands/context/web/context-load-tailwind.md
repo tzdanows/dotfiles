@@ -5,7 +5,7 @@ description: Load comprehensive Tailwind CSS documentation context with adaptive
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Target: Tailwind CSS utility-first styling framework
 - Project type detection: !`fd "(package\.json|deno\.json|Cargo\.toml|pom\.xml|requirements\.txt)$" . -d 2 | head -3 || echo "No config files"`

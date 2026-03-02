@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(cargo:*)
+allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(cargo:*)
 description: Load comprehensive Rust async programming context with project-specific optimization
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Rust projects: !`fd "Cargo\.toml" . | head -5 || echo "No Rust projects found"`
 - Async usage: !`rg "tokio|async|futures|await" . --type rust | wc -l | tr -d ' ' || echo "0"`

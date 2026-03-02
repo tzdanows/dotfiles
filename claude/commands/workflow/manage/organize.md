@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(eza:*), Bash(bat:*), Bash(jq:*), Bash(gdate:*), Bash(git:*), Bash(mv:*), Bash(mkdir:*), Bash(rmdir:*)
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(eza:*), Bash(bat:*), Bash(jq:*), Bash(date:*), Bash(git:*), Bash(mv:*), Bash(mkdir:*), Bash(rmdir:*)
 description: Intelligent project organization orchestrator with language-specific conventions and parallel analysis
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target directory: $ARGUMENTS
 - Current working directory: !`pwd`
 - Git repository status: !`git status --porcelain 2>/dev/null | wc -l | tr -d ' '` uncommitted changes
@@ -325,7 +325,7 @@ STEP 8: Session summary and recommendations
 
 ```bash
 # Update session state with final results
-jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
+jq --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" '
 .completedAt = $timestamp |
 .summary = {
   "filesReorganized": (.changesApplied | length),

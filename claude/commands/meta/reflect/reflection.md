@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Bash(git log:*), Bash(git diff:*), Bash(git branch:*), Bash(gh pr list:*), Bash(gh issue list:*), Bash(rg:*), Bash(fd:*), Bash(gdate:*), Bash(jq:*), Write
+allowed-tools: Read, Bash(git log:*), Bash(git diff:*), Bash(git branch:*), Bash(gh pr list:*), Bash(gh issue list:*), Bash(rg:*), Bash(fd:*), Bash(date:*), Bash(jq:*), Write
 description: Generate comprehensive retrospective analysis with structured learning extraction and actionable improvements
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Reflection scope: $ARGUMENTS
 - Current branch: !`git branch --show-current 2>/dev/null || echo "no-git-repo"`
 - Recent commits (last 10): !`git log --oneline -10 --since="1 week ago" 2>/dev/null || echo "No recent commits found"`

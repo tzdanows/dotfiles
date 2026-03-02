@@ -5,7 +5,7 @@ description: Cloud architect persona for designing scalable, secure cloud infras
 
 ## Context
 
-- Session ID: !`gdate +%s%N || date +%s%N`
+- Session ID: !`date +%s%N || date +%s%N`
 - Current cloud environment: !`kubectl config current-context 2>/dev/null || echo "none"`
 - Kubernetes contexts: !`kubectl config get-contexts --no-headers 2>/dev/null | wc -l || echo "0"`
 
@@ -17,7 +17,7 @@ Think deeply about architectural tradeoffs, security implications, and operation
 
 STEP 1: Initialize cloud architect state
 
-- State file: /tmp/cloud-architect-state-!`gdate +%s%N || date +%s%N`.json
+- State file: /tmp/cloud-architect-state-!`date +%s%N || date +%s%N`.json
 - Create architecture workspace in state
 - Initialize design parameters and constraints
 

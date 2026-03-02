@@ -73,23 +73,23 @@ function getcertnames() {
 # `o` with no arguments opens the current directory, otherwise opens the given
 # location (platform-aware)
 function o() {
-	# Detect the open command based on the platform
-	local open_cmd
-	if [[ "$(uname)" == "Darwin" ]]; then
-		open_cmd="open"
-	elif [[ "$(uname)" == "Linux" ]]; then
-		# Use xdg-open on Linux (works on most distros including Fedora)
-		open_cmd="xdg-open"
-	else
-		echo "Unsupported platform for 'o' command"
-		return 1
-	fi
+    local open_cmd
+    if [[ "$(uname -s)" == MINGW* ]] || [[ "$(uname -s)" == MSYS* ]]; then
+        open_cmd="start"
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        open_cmd="open"
+    elif [[ "$(uname)" == "Linux" ]]; then
+        open_cmd="xdg-open"
+    else
+        echo "Unsupported platform for 'o' command"
+        return 1
+    fi
 
-	if [ $# -eq 0 ]; then
-		$open_cmd .;
-	else
-		$open_cmd "$@";
-	fi;
+    if [ $# -eq 0 ]; then
+        $open_cmd .;
+    else
+        $open_cmd "$@";
+    fi;
 }
 
 # `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
@@ -119,22 +119,6 @@ mm() {
     git stash && git checkout $main_branch && git pull --rebase origin $main_branch
 }
 
-# Open the listed files or directories in Visual Studio Code
-open_in_vscode() {
-    if [ $# -eq 0 ]; then
-        echo "Usage: open_in_vscode <directory_or_file> [<directory_or_file> ...]"
-        return 1
-    fi
-
-    for item in "$@"; do
-        if [ -e "$item" ]; then
-            code "$item"
-        else
-            echo "Warning: '$item' does not exist. Skipping."
-        fi
-    done
-}
-
 # Copy the contents of every file in a directory to the clipboard, filtering by file type
 copydirf() {
     local filetype="$1"
@@ -150,7 +134,7 @@ copydirf() {
         fi
     fi
 
-    rg "${rg_args[@]}" --no-ignore --no-heading --with-filename --line-number --text --max-columns 500 --binary "" | nl -ba | tee >(pbcopy) | cat
+    rg "${rg_args[@]}" --no-ignore --no-heading --with-filename --line-number --text --max-columns 500 --binary "" | nl -ba | tee >(clip.exe) | cat
 }
 
 # Docker compose rebuild and restart specific service

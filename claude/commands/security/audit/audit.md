@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Bash(rg:*), Bash(fd:*), Bash(jq:*), Bash(gdate:*), Bash(git:*), Bash(docker:*), Bash(trivy:*), Bash(gosec:*), Bash(cargo:*), Bash(mvn:*), Bash(gradle:*), Bash(npm:*), Bash(kubectl:*), Bash(helm:*)
+allowed-tools: Task, Read, Bash(rg:*), Bash(fd:*), Bash(jq:*), Bash(date:*), Bash(git:*), Bash(docker:*), Bash(trivy:*), Bash(gosec:*), Bash(cargo:*), Bash(mvn:*), Bash(gradle:*), Bash(npm:*), Bash(kubectl:*), Bash(helm:*)
 description: Comprehensive security audit with parallel analysis using modern tools and sub-agent coordination
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Current directory: !`pwd`
 - Project type: !`fd "(package\.json|Cargo\.toml|go\.mod|pom\.xml|build\.gradle|deno\.json|docker-compose\.yml)" . -d 3 | head -5 || echo "No build files detected"`
 - Git repository: !`git rev-parse --is-inside-work-tree 2>/dev/null && echo "Yes" || echo "No"`
@@ -22,7 +22,7 @@ STEP 1: Initialize comprehensive security audit session
 # Create audit session state
 echo '{
   "sessionId": "'$SESSION_ID'",
-  "timestamp": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'",
+  "timestamp": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'",
   "projectType": "auto-detect",
   "auditPhases": {
     "discovery": "pending",
@@ -259,7 +259,7 @@ STEP 5: Comprehensive findings aggregation and risk assessment
 echo " Aggregating security audit results..."
 
 # Update audit session state
-jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
+jq --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" '
   .auditPhases.analysis = "completed" |
   .auditPhases.reporting = "in-progress" |
   .lastUpdated = $timestamp
@@ -283,7 +283,7 @@ echo " Generating security audit report: $report_file"
 cat > "$report_file" << 'EOF'
 # Security Audit Report
 
-Generated: $(gdate -Iseconds 2>/dev/null || date -Iseconds)
+Generated: $(date -Iseconds 2>/dev/null || date -Iseconds)
 Session ID: $SESSION_ID
 Project Type: $(fd "(package\.json|Cargo\.toml|go\.mod|pom\.xml)" . -d 2 | head -1 | sed 's/.*\.//' | tr '[:lower:]' '[:upper:]' || echo "Mixed")
 Audit Scope: $(pwd)
@@ -400,9 +400,9 @@ Audit Scope: $(pwd)
 
 ---
 
-**Report Generated**: $(gdate -Iseconds 2>/dev/null || date -Iseconds)
+**Report Generated**: $(date -Iseconds 2>/dev/null || date -Iseconds)
 **Audit Session**: $SESSION_ID
-**Next Review Date**: $(gdate -d "+3 months" -Iseconds 2>/dev/null || date -d "+3 months" -Iseconds 2>/dev/null || echo "Schedule manually")
+**Next Review Date**: $(date -d "+3 months" -Iseconds 2>/dev/null || date -d "+3 months" -Iseconds 2>/dev/null || echo "Schedule manually")
 EOF
 
 echo " Security audit report generated: $report_file"
@@ -414,7 +414,7 @@ STEP 7: Session state finalization and follow-up recommendations
 
 ```bash
 # Finalize audit session
-jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
+jq --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" '
   .auditPhases.reporting = "completed" |
   .completedAt = $timestamp |
   .reportLocation = "/tmp/security-audit-'$SESSION_ID'.md"

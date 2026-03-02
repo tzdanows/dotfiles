@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, WebFetch, Bash(kubectl:*), Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(helm:*)
+allowed-tools: Read, WebFetch, Bash(kubectl:*), Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(helm:*)
 description: Load comprehensive Kubernetes documentation context with cluster-specific optimization
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - K8s config: !`kubectl config current-context 2>/dev/null || echo "No kubectl context"`
 - K8s cluster info: !`kubectl cluster-info --short 2>/dev/null || echo "No cluster connection"`

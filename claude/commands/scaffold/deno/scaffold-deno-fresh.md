@@ -1,11 +1,11 @@
 ---
-allowed-tools: Bash(deno:*), Bash(cd:*), Bash(eza:*), Bash(fd:*), Bash(bat:*), Bash(gdate:*), Bash(jq:*), Write, Read
+allowed-tools: Bash(deno:*), Bash(cd:*), Bash(eza:*), Bash(fd:*), Bash(bat:*), Bash(date:*), Bash(jq:*), Write, Read
 description: Scaffold production-ready Deno Fresh 2.0 application with islands architecture and modern development workflow
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Project name: $ARGUMENTS
 - Current directory: !`pwd`
 - Deno version: !`deno --version | head -1 || echo "Deno not installed"`
@@ -28,7 +28,7 @@ STEP 1: Initialize Fresh 2.0 scaffolding session with comprehensive validation
 echo '{
   "sessionId": "'$SESSION_ID'",
   "projectName": "'$ARGUMENTS'",
-  "timestamp": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'",
+  "timestamp": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'",
   "denoVersion": "'$(deno --version | head -1 | cut -d' ' -f2)'",
   "targetDirectory": "'$(pwd)/$ARGUMENTS'",
   "scaffoldingSteps": [],
@@ -245,7 +245,7 @@ STEP 6: Session state finalization and cleanup
 
 ```bash
 # Update session state with completion
-jq '.status = "completed" | .completedAt = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'" | .scaffoldingSteps += ["initialization", "validation", "scaffolding", "optimization", "verification"]' /tmp/fresh-scaffold-$SESSION_ID.json > /tmp/fresh-scaffold-$SESSION_ID.tmp && mv /tmp/fresh-scaffold-$SESSION_ID.tmp /tmp/fresh-scaffold-$SESSION_ID.json
+jq '.status = "completed" | .completedAt = "'$(date -Iseconds 2>/dev/null || date -Iseconds)'" | .scaffoldingSteps += ["initialization", "validation", "scaffolding", "optimization", "verification"]' /tmp/fresh-scaffold-$SESSION_ID.json > /tmp/fresh-scaffold-$SESSION_ID.tmp && mv /tmp/fresh-scaffold-$SESSION_ID.tmp /tmp/fresh-scaffold-$SESSION_ID.json
 
 echo " Session state saved: /tmp/fresh-scaffold-$SESSION_ID.json"
 echo " Fresh 2.0 scaffolding completed successfully!"

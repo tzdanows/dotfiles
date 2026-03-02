@@ -1,11 +1,11 @@
 ---
-allowed-tools: WebFetch, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, Bash(fd:*), Bash(rg:*), Bash(gdate:*), Bash(jq:*), Bash(wc:*), Read, Write, Task
+allowed-tools: WebFetch, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, Bash(fd:*), Bash(rg:*), Bash(date:*), Bash(jq:*), Bash(wc:*), Read, Write, Task
 description: Load comprehensive Java testing documentation with project-specific analysis and adaptive context loading
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Java projects detected: !`fd "(pom\.xml|build\.gradle|build\.gradle\.kts)$" . -d 3 | wc -l | tr -d ' ' || echo "0"`
 - Build tools: !`fd "(pom\.xml|build\.gradle|build\.gradle\.kts)$" . -d 3 | head -5 || echo "No build files found"`

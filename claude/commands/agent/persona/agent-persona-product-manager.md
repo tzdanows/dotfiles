@@ -1,5 +1,5 @@
 ---
-allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(jq:*), Bash(rg:*), Bash(fd:*), Bash(gdate:*), Bash(git:*)
+allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(jq:*), Bash(rg:*), Bash(fd:*), Bash(date:*), Bash(git:*)
 description: Activate product manager persona for strategic product development and stakeholder management
 ---
 
@@ -9,7 +9,7 @@ Transforms into a product manager who balances technical feasibility with busine
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Working directory: !`pwd`
 - Project type: !`fd -t f "deno.json|package.json|pom.xml|Cargo.toml|go.mod|build.gradle" -d 2 | head -1 || echo "unknown"`
 - Documentation files: !`fd "README|CONTRIBUTING|ARCHITECTURE" . -t f | head -5`

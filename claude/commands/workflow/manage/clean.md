@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(rg:*), Bash(fd:*), Bash(bat:*), Bash(jq:*), Bash(gdate:*), Bash(git:*), Bash(eza:*), Bash(wc:*), Bash(head:*), Bash(deno:*), Bash(npm:*), Bash(cargo:*), Bash(go:*)
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(rg:*), Bash(fd:*), Bash(bat:*), Bash(jq:*), Bash(date:*), Bash(git:*), Bash(eza:*), Bash(wc:*), Bash(head:*), Bash(deno:*), Bash(npm:*), Bash(cargo:*), Bash(go:*)
 description: Comprehensive technical debt cleanup orchestrator with parallel analysis and safe automation
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target for cleanup: $ARGUMENTS
 - Current directory: !`pwd`
 - Project languages: !`fd "(package\.json|Cargo\.toml|go\.mod|deno\.json|pom\.xml|build\.gradle)" . -d 3 | head -5 || echo "No build files detected"`
@@ -210,12 +210,12 @@ echo " Technical Debt Cleanup Report"
 echo "================================"
 echo "Session ID: $SESSION_ID"
 echo "Target: $ARGUMENTS"
-echo "Timestamp: $(gdate -Iseconds 2>/dev/null || date -Iseconds)"
+echo "Timestamp: $(date -Iseconds 2>/dev/null || date -Iseconds)"
 echo "Total Source Files: $(fd "\.(js|ts|jsx|tsx|rs|go|java|py|rb|php|c|cpp|h|hpp|cs|kt|swift|scala)" . | wc -l | tr -d ' ')"
 echo "Lines of Code (before): $lines_before"
 
 # Update session state with final statistics
-jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" \
+jq --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" \
    --argjson lines_before "$lines_before" \
    '.completedAt = $timestamp | .linesBefore = $lines_before' \
    /tmp/cleanup-session-$SESSION_ID.json > /tmp/cleanup-session-$SESSION_ID.tmp && \

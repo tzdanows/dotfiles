@@ -1,15 +1,15 @@
 ---
-allowed-tools: Bash(gdate:*), Bash(date:*), Bash(mkdir:*), Bash(fd:*), Bash(eza:*), Bash(bat:*), Bash(jq:*), Write, Read
+allowed-tools: Bash(date:*), Bash(date:*), Bash(mkdir:*), Bash(fd:*), Bash(eza:*), Bash(bat:*), Bash(jq:*), Write, Read
 description: Development progress tracker with timestamped entries and intelligent organization
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Current directory: !`pwd`
 - Progress target: $ARGUMENTS
-- Current date: !`gdate +%Y-%m-%d 2>/dev/null || date +%Y-%m-%d`
-- Current time: !`gdate "+%H:%M:%S %Z" 2>/dev/null || date "+%H:%M:%S %Z"`
+- Current date: !`date +%Y-%m-%d 2>/dev/null || date +%Y-%m-%d`
+- Current time: !`date "+%H:%M:%S %Z" 2>/dev/null || date "+%H:%M:%S %Z"`
 - Existing progress structure: !`fd "progress" . -t d -d 2 2>/dev/null | head -3 || echo "No progress directory found"`
 - Recent progress entries: !`fd "\.md$" ./progress/ -d 3 2>/dev/null | tail -5 || echo "No progress entries found"`
 - Modern tools status: !`echo "fd: $(which fd >/dev/null && echo  || echo ) | bat: $(which bat >/dev/null && echo  || echo ) | eza: $(which eza >/dev/null && echo  || echo )"`
@@ -30,7 +30,7 @@ echo '{
   "operationType": "auto-detect",
   "progressEntry": "'$ARGUMENTS'",
   "projectRoot": "'$(pwd)'",
-  "timestamp": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"
+  "timestamp": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'"
 }' > /tmp/progress-session-$SESSION_ID.json
 ```
 
@@ -43,9 +43,9 @@ WHEN "record_progress" (default if $ARGUMENTS contains text):
 
 ```bash
 # Create progress directory structure using modern tools
-current_date=$(gdate +%Y-%m-%d 2>/dev/null || date +%Y-%m-%d)
-timestamp=$(gdate "+%Y-%m-%d-%H:%M:%S-%Z" 2>/dev/null || date "+%Y-%m-%d-%H:%M:%S-%Z")
-iso_timestamp=$(gdate -Iseconds 2>/dev/null || date -Iseconds)
+current_date=$(date +%Y-%m-%d 2>/dev/null || date +%Y-%m-%d)
+timestamp=$(date "+%Y-%m-%d-%H:%M:%S-%Z" 2>/dev/null || date "+%Y-%m-%d-%H:%M:%S-%Z")
+iso_timestamp=$(date -Iseconds 2>/dev/null || date -Iseconds)
 
 # Ensure progress directory exists
 mkdir -p "./progress/$current_date"
@@ -62,7 +62,7 @@ WHEN "view_progress" ($ARGUMENTS contains --today, --date, --all, --recent):
 
 ```bash
 if [[ "$ARGUMENTS" == *"--today"* ]]; then
-    current_date=$(gdate +%Y-%m-%d 2>/dev/null || date +%Y-%m-%d)
+    current_date=$(date +%Y-%m-%d 2>/dev/null || date +%Y-%m-%d)
     echo " Today's Progress ($current_date):"
     fd "\.md$" "./progress/$current_date/" 2>/dev/null | while read -r file; do
         echo "\n $(basename "$file" .md)"
@@ -119,7 +119,7 @@ cat > "$progress_file" << EOF
 # Progress Update
 
 **Date**: $current_date
-**Time**: $(gdate "+%H:%M:%S %Z" 2>/dev/null || date "+%H:%M:%S %Z")
+**Time**: $(date "+%H:%M:%S %Z" 2>/dev/null || date "+%H:%M:%S %Z")
 **Project**: $(basename "$(pwd)")
 **Type**: $project_type
 **Session**: $SESSION_ID
@@ -175,7 +175,7 @@ if [[ ! -w "$(pwd)" ]]; then
     echo " Current directory is not writable. Please check permissions."
 else
     echo " Attempting fallback progress recording..."
-    echo "$(gdate -Iseconds 2>/dev/null || date -Iseconds): $ARGUMENTS" >> ./progress-fallback.txt
+    echo "$(date -Iseconds 2>/dev/null || date -Iseconds): $ARGUMENTS" >> ./progress-fallback.txt
     echo " Progress recorded in fallback file: ./progress-fallback.txt"
 fi
 ```
@@ -208,7 +208,7 @@ STEP 5: Session state management and progress tracking
 
 ```bash
 # Update progress session with results
-jq --arg entry "$ARGUMENTS" --arg file "$progress_file" --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
+jq --arg entry "$ARGUMENTS" --arg file "$progress_file" --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" '
   .progressEntry = $entry |
   .progressFile = $file |
   .completedAt = $timestamp |
@@ -223,7 +223,7 @@ mv /tmp/progress-session-$SESSION_ID.tmp /tmp/progress-session-$SESSION_ID.json
 echo "\n Progress tracking session completed"
 echo " Entry: $ARGUMENTS"
 echo " File: $progress_file"
-echo " Time: $(gdate "+%H:%M:%S %Z" 2>/dev/null || date "+%H:%M:%S %Z")"
+echo " Time: $(date "+%H:%M:%S %Z" 2>/dev/null || date "+%H:%M:%S %Z")"
 echo "⏱️ Session: $SESSION_ID"
 echo " State: /tmp/progress-session-$SESSION_ID.json"
 ```

@@ -5,8 +5,8 @@ description: Transform into a technical writer for comprehensive documentation c
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
-- Documentation workspace: /tmp/docs-analysis-!`gdate +%s%N`/
+- Session ID: !`date +%s%N`
+- Documentation workspace: /tmp/docs-analysis-!`date +%s%N`/
 - Current directory: !`pwd`
 - Project structure: !`fd . -t d -d 3 | head -10 || echo "No directory structure available"`
 - Existing documentation: !`fd -e md . | head -10 || echo "No markdown files found"`
@@ -31,8 +31,8 @@ Transform into a technical writer with comprehensive documentation capabilities:
 
 STEP 2: Initialize Documentation Session
 
-- Session ID: !`gdate +%s%N`
-- State file: /tmp/docs-strategy-!`gdate +%s%N`.json
+- Session ID: !`date +%s%N`
+- State file: /tmp/docs-strategy-!`date +%s%N`.json
 - Initialize session state for tracking progress and maintaining context
 
 STEP 3: Project Context Analysis

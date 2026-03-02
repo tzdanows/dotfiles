@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Bash(kubectl:*), Bash(docker:*), Bash(curl:*), Bash(jq:*), Bash(systemctl:*), Bash(gdate:*), Bash(rg:*), Bash(fd:*), Read, Write
+allowed-tools: Task, Bash(kubectl:*), Bash(docker:*), Bash(curl:*), Bash(jq:*), Bash(systemctl:*), Bash(date:*), Bash(rg:*), Bash(fd:*), Read, Write
 description: Comprehensive health monitoring orchestrator with parallel system assessment and automated alerting
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target system: $ARGUMENTS
 - Current directory: !`pwd`
 - Kubernetes context: !`kubectl config current-context 2>/dev/null || echo "No K8s context"`
@@ -32,7 +32,7 @@ TRY:
 echo '{
   "sessionId": "'$SESSION_ID'",
   "targetSystem": "'$ARGUMENTS'",
-  "timestamp": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'",
+  "timestamp": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'",
   "healthChecks": [],
   "systemComponents": [],
   "monitoringTools": []
@@ -1409,7 +1409,7 @@ echo "  - Prometheus Monitoring: https://prometheus.io/docs/guides/"
 echo "  - Health Check Best Practices: https://microservices.io/patterns/observability/health-check-api.html"
 
 # Update session state with completion
-jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
+jq --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" '
   .timestamp = $timestamp |
   .status = "completed" |
   .summary = {

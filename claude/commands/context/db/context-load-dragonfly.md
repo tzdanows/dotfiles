@@ -1,11 +1,11 @@
 ---
-allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebFetch, Write, Bash(gdate:*)
+allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebFetch, Write, Bash(date:*)
 description: Load comprehensive DragonflyDB documentation context for development
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Database configs: !`fd "(docker-compose|dragonfly|redis)" --max-depth 3 | head -5 || echo "No database configs found"`
 - Existing Redis usage: !`rg "(redis|cache)" --type js --type ts --type go --type py | head -5 || echo "No Redis usage found"`

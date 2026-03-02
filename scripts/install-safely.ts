@@ -5,7 +5,7 @@
  * This script backs up existing dotfiles before installing new ones
  */
 
-import { dirname, join } from "@std/path";
+import { dirname, fromFileUrl, join } from "@std/path";
 import { exists } from "@std/fs/exists";
 import { copy } from "@std/fs/copy";
 import { ensureDir } from "@std/fs/ensure-dir";
@@ -68,12 +68,6 @@ const CLAUDE_AGENTS_DIR = "agents";
 
 // Gemini configuration files to manage
 const GEMINI_CONFIG_FILES = ["GEMINI.md", "settings.json"];
-
-// Ghostty configuration file
-const GHOSTTY_CONFIG_FILE = "config";
-
-// VSCode configuration files to manage
-const VSCODE_CONFIG_FILES = ["settings.json", "keybindings.json", "snippets"];
 
 // Scripts directory name
 const SCRIPTS_DIR = "tools";
@@ -139,7 +133,7 @@ function getInstallConfig(): InstallConfig {
   const backupDir = join(homeDir, `.dotfiles-backup-${timestamp}`);
 
   // Get current script directory and go up one level to get dotfiles root
-  const currentFile = new URL(import.meta.url).pathname;
+  const currentFile = fromFileUrl(import.meta.url);
   const scriptsDir = dirname(currentFile);
   const dotfilesDir = dirname(scriptsDir);
 
@@ -195,8 +189,13 @@ async function backupZedConfig(
   homeDir: string,
   backupDir: string,
 ): Promise<string[]> {
-  const zedConfigDir = join(homeDir, ".config", "zed");
-  const zedBackupDir = join(backupDir, ".config", "zed");
+  let zedConfigDir: string;
+  if (Deno.build.os === "windows") {
+    zedConfigDir = join(homeDir, "AppData", "Roaming", "Zed");
+  } else {
+    zedConfigDir = join(homeDir, ".config", "zed");
+  }
+  const zedBackupDir = zedConfigDir.replace(homeDir, backupDir);
   const backedUpFiles: string[] = [];
 
   const zedDirExists = await exists(zedConfigDir);
@@ -357,113 +356,6 @@ async function backupGeminiConfig(
   return backedUpFiles;
 }
 
-async function backupGhosttyConfig(
-  homeDir: string,
-  backupDir: string,
-): Promise<string[]> {
-  const ghosttyConfigDir = join(homeDir, "Library", "Application Support", "com.mitchellh.ghostty");
-  const ghosttyBackupDir = join(
-    backupDir,
-    "Library",
-    "Application Support",
-    "com.mitchellh.ghostty",
-  );
-  const backedUpFiles: string[] = [];
-
-  const ghosttyConfigExists = await exists(join(ghosttyConfigDir, GHOSTTY_CONFIG_FILE));
-  if (!ghosttyConfigExists) {
-    console.log(
-      `   ${colors.yellow}No existing Ghostty configuration found${colors.reset}`,
-    );
-    return backedUpFiles;
-  }
-
-  try {
-    await ensureDir(ghosttyBackupDir);
-
-    const sourcePath = join(ghosttyConfigDir, GHOSTTY_CONFIG_FILE);
-    const backupPath = join(ghosttyBackupDir, GHOSTTY_CONFIG_FILE);
-
-    try {
-      await copy(sourcePath, backupPath, { overwrite: true });
-      printStatus(`Backed up Ghostty ${GHOSTTY_CONFIG_FILE}`);
-      backedUpFiles.push(`ghostty/${GHOSTTY_CONFIG_FILE}`);
-    } catch (error) {
-      printWarning(
-        `Could not backup Ghostty ${GHOSTTY_CONFIG_FILE}: ${
-          error instanceof Error ? error.message : String(error)
-        }`,
-      );
-    }
-  } catch (error) {
-    printWarning(
-      `Could not backup Ghostty configuration: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    );
-  }
-
-  return backedUpFiles;
-}
-
-async function backupVSCodeConfig(
-  homeDir: string,
-  backupDir: string,
-): Promise<string[]> {
-  // Determine VSCode config directory based on OS
-  let vscodeConfigDir: string;
-  if (Deno.build.os === "darwin") {
-    vscodeConfigDir = join(homeDir, "Library", "Application Support", "Code", "User");
-  } else if (Deno.build.os === "windows") {
-    vscodeConfigDir = join(homeDir, "AppData", "Roaming", "Code", "User");
-  } else {
-    // Linux and other Unix-like systems
-    vscodeConfigDir = join(homeDir, ".config", "Code", "User");
-  }
-
-  const vscodeBackupDir = vscodeConfigDir.replace(homeDir, backupDir);
-  const backedUpFiles: string[] = [];
-
-  const vscodeDirExists = await exists(vscodeConfigDir);
-  if (!vscodeDirExists) {
-    console.log(
-      `   ${colors.yellow}No existing VSCode configuration found${colors.reset}`,
-    );
-    return backedUpFiles;
-  }
-
-  try {
-    await ensureDir(vscodeBackupDir);
-
-    for (const configFile of VSCODE_CONFIG_FILES) {
-      const sourcePath = join(vscodeConfigDir, configFile);
-      const backupPath = join(vscodeBackupDir, configFile);
-
-      if (await exists(sourcePath)) {
-        try {
-          await copy(sourcePath, backupPath, { overwrite: true });
-          printStatus(`Backed up VSCode ${configFile}`);
-          backedUpFiles.push(`vscode/${configFile}`);
-        } catch (error) {
-          printWarning(
-            `Could not backup VSCode ${configFile}: ${
-              error instanceof Error ? error.message : String(error)
-            }`,
-          );
-        }
-      }
-    }
-  } catch (error) {
-    printWarning(
-      `Could not backup VSCode configuration: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    );
-  }
-
-  return backedUpFiles;
-}
-
 function detectShell(
   shell: string,
 ): { type: string; configFile: string; rcFile: string } | null {
@@ -471,6 +363,9 @@ function detectShell(
     return { type: "zsh", configFile: ".zshrc", rcFile: ".zshrc" };
   } else if (shell.includes("bash")) {
     return { type: "bash", configFile: ".bashrc", rcFile: ".bashrc" };
+  } else if (Deno.build.os === "windows") {
+    // On Windows, default to powershell even if SHELL env var doesn't match
+    return { type: "powershell", configFile: "profile.ps1", rcFile: "profile.ps1" };
   }
   return null;
 }
@@ -546,6 +441,23 @@ async function copyDotfiles(
       }
     }
 
+    // Install .dotfiles.env only if it doesn't already exist (don't overwrite secrets)
+    const envSource = join(dotfilesDir, "shell", "common", ".env");
+    const envDest = join(homeDir, ".dotfiles.env");
+    if (await exists(envSource) && !await exists(envDest)) {
+      try {
+        await copy(envSource, envDest);
+        printStatus("Created ~/.dotfiles.env (edit with your personal values)");
+        copiedCount++;
+      } catch (error) {
+        printWarning(
+          `Could not copy .dotfiles.env: ${error instanceof Error ? error.message : String(error)}`,
+        );
+      }
+    } else if (await exists(envDest)) {
+      printStatus("~/.dotfiles.env already exists, skipping (won't overwrite your secrets)");
+    }
+
     if (copiedCount > 0) {
       printStatus(`Successfully copied ${copiedCount} dotfiles`);
       return true;
@@ -567,7 +479,12 @@ async function copyZedConfig(
 ): Promise<boolean> {
   printBlue("🎯 Copying Zed configuration files...");
   const zedSourceDir = join(dotfilesDir, "zed");
-  const zedConfigDir = join(homeDir, ".config", "zed");
+  let zedConfigDir: string;
+  if (Deno.build.os === "windows") {
+    zedConfigDir = join(homeDir, "AppData", "Roaming", "Zed");
+  } else {
+    zedConfigDir = join(homeDir, ".config", "zed");
+  }
 
   // Check if zed directory exists in dotfiles
   const zedDirExists = await exists(zedSourceDir);
@@ -1097,116 +1014,6 @@ async function configureMcpServers(
   }
 }
 
-async function copyGhosttyConfig(
-  dotfilesDir: string,
-  homeDir: string,
-): Promise<boolean> {
-  printBlue("👻 Copying Ghostty configuration file...");
-  const ghosttySourceFile = join(dotfilesDir, "ghostty", GHOSTTY_CONFIG_FILE);
-  const ghosttyConfigDir = join(homeDir, "Library", "Application Support", "com.mitchellh.ghostty");
-  const ghosttyDestFile = join(ghosttyConfigDir, GHOSTTY_CONFIG_FILE);
-
-  // Check if Ghostty config exists in dotfiles
-  const ghosttyConfigExists = await exists(ghosttySourceFile);
-  if (!ghosttyConfigExists) {
-    printWarning(
-      "No ghostty/config file found in dotfiles, skipping Ghostty configuration",
-    );
-    return true;
-  }
-
-  try {
-    // Ensure Ghostty config directory exists
-    await ensureDir(ghosttyConfigDir);
-    printStatus(`Created Ghostty config directory: ${ghosttyConfigDir}`);
-
-    // Copy the config file
-    await copy(ghosttySourceFile, ghosttyDestFile, { overwrite: true });
-    printStatus(`Copied Ghostty config to ${ghosttyDestFile}`);
-
-    return true;
-  } catch (error) {
-    printError(
-      `Failed to copy Ghostty configuration: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    );
-    return false;
-  }
-}
-
-async function copyVSCodeConfig(
-  dotfilesDir: string,
-  homeDir: string,
-): Promise<boolean> {
-  printBlue("📝 Copying VSCode configuration files...");
-  const vscodeSourceDir = join(dotfilesDir, "vscode");
-
-  // Determine VSCode config directory based on OS
-  let vscodeConfigDir: string;
-  if (Deno.build.os === "darwin") {
-    vscodeConfigDir = join(homeDir, "Library", "Application Support", "Code", "User");
-  } else if (Deno.build.os === "windows") {
-    vscodeConfigDir = join(homeDir, "AppData", "Roaming", "Code", "User");
-  } else {
-    // Linux and other Unix-like systems
-    vscodeConfigDir = join(homeDir, ".config", "Code", "User");
-  }
-
-  // Check if vscode directory exists in dotfiles
-  const vscodeDirExists = await exists(vscodeSourceDir);
-  if (!vscodeDirExists) {
-    printWarning(
-      "No vscode directory found in dotfiles, skipping VSCode configuration",
-    );
-    return true;
-  }
-
-  try {
-    // Ensure VSCode config directory exists
-    await ensureDir(vscodeConfigDir);
-    printStatus(`Created VSCode config directory: ${vscodeConfigDir}`);
-
-    let copiedCount = 0;
-
-    // Copy individual config files
-    for (const configFile of VSCODE_CONFIG_FILES) {
-      const sourcePath = join(vscodeSourceDir, configFile);
-      const destPath = join(vscodeConfigDir, configFile);
-
-      if (await exists(sourcePath)) {
-        try {
-          await copy(sourcePath, destPath, { overwrite: true });
-          printStatus(`Copied ${configFile} to VSCode config`);
-          copiedCount++;
-        } catch (error) {
-          printWarning(
-            `Could not copy ${configFile}: ${
-              error instanceof Error ? error.message : String(error)
-            }`,
-          );
-        }
-      } else {
-        console.log(
-          `   ${colors.yellow}No ${configFile} found in vscode directory${colors.reset}`,
-        );
-      }
-    }
-
-    if (copiedCount > 0) {
-      printStatus(`Successfully copied ${copiedCount} VSCode configuration files`);
-    }
-    return true;
-  } catch (error) {
-    printError(
-      `Failed to copy VSCode configuration: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    );
-    return false;
-  }
-}
-
 async function copyPowerShellProfile(
   dotfilesDir: string,
   homeDir: string,
@@ -1558,44 +1365,6 @@ This script will:
         }
       )());
 
-      // Backup Ghostty configuration (macOS only)
-      if (Deno.build.os === "darwin") {
-        backupTasks.push((
-          async () => {
-            try {
-              printBlue("👻 Backing up Ghostty configuration...");
-              const files = await backupGhosttyConfig(config.homeDir, config.backupDir);
-              return { type: "ghostty", files };
-            } catch (error) {
-              printWarning(
-                `Error backing up Ghostty configuration: ${
-                  error instanceof Error ? error.message : String(error)
-                }`,
-              );
-              return { type: "ghostty", files: [] };
-            }
-          }
-        )());
-      }
-
-      // Backup VSCode configuration
-      backupTasks.push((
-        async () => {
-          try {
-            printBlue("📝 Backing up VSCode configuration...");
-            const files = await backupVSCodeConfig(config.homeDir, config.backupDir);
-            return { type: "vscode", files };
-          } catch (error) {
-            printWarning(
-              `Error backing up VSCode configuration: ${
-                error instanceof Error ? error.message : String(error)
-              }`,
-            );
-            return { type: "vscode", files: [] };
-          }
-        }
-      )());
-
       // Backup scripts directory
       backupTasks.push((
         async () => {
@@ -1780,40 +1549,6 @@ This script will:
           })(),
         );
 
-        // Copy Ghostty configuration (macOS only)
-        if (Deno.build.os === "darwin") {
-          installationTasks.push(
-            (async () => {
-              try {
-                const success = await copyGhosttyConfig(config.dotfilesDir, config.homeDir);
-                return { task: "copyGhosttyConfig", success };
-              } catch (error) {
-                return {
-                  task: "copyGhosttyConfig",
-                  success: false,
-                  error: error instanceof Error ? error.message : String(error),
-                };
-              }
-            })(),
-          );
-        }
-
-        // Copy VSCode configuration
-        installationTasks.push(
-          (async () => {
-            try {
-              const success = await copyVSCodeConfig(config.dotfilesDir, config.homeDir);
-              return { task: "copyVSCodeConfig", success };
-            } catch (error) {
-              return {
-                task: "copyVSCodeConfig",
-                success: false,
-                error: error instanceof Error ? error.message : String(error),
-              };
-            }
-          })(),
-        );
-
         // Copy PowerShell profile (Windows only)
         if (Deno.build.os === "windows") {
           installationTasks.push(
@@ -1946,9 +1681,6 @@ This script will:
       console.log("   ✅ Configured Claude MCP servers from mcp.json");
       console.log("   ✅ Installed Gemini configuration files");
       console.log("   ✅ Installed scripts to ~/.tools directory");
-      if (Deno.build.os === "darwin") {
-        console.log("   ✅ Installed Ghostty terminal configuration");
-      }
       if (Deno.build.os === "windows") {
         console.log("   ✅ Installed PowerShell profile");
       }

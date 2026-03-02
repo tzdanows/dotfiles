@@ -7,7 +7,7 @@ description: Activate localization engineer persona for global i18n and l10n imp
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Working directory: !`pwd`
 - Project type: !`fd -t f "package.json|deno.json|pom.xml|Cargo.toml|go.mod" -d 2 | head -1 || echo "unknown"`
 - Existing i18n setup: !`fd -t f "i18n|locale|translation" -d 3 | head -3 || echo "none-detected"`

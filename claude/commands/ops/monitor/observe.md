@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Write, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(docker:*), Bash(kubectl:*), Bash(git:*)
+allowed-tools: Task, Read, Write, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(docker:*), Bash(kubectl:*), Bash(git:*)
 description: Transform applications into fully observable systems with comprehensive metrics, logging, tracing, and monitoring dashboards
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target service: $ARGUMENTS
 - Current directory: !`pwd`
 - Project languages: !`fd "(Cargo.toml|go.mod|package.json|pom.xml|build.gradle|deno.json)" . -d 3 | head -5 || echo "No build files detected"`
@@ -346,7 +346,7 @@ FINALLY:
 
 ```bash
 # Update observability session with results
-jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
+jq --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" '
   .completedAt = $timestamp |
   .status = "completed"
 ' /tmp/observability-session-$SESSION_ID.json > /tmp/observability-session-$SESSION_ID.tmp && \

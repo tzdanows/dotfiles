@@ -1,6 +1,5 @@
 ##############################################################################
 #   Filename: .aliases.sh                                                    #
-# Maintainer: Tom Zdanowski <tomzdanows@gmail.com>                           #
 #        URL: http://github.com/tzdanows/dotfiles                            #
 #                                                                            #
 # Sections:                                                                  #
@@ -20,7 +19,9 @@
 alias c='clear'
 
 # Platform-aware alias for opening current directory
-if [[ "$(uname)" == "Darwin" ]]; then
+if [[ "$(uname -s)" == MINGW* ]] || [[ "$(uname -s)" == MSYS* ]]; then
+    alias .='explorer .'
+elif [[ "$(uname)" == "Darwin" ]]; then
     alias .='open .'
 elif [[ "$(uname)" == "Linux" ]]; then
     alias .='xdg-open .'
@@ -58,7 +59,7 @@ alias vrc='edit ~/.$(basename $SHELL)rc'
 alias src='source ~/.$(basename $SHELL)rc'
 
 # Directory navigation
-alias dev='cd ~/dev'
+alias dev='cd ~/Desktop/dev'
 alias tom='cd ~'
 # Modern CLI tool replacements
 alias cat='bat --paging=never'
@@ -68,17 +69,16 @@ alias find='fd'
 alias listdir='find ${1:-.} -type f -not -path "*/.*/*" -print0 | xargs -0 -I {} bash -c '\''echo "$(dirname "{}")/$(basename "{}")"'\'' | sort -t/ -k2 -k3'
 # Disk Space Usage
 alias ds='du -sh * | sort -rh | awk '\''{sum+=$1; print} END {print "Total Size: " sum}'\'
-alias copydir='rg --no-ignore --no-heading --with-filename --line-number --text --max-columns 500 --binary "" | nl -ba | tee >(pbcopy) | cat'
+alias copydir='rg --no-ignore --no-heading --with-filename --line-number --text --max-columns 500 --binary "" | nl -ba | tee >(clip.exe) | cat'
 
 # System utilities
 alias ff='fastfetch'
-alias caf='caffeinate'
 alias binary='xxd'
-alias py='/usr/bin/python3'
+alias py='python'
 
-# SSH and remote connections
-alias rpi3='ssh tzdanows@100.79.43.52'
-alias rpi5='ssh tzdanows@100.79.43.52' # to be added
+# SSH and remote connections (configured via ~/.dotfiles.env)
+if [ -n "$RPI3_HOST" ]; then alias rpi3="ssh $RPI3_HOST"; fi
+if [ -n "$RPI5_HOST" ]; then alias rpi5="ssh $RPI5_HOST"; fi
 
 
 # Tailscale
@@ -88,14 +88,14 @@ alias ts='tailscale status'
 # 02. Git                                                                    #
 ##############################################################################
 
-# Git defaults
-git config --global user.name "Tom Zdanowski"
-git config --global user.email "tomzdanows@gmail.com"
+# Git defaults (identity configured via ~/.dotfiles.env)
+git config --global user.name "${GIT_AUTHOR_NAME:-}"
+git config --global user.email "${GIT_AUTHOR_EMAIL:-}"
 git config --global core.editor "vim"
 
 # Dotfile management
-alias cfg='/usr/bin/git --git-dir=/Users/tzdanows/.cfg/ --work-tree=/Users/tzdanows'
-alias config='/usr/bin/git --git-dir=/Users/tzdanows/.cfg/ --work-tree=/Users/tzdanows'
+alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # Git aliases
 alias gaa='git add .'
@@ -165,10 +165,9 @@ alias gof='go format'
 alias goi='go install'
 alias gofix='go fix'
 alias god='go doc'
-alias gcu='/Users/tzdanows/go/bin/go-coreutils'
+alias gcu='$HOME/go/bin/go-coreutils'
 
 # Java
-alias java11='JAVA_HOME=/opt/homebrew/opt/openjdk@11/bin/java'
 alias j!=jbang
 
 # NPM/Node
@@ -189,18 +188,11 @@ alias o='ollama'
 
 # IP addresses
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
-alias localip="ipconfig getifaddr en0"
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 
-# Show active network interfaces
-alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
-
-# Flush Directory Service cache
-alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
-
-for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
-	alias "${method}"="lwp-request -m '${method}'"
-done
+# Windows networking
+alias flush='ipconfig //flushdns'
+alias localip='ipconfig | grep -i "IPv4"'
 
 ##############################################################################
 # 05. Kubernetes                                                             #
@@ -271,7 +263,7 @@ alias nv='nvim'
 
 # File and content operations
 alias t='tree'
-alias rr='repomix && cat repomix-output.xml | pbcopy && rm repomix-output.xml'
+alias rr='repomix && cat repomix-output.xml | clip.exe && rm repomix-output.xml'
 alias mcp='edit ~/.cursor/mcp.json'
 
 # Fleet (JetBrains)
@@ -283,31 +275,6 @@ alias fl='fleet'
 
 # Canonical hex dump; some systems have this symlinked
 command -v hd > /dev/null || alias hd="hexdump -C"
-
-# macOS has no `md5sum`, so use `md5` as a fallback
-command -v md5sum > /dev/null || alias md5sum="md5"
-
-# macOS has no `sha1sum`, so use `shasum` as a fallback
-command -v sha1sum > /dev/null || alias sha1sum="shasum"
-
-# Recursively delete `.DS_Store` files
-alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
-
-# Empty the Trash on all mounted volumes and the main HDD.
-# Also, clear Apple's System Logs to improve shell startup speed.
-# Finally, clear download history from quarantine. https://mths.be/bum
-alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl; sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
-
-# Show/hide hidden files in Finder
-alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
-alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
-
-# Hide/show all desktop icons (useful when presenting)
-alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
-alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
-
-# URL-encode strings
-alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 
 # Intuitive map function
 # For example, to list all directories that contain a certain file:

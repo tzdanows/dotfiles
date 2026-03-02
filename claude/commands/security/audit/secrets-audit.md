@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Bash(rg:*), Bash(fd:*), Bash(bat:*), Bash(jq:*), Bash(gdate:*), Bash(git:*), Bash(eza:*), Bash(wc:*), Bash(head:*), Bash(tail:*)
+allowed-tools: Task, Bash(rg:*), Bash(fd:*), Bash(bat:*), Bash(jq:*), Bash(date:*), Bash(git:*), Bash(eza:*), Bash(wc:*), Bash(head:*), Bash(tail:*)
 description: Comprehensive security audit for leaked credentials with parallel analysis and state management
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Scan scope: $ARGUMENTS (default: comprehensive scan)
 - Current directory: !`pwd`
 - Git repository status: !`git status --porcelain 2>/dev/null | wc -l | tr -d ' '` modified files
@@ -31,7 +31,7 @@ echo '{
   "sessionId": "'$SESSION_ID'",
   "scanScope": "'$ARGUMENTS'",
   "projectType": "auto-detect",
-  "startTime": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'",
+  "startTime": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'",
   "findings": [],
   "scannedFiles": 0,
   "riskLevel": "unknown",
@@ -230,7 +230,7 @@ if [ -f /tmp/security-findings-$SESSION_ID.json ]; then
     .scannedFiles = '$scannedFiles' |
     .findingsCount = $count |
     .riskLevel = (if $count > 10 then "HIGH" elif $count > 5 then "MEDIUM" else "LOW" end) |
-    .completedTime = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"
+    .completedTime = "'$(date -Iseconds 2>/dev/null || date -Iseconds)'"
   ' /tmp/secrets-audit-$SESSION_ID.json > /tmp/secrets-audit-$SESSION_ID.tmp && \
   mv /tmp/secrets-audit-$SESSION_ID.tmp /tmp/secrets-audit-$SESSION_ID.json
 fi

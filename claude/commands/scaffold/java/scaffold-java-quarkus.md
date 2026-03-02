@@ -1,11 +1,11 @@
 ---
-allowed-tools: Write, MultiEdit, Bash(mvn:*), Bash(mkdir:*), Bash(fd:*), Bash(rg:*), Bash(gdate:*), Bash(pwd:*), Bash(eza:*)
+allowed-tools: Write, MultiEdit, Bash(mvn:*), Bash(mkdir:*), Bash(fd:*), Bash(rg:*), Bash(date:*), Bash(pwd:*), Bash(eza:*)
 description: Scaffold production-ready Java Quarkus project with Spring Boot compatibility layer
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Current directory: !`pwd`
 - Project name: $ARGUMENTS
 - Java version check: !`java -version 2>&1 | head -1 || echo "Java not installed"`
@@ -42,7 +42,7 @@ echo '{
   "sessionId": "'$SESSION_ID'",
   "projectName": "'$project_name'",
   "targetDirectory": "./'$project_name'",
-  "timestamp": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'",
+  "timestamp": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'",
   "phase": "initializing"
 }' > /tmp/quarkus-scaffold-$SESSION_ID.json
 ```
@@ -534,7 +534,7 @@ echo "  • Native compilation support"
 echo "  • Production-ready configuration"
 
 # Final session state update
-jq '.phase = "completed" | .completedAt = "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'"' \
+jq '.phase = "completed" | .completedAt = "'$(date -Iseconds 2>/dev/null || date -Iseconds)'"' \
    /tmp/quarkus-scaffold-$SESSION_ID.json > /tmp/temp.json && \
 mv /tmp/temp.json /tmp/quarkus-scaffold-$SESSION_ID.json
 ```

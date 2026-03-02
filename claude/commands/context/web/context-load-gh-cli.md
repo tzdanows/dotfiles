@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Bash(gh:*), Bash(git:*), Bash(jq:*), Bash(gdate:*)
+allowed-tools: Read, Write, Bash(gh:*), Bash(git:*), Bash(jq:*), Bash(date:*)
 description: Load comprehensive GitHub CLI context with dynamic repository analysis and workflow optimization
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Git repository: !`git rev-parse --is-inside-work-tree 2>/dev/null && echo "Yes" || echo "No"`
 - Repository info: !`gh repo view --json owner,name,url 2>/dev/null | jq -r '.owner.login + "/" + .name + " (" + .url + ")' 2>/dev/null || echo "Not in GitHub repository"`

@@ -5,7 +5,7 @@ description: Intelligent dependency analysis and management with security auditi
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Project structure: !`fd . -t d -d 2 | head -10`
 - Package managers detected: !`fd "(package\.json|deno\.json|Cargo\.toml|go\.mod|pom\.xml|build\.gradle|requirements\.txt|Pipfile|pyproject\.toml|Chart\.yaml|kustomization\.yaml)$" . | head -10 || echo "No package managers detected"`

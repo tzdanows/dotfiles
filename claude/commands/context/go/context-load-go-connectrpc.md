@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(go:*)
+allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(go:*)
 description: Load comprehensive Go ConnectRPC documentation context with project-specific optimization
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Go projects: !`fd "go\\.mod" . | head -5 || echo "No Go projects found"`
 - ConnectRPC usage: !`rg "connect-go|connectrpc\\.com" . --type go | wc -l | tr -d ' ' || echo "0"`

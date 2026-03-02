@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Write, Edit, MultiEdit, Bash(mkdir:*), Bash(cd:*), Bash(deno:*), Bash(cargo:*), Bash(go:*), Bash(npm:*), Bash(fd:*), Bash(rg:*), Bash(gdate:*), Bash(jq:*), Bash(git:*)
+allowed-tools: Task, Write, Edit, MultiEdit, Bash(mkdir:*), Bash(cd:*), Bash(deno:*), Bash(cargo:*), Bash(go:*), Bash(npm:*), Bash(fd:*), Bash(rg:*), Bash(date:*), Bash(jq:*), Bash(git:*)
 description: Intelligent prototyping orchestrator with technology detection, rapid scaffolding, and validation automation
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Prototype target: $ARGUMENTS
 - Current directory: !`pwd`
 - Existing projects: !`fd "(package\.json|Cargo\.toml|go\.mod|deno\.json|pom\.xml|build\.gradle)" . -d 2 | head -5 || echo "No existing projects detected"`
@@ -716,7 +716,7 @@ STEP 6: Session state management and completion reporting
 
 ```bash
 # Update session state with results
-jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" \
+jq --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" \
    --arg tech "$detected_technology" \
    --arg status "completed" '
   .completedAt = $timestamp |

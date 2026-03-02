@@ -26,7 +26,7 @@ TL;DR: Best Practices for Prompts/Slash Commands in CLAUDE.md
 
 ## State Management
 
-- Unique temp files - Use nanosecond timestamps: /tmp/state-$(gdate +%s%N).json
+- Unique temp files - Use nanosecond timestamps: /tmp/state-$(date +%s%N).json
 - Session isolation - Each session gets unique IDs to prevent conflicts
 - Checkpoint/resume - Save progress for long operations
 - Serialize to disk - Minimize context window usage
@@ -77,7 +77,7 @@ The /commit command (file: claude/commands/git/commit/commit.md) serves as the g
 **EVERY command MUST include a SESSION_ID in the context section:**
 ```yaml
 ## Context
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 ````
 
 This ensures:
@@ -111,7 +111,7 @@ This ensures:
 Before marking a command as improved:
 
 - [ ] All bash commands in Context section tested individually
-- [ ] Session ID generation verified with `gdate +%s%N`
+- [ ] Session ID generation verified with `date +%s%N`
 - [ ] Error handling for missing tools/connections
 - [ ] Proper quoting and escaping verified
 - [ ] Fallback values provided for all commands

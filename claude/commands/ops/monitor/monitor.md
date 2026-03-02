@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Bash(kubectl:*), Bash(docker:*), Bash(helm:*), Bash(rg:*), Bash(fd:*), Bash(jq:*), Bash(gdate:*), Bash(curl:*), Bash(nc:*), Read, Write, Edit
+allowed-tools: Task, Bash(kubectl:*), Bash(docker:*), Bash(helm:*), Bash(rg:*), Bash(fd:*), Bash(jq:*), Bash(date:*), Bash(curl:*), Bash(nc:*), Read, Write, Edit
 description: Comprehensive monitoring and observability orchestrator with parallel deployment automation
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target system: $ARGUMENTS
 - Current directory: !`pwd`
 - Infrastructure type: !`kubectl cluster-info 2>/dev/null | head -1 || docker info --format '{{.ServerVersion}}' 2>/dev/null | head -1 || echo "Local development"`
@@ -868,7 +868,7 @@ FINALLY:
 
 ```bash
 # Update deployment session with final status
-jq --arg status "completed" --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
+jq --arg status "completed" --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" '
   .deploymentPhase = $status |
   .completedAt = $timestamp |
   .healthChecks = [

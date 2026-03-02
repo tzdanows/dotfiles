@@ -5,7 +5,7 @@ description: Resolve git merge conflicts with intelligent context analysis
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current git status: !`git status --porcelain`
 - Current branch: !`git branch --show-current`
 - Merge head info: !`git show --oneline --no-patch MERGE_HEAD 2>/dev/null || echo "No active merge"`

@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(eza:*), Bash(bat:*), Bash(jq:*), Bash(gdate:*), Bash(docker:*), Bash(kubectl:*), Bash(curl:*), Bash(git:*)
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(eza:*), Bash(bat:*), Bash(jq:*), Bash(date:*), Bash(docker:*), Bash(kubectl:*), Bash(curl:*), Bash(git:*)
 description: Intelligent integration orchestrator for services, APIs, databases, and tools with error handling and monitoring
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Integration target: $ARGUMENTS
 - Current directory: !`pwd`
 - Project structure: !`eza -la --tree --level=2 2>/dev/null | head -10 || fd . -t d -d 2 | head -5`
@@ -623,7 +623,7 @@ STEP 9: Session state management and integration registry
 
 ```bash
 # Update integration session with results
-jq --arg target "$ARGUMENTS" --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
+jq --arg target "$ARGUMENTS" --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" '
   .integrationTarget = $target |
   .completedAt = $timestamp |
   .status = "completed"
@@ -637,7 +637,7 @@ mv /tmp/integration-session-$SESSION_ID.tmp /tmp/integration-session-$SESSION_ID
 echo " Integration completed successfully"
 echo " Target: $ARGUMENTS"
 echo " Session: $SESSION_ID"
-echo "⏱️ Completed at: $(gdate -Iseconds 2>/dev/null || date -Iseconds)"
+echo "⏱️ Completed at: $(date -Iseconds 2>/dev/null || date -Iseconds)"
 echo " Artifacts: /tmp/integration-session-$SESSION_ID.json"
 echo " Documentation: Available in project docs/"
 ```

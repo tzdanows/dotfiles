@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(bat:*), Bash(eza:*), Bash(jq:*), Bash(gdate:*), Bash(docker:*), Bash(wc:*), Bash(head:*), Bash(mvn:*), Bash(gradle:*), Bash(cargo:*), Bash(go:*), Bash(npm:*), Bash(deno:*)
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(bat:*), Bash(eza:*), Bash(jq:*), Bash(date:*), Bash(docker:*), Bash(wc:*), Bash(head:*), Bash(mvn:*), Bash(gradle:*), Bash(cargo:*), Bash(go:*), Bash(npm:*), Bash(deno:*)
 description: Comprehensive integration testing orchestrator with parallel technology analysis and strategy generation
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target project: $ARGUMENTS
 - Current directory: !`pwd`
 - Build files detected: !`fd "(package\.json|Cargo\.toml|go\.mod|deno\.json|pom\.xml|build\.gradle)" . -d 3 | head -5 || echo "No build files detected"`
@@ -494,7 +494,7 @@ STEP 7: Session state management and testing strategy synthesis
 
 ```bash
 # Update integration testing session with comprehensive strategy
-jq --arg strategy "comprehensive" --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
+jq --arg strategy "comprehensive" --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" '
   .testingStrategy = $strategy |
   .completedAnalysis = {
     "timestamp": $timestamp,

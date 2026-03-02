@@ -5,7 +5,7 @@ description: Analyze code for refactoring opportunities with intelligent smell d
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s000000000 2>/dev/null || echo "session-$(date +%s)000000000"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s000000000 2>/dev/null || echo "session-$(date +%s)000000000"`
 - Current directory: !`pwd`
 - Target: $ARGUMENTS
 - Project structure: !`fd . -t d -d 3 | head -15 || echo "No directory structure detected"`

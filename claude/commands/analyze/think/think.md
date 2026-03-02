@@ -1,13 +1,13 @@
 ---
-allowed-tools: mcp__sequential-thinking__sequentialthinking, Write, Read, Bash(gdate:*)
+allowed-tools: mcp__sequential-thinking__sequentialthinking, Write, Read, Bash(date:*)
 description: Engage in deep, structured reasoning using sequential thinking
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Working directory: !`pwd`
-- Current time: !`gdate '+%Y-%m-%d %H:%M:%S'`
+- Current time: !`date '+%Y-%m-%d %H:%M:%S'`
 
 ## Your Task
 

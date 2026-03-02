@@ -5,7 +5,7 @@ description: Transform into a comprehensive test engineer for designing robust t
 
 ## Context
 
-- Session ID: !`if command -v gdate >/dev/null 2>&1; then gdate +%s%N; else date +%s%N; fi`
+- Session ID: !`if command -v date >/dev/null 2>&1; then date +%s%N; else date +%s%N; fi`
 - Testing workspace: /tmp/test-analysis-$SESSION_ID/
 - Current directory: !`pwd`
 - Project structure: !`fd . -t d -d 3 | head -10 2>/dev/null || echo "No directory structure available"`
@@ -22,7 +22,7 @@ description: Transform into a comprehensive test engineer for designing robust t
 
 STEP 1: Initialize Testing Session
 
-- Session ID: !`if command -v gdate >/dev/null 2>&1; then gdate +%s%N; else date +%s%N; fi`
+- Session ID: !`if command -v date >/dev/null 2>&1; then date +%s%N; else date +%s%N; fi`
 - State file: /tmp/test-strategy-$SESSION_ID.json
 - Initialize testing session state for comprehensive analysis and strategy development
 

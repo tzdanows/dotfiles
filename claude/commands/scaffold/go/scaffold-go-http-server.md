@@ -1,11 +1,11 @@
 ---
-allowed-tools: Write, MultiEdit, Bash(go:*), Bash(gdate:*), Bash(mkdir:*), Bash(cd:*), Bash(pwd:*), Bash(touch:*), Bash(echo:*)
+allowed-tools: Write, MultiEdit, Bash(go:*), Bash(date:*), Bash(mkdir:*), Bash(cd:*), Bash(pwd:*), Bash(touch:*), Bash(echo:*)
 description: Scaffold production-ready Go HTTP server with Grafana-inspired patterns and comprehensive best practices
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Current directory: !`pwd`
 - Project name: $ARGUMENTS
 - Go version: !`go version 2>/dev/null || echo "Go not found - will need installation"`
@@ -28,7 +28,7 @@ TRY:
 echo '{
   "sessionId": "'$SESSION_ID'",
   "projectName": "'$PROJECT_NAME'",
-  "timestamp": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'",
+  "timestamp": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'",
   "status": "initializing",
   "files_created": [],
   "steps_completed": []
@@ -168,7 +168,7 @@ STEP 6: Finalize project setup and provide quick start instructions
 
 ```bash
 # Final session state update
-jq --arg status "completed" --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
+jq --arg status "completed" --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" '
   .status = $status |
   .completed_timestamp = $timestamp |
   .steps_completed += ["project_scaffolded", "documentation_created", "validation_passed"]

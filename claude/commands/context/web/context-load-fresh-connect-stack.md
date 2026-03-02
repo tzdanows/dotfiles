@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), WebFetch, Task
+allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), WebFetch, Task
 description: Load comprehensive context about Fresh + ConnectRPC full-stack architecture with project-specific analysis
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Project structure: !`fd . -t d -d 3 | head -10 || echo "No directories found"`
 - Fresh indicators: !`fd "deno.json" . -d 2 -x jq -r '.imports | keys[]? // empty' {} 2>/dev/null | rg "@fresh" || echo "No Fresh imports found"`

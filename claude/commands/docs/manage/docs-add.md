@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Edit, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), WebFetch, Task
+allowed-tools: Read, Write, Edit, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), WebFetch, Task
 description: Generate comprehensive documentation with intelligent content organization and Docusaurus integration
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Target: $ARGUMENTS
 - Project structure: !`fd . -t d -d 2 | head -10 || echo "No subdirectories found"`

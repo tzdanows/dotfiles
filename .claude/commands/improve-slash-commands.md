@@ -5,7 +5,7 @@ description: Systematically improve slash commands using robust task management
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Task status: !`deno run --allow-read --allow-write notes/improve-slash-commands/task-manager.ts status`
 - Claim result: !`deno run --allow-read --allow-write notes/improve-slash-commands/task-manager.ts claim`
 
@@ -52,7 +52,7 @@ STEP 3: Apply improvements systematically
 
 - Add dynamic context section if beneficial:
 
-* CRITICAL: Include Session ID: !`gdate +%s%N` for EVERY command
+* CRITICAL: Include Session ID: !`date +%s%N` for EVERY command
 * Git commands need: status, diff, branch, log
 * File operations need: directory listings, file checks
 * Analysis commands need: code search, structure discovery
@@ -73,8 +73,8 @@ STEP 3: Apply improvements systematically
 
 - Add state management for complex workflows:
 
-* Session IDs: !`gdate +%s%N` (NEVER hard-code - always use dynamic generation)
-* State files: /tmp/{command}-state-!`gdate +%s%N`.json
+* Session IDs: !`date +%s%N` (NEVER hard-code - always use dynamic generation)
+* State files: /tmp/{command}-state-!`date +%s%N`.json
 * Checkpoints for resumability
 
 STEP 4: Validate and format
@@ -147,7 +147,7 @@ STEP 8: TLDR the diff
    - Use explicit control flow
 
 3. **State Management**:
-   - MANDATORY: Session ID in EVERY command's Context section using !`gdate +%s%N`
+   - MANDATORY: Session ID in EVERY command's Context section using !`date +%s%N`
    - **NEVER hard-code session IDs** - always use dynamic bash commands
    - Unique session files with nanosecond timestamps
    - Checkpoint capabilities for long operations
@@ -283,8 +283,8 @@ Add state management:
 
 Before marking ANY command as improved:
 
-- [ ] Session ID included in Context section: !`gdate +%s%N`
-- [ ] **CRITICAL**: Session ID uses !`gdate +%s%N` - NEVER hard-code session IDs
+- [ ] Session ID included in Context section: !`date +%s%N`
+- [ ] **CRITICAL**: Session ID uses !`date +%s%N` - NEVER hard-code session IDs
 - [ ] All bash commands tested individually for output
 - [ ] Shell quoting issues resolved (no unescaped !, proper quotes)
 - [ ] Fallback values provided for all dynamic commands

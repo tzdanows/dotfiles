@@ -1,5 +1,5 @@
 ---
-allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebFetch, Write, Bash(gdate:*), Read
+allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebFetch, Write, Bash(date:*), Read
 description: Load comprehensive PostgreSQL documentation context with intelligent caching and state management
 ---
 
@@ -7,7 +7,7 @@ description: Load comprehensive PostgreSQL documentation context with intelligen
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Database configs: !`fd "(database|db|postgres|pg)" --type f | head -10 || echo "No database configs found"`
 - Environment files: !`fd "\.env" --type f | head -5 || echo "No environment files found"`

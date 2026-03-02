@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Edit, Bash(git:*), Bash(npm:*), Bash(node:*), Bash(fd:*), Bash(jq:*), Bash(gdate:*), Bash(mkdir:*), Bash(cp:*)
+allowed-tools: Read, Write, Edit, Bash(git:*), Bash(npm:*), Bash(node:*), Bash(fd:*), Bash(jq:*), Bash(date:*), Bash(mkdir:*), Bash(cp:*)
 description: Initialize Docusaurus documentation site with Deno lifecycle integration
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Project name (directory): !`basename "$(pwd)"`
 - Project name (deno.json): !`if [ -f "deno.json" ]; then jq -r '.name // "unknown"' deno.json 2>/dev/null || echo "unknown"; else echo "no deno.json"; fi`

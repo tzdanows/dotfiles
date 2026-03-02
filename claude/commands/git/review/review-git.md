@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Bash(git:*), Bash(rg:*), Bash(fd:*), Bash(gdate:*), Bash(jq:*), Bash(bat:*)
+allowed-tools: Read, Bash(git:*), Bash(rg:*), Bash(fd:*), Bash(date:*), Bash(jq:*), Bash(bat:*)
 description: Comprehensive automated git repository review with security analysis and quality assessment
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current repository status: !`git status --porcelain`
 - Current branch: !`git branch --show-current`
 - Recent commits: !`git log --oneline -5`
@@ -29,7 +29,7 @@ TRY:
 ```json
 {
   "sessionId": "$SESSION_ID",
-  "timestamp": "$(gdate -Iseconds 2>/dev/null || date -Iseconds)",
+  "timestamp": "$(date -Iseconds 2>/dev/null || date -Iseconds)",
   "repository": "$(basename $(git rev-parse --show-toplevel))",
   "branch": "$(git branch --show-current)",
   "reviewScope": "auto-detect",
@@ -256,7 +256,7 @@ fi
 
 # Cross-platform compatibility
 echo "   Cross-platform compatibility analysis..."
-rg "(gdate|gsed|gawk)" . --type sh --type ts -C 1 || echo "     No macOS-specific tool usage detected"
+rg "(date|gsed|gawk)" . --type sh --type ts -C 1 || echo "     No macOS-specific tool usage detected"
 
 # Backup/restore logic validation
 if rg -q "(backup|restore)" . --type ts --type sh; then
@@ -280,7 +280,7 @@ STEP 9: Generate comprehensive structured review report
 # Git Repository Review Report
 
 **Session ID**: $SESSION_ID
-**Timestamp**: $(gdate -Iseconds 2>/dev/null || date -Iseconds)
+**Timestamp**: $(date -Iseconds 2>/dev/null || date -Iseconds)
 **Repository**: $(basename $(git rev-parse --show-toplevel))
 **Branch**: $(git branch --show-current)
 

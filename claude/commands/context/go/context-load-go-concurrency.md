@@ -1,5 +1,5 @@
 ---
-allowed-tools: Task, WebFetch, Bash(fd:*), Bash(rg:*), Bash(gdate:*), Bash(git:*), mcp__context7__resolve-library-id, mcp__context7__get-library-docs
+allowed-tools: Task, WebFetch, Bash(fd:*), Bash(rg:*), Bash(date:*), Bash(git:*), mcp__context7__resolve-library-id, mcp__context7__get-library-docs
 description: Systematic Go concurrency documentation loading with comprehensive context analysis
 ---
 
@@ -7,7 +7,7 @@ description: Systematic Go concurrency documentation loading with comprehensive 
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Go project files: !`fd "(go\.mod|go\.sum|\.go)$" . --max-depth 3 | head -10 || echo "No Go files detected"`
 - Git repository: !`git status --porcelain 2>/dev/null | wc -l | tr -d ' '` changes, branch: !`git branch --show-current 2>/dev/null || echo "No git repository"`

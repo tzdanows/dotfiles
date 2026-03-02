@@ -1,6 +1,6 @@
 # Dotfiles
 
-dotfiles for unix systems (specifically MacOS/Fedora 42)
+Dotfiles for Windows 11 with Warp terminal (Git Bash + PowerShell) and Zed editor.
 
 ## Installation
 
@@ -14,7 +14,7 @@ dotfiles for unix systems (specifically MacOS/Fedora 42)
 
 ## Agentic Prompt Guidelines
 
-**TL;DR:** Treat slash commands as executable programs, not conversations. Use minimal permissions, unique session IDs (`!`gdate +%s%N``), and explicit control flow (STEP, IF/ELSE, FOR EACH). Follow the `/commit` command as the gold standard example.
+**TL;DR:** Treat slash commands as executable programs, not conversations. Use minimal permissions, unique session IDs (`!`date +%s%N``), and explicit control flow (STEP, IF/ELSE, FOR EACH). Follow the `/commit` command as the gold standard example.
 
 - skills/CLAUDE.md - Full skills reference (format, patterns, troubleshooting)
 - skills/USAGE-GUIDE.md - Minimal practical usage guide
@@ -29,10 +29,10 @@ dotfiles for unix systems (specifically MacOS/Fedora 42)
 
 ### Key Requirements
 
-1. **Session Isolation** - Every command MUST include: `Session ID: !`gdate +%s%N``
+1. **Session Isolation** - Every command MUST include: `Session ID: !`date +%s%N``
 2. **Dynamic Context** - Use `!`command`` for real-time data injection
 3. **Minimal Permissions** - Only allow required commands in `allowed-tools`
-4. **Clear Structure** - Front matter → Context → Task definition with examples
+4. **Clear Structure** - Front matter -> Context -> Task definition with examples
 
 ### Best Practices
 

@@ -7,7 +7,7 @@ description: Activate implementation engineer persona for production-ready code 
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Working directory: !`pwd`
 - Project type: !`fd -t f "deno.json|package.json|pom.xml|Cargo.toml|go.mod|build.gradle" -d 2 | head -1 || echo "unknown"`
 - Framework detection: !`rg "framework|library" package.json go.mod Cargo.toml 2>/dev/null | head -5 || echo "detecting..."`

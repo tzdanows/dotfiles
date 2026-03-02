@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(git:*), Bash(gh:*), Bash(fd:*), Bash(rg:*), Bash(eza:*), Bash(jq:*), Bash(gdate:*), Bash(docker:*), Bash(kubectl:*)
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(git:*), Bash(gh:*), Bash(fd:*), Bash(rg:*), Bash(eza:*), Bash(jq:*), Bash(date:*), Bash(docker:*), Bash(kubectl:*)
 description: Orchestrates large-scale, cross-repository architectural epics with parallel coordination and dependency management
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Epic target: $ARGUMENTS
 - Current directory: !`pwd`
 - Git repository info: !`git remote get-url origin 2>/dev/null || echo "No remote origin"`
@@ -114,7 +114,7 @@ WHEN "migration":
 
 **Session ID**: $SESSION_ID
 **Epic Type**: Technology Migration
-**Initiated**: $(gdate -Iseconds 2>/dev/null || date -Iseconds)
+**Initiated**: $(date -Iseconds 2>/dev/null || date -Iseconds)
 **Coordinator**: $(git config user.name 2>/dev/null || echo "Unknown")
 
 **Goal**: $ARGUMENTS
@@ -418,7 +418,7 @@ jq '.repositories["'$CURRENT_SERVICE'"] = {
   "status": "'$STATUS'",
   "worktree": "'$PWD'",
   "progress": '$PROGRESS',
-  "lastUpdate": "'$(gdate -Iseconds)'"
+  "lastUpdate": "'$(date -Iseconds)'"
 }' /tmp/epic-coordination-$SESSION_ID.json > /tmp/epic-coordination-$SESSION_ID.tmp
 mv /tmp/epic-coordination-$SESSION_ID.tmp /tmp/epic-coordination-$SESSION_ID.json
 ```
@@ -515,7 +515,7 @@ cd ../epic-{service}-$SESSION_ID
 jq '.repositories["{service}"] = {
   "status": "worktree-created",
   "worktree": "'$PWD'",
-  "startTime": "'$(gdate -Iseconds)'"
+  "startTime": "'$(date -Iseconds)'"
 }' /tmp/epic-coordination-$SESSION_ID.json > /tmp/epic-coordination-$SESSION_ID.tmp
 ```
 ````
@@ -554,13 +554,13 @@ echo '{
   "currentPhase": "phase_1",
   "sessionId": "'$SESSION_ID'",
   "initiatedBy": "'$(git config user.name)'",
-  "startTime": "'$(gdate -Iseconds)'",
+  "startTime": "'$(date -Iseconds)'",
   "repositories": {},
   "worktrees": {},
   "milestones": {
-    "phase_1_target": "'$(gdate -d '+1 week' -Iseconds 2>/dev/null || date -d '+1 week' -Iseconds 2>/dev/null || echo 'Week 1')'",
-    "phase_2_target": "'$(gdate -d '+3 weeks' -Iseconds 2>/dev/null || date -d '+3 weeks' -Iseconds 2>/dev/null || echo 'Week 3')'",
-    "epic_completion_target": "'$(gdate -d '+12 weeks' -Iseconds 2>/dev/null || date -d '+12 weeks' -Iseconds 2>/dev/null || echo 'Week 12')'"
+    "phase_1_target": "'$(date -d '+1 week' -Iseconds 2>/dev/null || date -d '+1 week' -Iseconds 2>/dev/null || echo 'Week 1')'",
+    "phase_2_target": "'$(date -d '+3 weeks' -Iseconds 2>/dev/null || date -d '+3 weeks' -Iseconds 2>/dev/null || echo 'Week 3')'",
+    "epic_completion_target": "'$(date -d '+12 weeks' -Iseconds 2>/dev/null || date -d '+12 weeks' -Iseconds 2>/dev/null || echo 'Week 12')'"
   },
   "performanceBaseline": {},
   "risks": [],
@@ -599,7 +599,7 @@ epic_start_phase() {
   echo " Starting Epic Phase $PHASE"
   
   # Update coordination state
-  jq '.currentPhase = "phase_'$PHASE'" | .phases["phase_'$PHASE'"].startTime = "'$(gdate -Iseconds)'"' \
+  jq '.currentPhase = "phase_'$PHASE'" | .phases["phase_'$PHASE'"].startTime = "'$(date -Iseconds)'"' \
     /tmp/epic-coordination-$SESSION_ID.json > /tmp/epic-coordination-$SESSION_ID.tmp
   mv /tmp/epic-coordination-$SESSION_ID.tmp /tmp/epic-coordination-$SESSION_ID.json
   
@@ -618,7 +618,7 @@ epic_create_worktrees() {
     jq '.worktrees["'$repo'"] = {
       "path": "'$worktree_path'",
       "branch": "epic/'$SESSION_ID'-'$repo'",
-      "createdAt": "'$(gdate -Iseconds)'"
+      "createdAt": "'$(date -Iseconds)'"
     }' /tmp/epic-coordination-$SESSION_ID.json > /tmp/epic-coordination-$SESSION_ID.tmp
     mv /tmp/epic-coordination-$SESSION_ID.tmp /tmp/epic-coordination-$SESSION_ID.json
     
@@ -699,7 +699,7 @@ $(jq -r '.blockers[]?' /tmp/epic-coordination-$SESSION_ID.json 2>/dev/null | sed
 - Update coordination state regularly
 
 ---
-*Auto-generated from epic coordination state at $(gdate)*
+*Auto-generated from epic coordination state at $(date)*
 EOF
 
   echo " Epic dashboard generated: epic-dashboard-$SESSION_ID.md"
@@ -717,7 +717,7 @@ epic_update_progress() {
   
   jq '.repositories["'$repo'"].status = "'$status'" |
       .repositories["'$repo'"].progress = '$progress' |
-      .repositories["'$repo'"].lastUpdate = "'$(gdate -Iseconds)'"' \
+      .repositories["'$repo'"].lastUpdate = "'$(date -Iseconds)'"' \
     /tmp/epic-coordination-$SESSION_ID.json > /tmp/epic-coordination-$SESSION_ID.tmp
   mv /tmp/epic-coordination-$SESSION_ID.tmp /tmp/epic-coordination-$SESSION_ID.json
   

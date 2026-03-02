@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(docker:*), Bash(kubectl:*), Bash(jq:*), Bash(gdate:*)
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(docker:*), Bash(kubectl:*), Bash(jq:*), Bash(date:*)
 description: Proactive security hardening orchestrator with multi-layer threat mitigation
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target path: $ARGUMENTS
 - Current directory: !`pwd`
 - Project type detection: !`fd "(Dockerfile|docker-compose\.yml|Cargo\.toml|go\.mod|package\.json|pom\.xml|build\.gradle)" . -d 3 | head -5 || echo "No build files detected"`
@@ -180,7 +180,7 @@ STEP 5: Session state management and continuous security monitoring
 
 ```bash
 # Update session with applied mitigations
-jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" \
+jq --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" \
    --argjson mitigations '["container_hardening", "k8s_policies", "app_security"]' '
   .lastUpdated = $timestamp |
   .mitigationsApplied += $mitigations |

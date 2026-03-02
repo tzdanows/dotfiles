@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [windows-latest]
 
     steps:
       - name: Checkout code
@@ -28,52 +28,52 @@ jobs:
       - name: Cache Deno dependencies
         uses: actions/cache@v4
         with:
-          path: ~/.cache/deno
+          path: ~/AppData/Local/deno
           key: ${{ runner.os }}-deno-${{ hashFiles('**/deno.lock') }}
           restore-keys: |
             ${{ runner.os }}-deno-
 
       - name: Verify Deno installation
+        shell: bash
         run: |
           deno --version
           echo "Deno installed successfully"
 
       - name: Check deno.json syntax
+        shell: bash
         run: deno task --help
 
       - name: Type check
+        shell: bash
         run: |
           echo "Running type check..."
           deno task check
-          echo "✅ Type check passed"
+          echo "Type check passed"
 
       - name: Lint
+        shell: bash
         run: |
           echo "Running linter..."
           deno lint
-          echo "✅ Lint check passed"
+          echo "Lint check passed"
 
       - name: Format check
+        shell: bash
         run: |
           echo "Running format check..."
           deno fmt --check
-          echo "✅ Format check passed"
+          echo "Format check passed"
 
       - name: Run tests
+        shell: bash
         run: |
           echo "Running tests..."
           deno task test
-          echo "✅ Tests passed"
+          echo "Tests passed"
 
       - name: Test installation (dry run)
+        shell: bash
         run: |
           echo "Testing installation script (dry run)..."
           deno run --allow-all scripts/install-safely.ts --help
-          echo "✅ Installation script help works"
-
-      - name: Verify all scripts are executable
-        if: runner.os != 'Windows'
-        run: |
-          echo "Checking script permissions..."
-          ls -la scripts/*.ts
-          echo "✅ Script permissions verified"
+          echo "Installation script help works"

@@ -1,5 +1,5 @@
 ---
-allowed-tools: Read, WebFetch, Bash(kubectl:*), Bash(helm:*), Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(yq:*)
+allowed-tools: Read, WebFetch, Bash(kubectl:*), Bash(helm:*), Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(yq:*)
 description: Load comprehensive Cilium eBPF networking and security documentation with project-specific optimization
 ---
 
@@ -7,7 +7,7 @@ description: Load comprehensive Cilium eBPF networking and security documentatio
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s000000000 2>/dev/null || echo "session-$(date +%s)000000000"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s000000000 2>/dev/null || echo "session-$(date +%s)000000000"`
 - Current directory: !`pwd`
 - Kubernetes manifests: !`fd "\\.ya?ml$" . | rg "(kind:|apiVersion:)" | head -5 || echo "No Kubernetes manifests found"`
 - Cilium configuration: !`fd "(cilium|cni)" . -t f | head -3 || echo "No Cilium config found"`

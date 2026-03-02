@@ -1,11 +1,11 @@
 ---
-allowed-tools: Write, Read, Bash(gdate:*), Bash(date:*), Bash(pwd:*), Bash(fd:*), Bash(rg:*)
+allowed-tools: Write, Read, Bash(date:*), Bash(date:*), Bash(pwd:*), Bash(fd:*), Bash(rg:*)
 description: Generate strategic roadmap for initiatives with session-based state management
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N`
 - Current directory: !`pwd`
 - Existing planning files: !`fd -t f -e md . | rg -i "plan|roadmap|strategy" | head -5 || echo "No existing planning files found"`
 - Initiative: $ARGUMENTS

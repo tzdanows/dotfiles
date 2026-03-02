@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(jq:*), Bash(yq:*), Bash(gdate:*)
+allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(jq:*), Bash(yq:*), Bash(date:*)
 description: Generate comprehensive CI/CD workflows with intelligent technology stack detection and best practices
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Current directory: !`pwd`
 - Git repository: !`git rev-parse --is-inside-work-tree 2>/dev/null || echo "false"`
 - Detected technologies: !`fd -HI -d 1 '(package\.json|Cargo\.toml|go\.mod|pom\.xml|build\.gradle|deno\.json|requirements\.txt|pyproject\.toml|Dockerfile)$' . 2>/dev/null | wc -l | tr -d ' ' || echo "0"`
@@ -25,7 +25,7 @@ STEP 1: Initialize CI generation session and technology detection
   ```json
   {
     "sessionId": "$SESSION_ID",
-    "timestamp": "$(gdate -Iseconds 2>/dev/null || date -Iseconds)",
+    "timestamp": "$(date -Iseconds 2>/dev/null || date -Iseconds)",
     "arguments": "$ARGUMENTS",
     "phase": "detection",
     "technologies": [],

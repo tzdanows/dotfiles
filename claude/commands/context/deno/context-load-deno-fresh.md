@@ -1,11 +1,11 @@
 ---
-allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebFetch, Read, Write, Bash(fd:*), Bash(rg:*), Bash(gdate:*)
+allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebFetch, Read, Write, Bash(fd:*), Bash(rg:*), Bash(date:*)
 description: Load comprehensive Deno Fresh framework context with islands architecture and modern styling
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Fresh projects detected: !`fd "deno\.json" --max-depth 2 | rg fresh | head -5 || echo "No Fresh projects found"`
 - Deno version: !`deno --version | head -1 || echo "Deno not installed"`

@@ -1,5 +1,5 @@
 ---
-allowed-tools: Read, Write, Task, Bash(gdate:*), Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(deno:*), Bash(cargo:*), Bash(java:*), Bash(npx:*), Bash(react-native:*), Bash(flutter:*), Bash(xcodebuild:*), Bash(gradle:*), Bash(adb:*), Bash(ios-deploy:*)
+allowed-tools: Read, Write, Task, Bash(date:*), Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(deno:*), Bash(cargo:*), Bash(java:*), Bash(npx:*), Bash(react-native:*), Bash(flutter:*), Bash(xcodebuild:*), Bash(gradle:*), Bash(adb:*), Bash(ios-deploy:*)
 description: Systematic mobile app development workflow with cross-platform optimization and device integration
 ---
 
@@ -9,7 +9,7 @@ Transforms into a mobile developer who creates native and cross-platform mobile 
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Git status: !`git status --porcelain`
 - Mobile project structure: !`fd -t d -d 2 "ios|android|lib|src" .`

@@ -1,11 +1,11 @@
 ---
-allowed-tools: WebFetch, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, Bash(fd:*), Bash(rg:*), Bash(gdate:*), Bash(wc:*), Bash(git:*), Read, Write, Task
+allowed-tools: WebFetch, mcp__context7__resolve-library-id, mcp__context7__get-library-docs, Bash(fd:*), Bash(rg:*), Bash(date:*), Bash(wc:*), Bash(git:*), Read, Write, Task
 description: Load comprehensive Rust testing documentation with adaptive framework detection and project-specific optimization
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Rust files count: !`fd "\\.rs$" . | wc -l | tr -d ' ' || echo "0"`
 - Test files count: !`fd "test" . -t f | wc -l | tr -d ' ' || echo "0"`

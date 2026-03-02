@@ -7,7 +7,7 @@ description: Activate refactoring specialist persona for systematic code quality
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Working directory: !`pwd`
 - Project type: !`fd -t f "deno.json|package.json|pom.xml|Cargo.toml|go.mod|build.gradle" -d 2 | head -1 || echo "unknown"`
 - Code complexity: !`fd -e js -e ts -e go -e rs -e java | wc -l | xargs echo "files to analyze:"`

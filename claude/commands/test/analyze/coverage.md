@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(bat:*), Bash(eza:*), Bash(jq:*), Bash(gdate:*), Bash(deno:*), Bash(cargo:*), Bash(go:*), Bash(mvn:*), Bash(npm:*), Bash(jest:*), Bash(vitest:*), Bash(coverage:*), Bash(tarpaulin:*)
+allowed-tools: Task, Read, Write, Edit, MultiEdit, Bash(fd:*), Bash(rg:*), Bash(bat:*), Bash(eza:*), Bash(jq:*), Bash(date:*), Bash(deno:*), Bash(cargo:*), Bash(go:*), Bash(mvn:*), Bash(npm:*), Bash(jest:*), Bash(vitest:*), Bash(coverage:*), Bash(tarpaulin:*)
 description: Comprehensive code coverage orchestrator with intelligent gap analysis, multi-format reporting, and automated improvement recommendations
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target project: $ARGUMENTS
 - Current directory: !`pwd`
 - Project structure: !`eza -la --tree --level=2 2>/dev/null | head -10 || fd . -t d -d 2 | head -8`
@@ -808,7 +808,7 @@ STEP 8: Session state management and final reporting
 update_session_state() {
   echo " Updating session state with coverage analysis results..."
   
-  jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" \
+  jq --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" \
      --arg status "completed" \
      --arg reports_generated "$(ls coverage-reports/ 2>/dev/null | wc -l | tr -d ' ')" \
      '.timestamp = $timestamp | .status = $status | .reportsGenerated = ($reports_generated | tonumber)' \

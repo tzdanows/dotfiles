@@ -1,5 +1,5 @@
 ---
-allowed-tools: Read, Grep, Bash(fd:*), Bash(rg:*), Bash(bat:*), Bash(jq:*), Bash(git:*), Bash(gdate:*), Write, Task
+allowed-tools: Read, Grep, Bash(fd:*), Bash(rg:*), Bash(bat:*), Bash(jq:*), Bash(git:*), Bash(date:*), Write, Task
 description: Generate explanatory diagrams from code and architecture analysis
 ---
 
@@ -7,7 +7,7 @@ description: Generate explanatory diagrams from code and architecture analysis
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Target: $ARGUMENTS
 - Project structure: !`fd . -t d -d 3 | head -10`

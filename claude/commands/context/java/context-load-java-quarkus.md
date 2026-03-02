@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(mvn:*), Bash(gradle:*), Task
+allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(mvn:*), Bash(gradle:*), Task
 description: Load comprehensive Java Quarkus documentation context with project-specific optimization
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Java projects: !`fd "(pom\.xml|build\.gradle|build\.gradle\.kts)" . | head -5 || echo "No Java projects found"`
 - Quarkus projects: !`rg "quarkus" . --type xml --type gradle | wc -l | tr -d ' ' || echo "0"`

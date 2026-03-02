@@ -1,5 +1,5 @@
 ---
-allowed-tools: Read, Write, Edit, MultiEdit, Task, Grep, Bash(rg:*), Bash(fd:*), Bash(gdate:*), Bash(jq:*), Bash(git:*), Bash(deno:*), Bash(go:*), Bash(cargo:*)
+allowed-tools: Read, Write, Edit, MultiEdit, Task, Grep, Bash(rg:*), Bash(fd:*), Bash(date:*), Bash(jq:*), Bash(git:*), Bash(deno:*), Bash(go:*), Bash(cargo:*)
 description: Apply consistent coding standards, naming conventions, and architectural patterns across codebase
 ---
 
@@ -9,7 +9,7 @@ Apply consistent coding standards, naming conventions, and architectural pattern
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Target scope: $ARGUMENTS
 - Project structure: !`fd . -t d -d 2 | head -10 || echo "No subdirectories"`

@@ -7,7 +7,7 @@ description: Activate release manager persona for orchestrating software deploym
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Working directory: !`pwd`
 - Git branch: !`git branch --show-current 2>/dev/null || echo "not in git repo"`
 - Recent tags: !`git tag --sort=-version:refname | head -5 2>/dev/null || echo "no tags"`

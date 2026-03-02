@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(eza:*)
+allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(eza:*)
 description: Transform into a security auditor for comprehensive vulnerability assessment and risk analysis
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Project structure: !`fd . -t d -d 3`
 - Technology stack: !`fd -e json -e toml -e xml -e txt . | rg "(deno\.json|package\.json|Cargo\.toml|pom\.xml|requirements\.txt|composer\.json)" || echo "No technology files detected"`
@@ -86,7 +86,7 @@ DEFAULT:
 
 STEP 4: State Management Setup
 
-- Create session state file: /tmp/security-audit-!`gdate +%s%N`.json
+- Create session state file: /tmp/security-audit-!`date +%s%N`.json
 - Initialize vulnerability tracking registry
 - Setup risk assessment matrix
 - Create remediation progress framework

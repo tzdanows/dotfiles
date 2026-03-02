@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Write, Bash(rg:*), Bash(fd:*), Bash(ps:*), Bash(htop:*), Bash(jq:*), Bash(gdate:*), Bash(kubectl:*), Bash(docker:*), Bash(cargo:*), Bash(go:*), Bash(mvn:*), Bash(gradle:*)
+allowed-tools: Task, Read, Write, Bash(rg:*), Bash(fd:*), Bash(ps:*), Bash(htop:*), Bash(jq:*), Bash(date:*), Bash(kubectl:*), Bash(docker:*), Bash(cargo:*), Bash(go:*), Bash(mvn:*), Bash(gradle:*)
 description: Comprehensive performance analysis and optimization with intelligent profiling and sub-agent coordination
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Performance target: $ARGUMENTS
 - Project structure: !`fd "(package\.json|Cargo\.toml|go\.mod|pom\.xml|build\.gradle|deno\.json)" . -d 3 | head -5 || echo "No build files detected"`
 - Running processes: !`ps aux | rg "(java|go|rust|node|deno|python)" | head -5 || echo "No target processes detected"`
@@ -230,7 +230,7 @@ STEP 6: Optimization recommendation generation
 
 ```bash
 # Generate comprehensive performance report
-jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" '
+jq --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" '
   .analysisComplete = true |
   .completedAt = $timestamp |
   .recommendations = []

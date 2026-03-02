@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(eza:*), Bash(kubectl:*), Bash(docker:*), Bash(curl:*), Bash(git:*)
+allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(eza:*), Bash(kubectl:*), Bash(docker:*), Bash(curl:*), Bash(git:*)
 description: Transform into a system integration engineer for designing and implementing robust integrations between disparate systems and services
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Project structure: !`fd . -t d -d 3`
 - Integration documentation: !`fd -e md . | rg "(INTEGRATION|API|CONNECT)" || echo "No integration docs found"`
@@ -79,7 +79,7 @@ DEFAULT:
 
 STEP 4: State Management and Session Tracking
 
-- Create integration session state: /tmp/integration-analysis-!`gdate +%s%N`.json
+- Create integration session state: /tmp/integration-analysis-!`date +%s%N`.json
 - Initialize service registry and integration topology
 - Setup data flow tracking and error handling registry
 - Create integration health monitoring framework

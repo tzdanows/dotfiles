@@ -1,11 +1,11 @@
 ---
-allowed-tools: Bash(gh pr edit:*), Bash(gh pr view:*), Bash(gh pr list:*), Bash(gh pr ready:*), Bash(gh pr close:*), Bash(gh pr reopen:*), Bash(gh label list:*), Bash(git branch:*), Bash(git status:*), Bash(gdate:*)
+allowed-tools: Bash(gh pr edit:*), Bash(gh pr view:*), Bash(gh pr list:*), Bash(gh pr ready:*), Bash(gh pr close:*), Bash(gh pr reopen:*), Bash(gh label list:*), Bash(git branch:*), Bash(git status:*), Bash(date:*)
 description: Update existing pull requests with comprehensive metadata management
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current PR status: !`gh pr list --head $(git branch --show-current) --json number,title,state,url -q '.[0] // {"number": "none", "title": "No PR found", "state": "N/A", "url": "N/A"}' 2>/dev/null || echo '{"number": "none", "title": "No PR found", "state": "N/A", "url": "N/A"}'`
 - Git branch: !`git branch --show-current`
 - Recent commits: !`git log --oneline -3`

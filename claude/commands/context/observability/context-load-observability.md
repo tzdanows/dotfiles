@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(kubectl:*), Bash(docker:*), Task
+allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(kubectl:*), Bash(docker:*), Task
 description: Load comprehensive observability documentation with project-specific optimization and strategic context loading
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Observability tools detected: !`fd "(prometheus|grafana|jaeger|otel|tempo|loki)\.ya?ml$" . | head -5 || echo "No observability configs found"`
 - Kubernetes manifests: !`fd "*\.ya?ml$" . | rg "(kind:|apiVersion:)" | head -5 || echo "No K8s manifests found"`

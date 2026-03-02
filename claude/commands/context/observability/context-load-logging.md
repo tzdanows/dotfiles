@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*)
+allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*)
 description: Load comprehensive logging and observability documentation context with project-specific optimization
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Observability tools: !`fd "(loki|grafana|prometheus|jaeger|zipkin|otel)" . --type d | head -5 || echo "No observability tools found"`
 - Logging usage: !`rg "logger|logging|log\." . --type go --type js --type ts --type rust --type java | wc -l | tr -d ' ' || echo "0"`

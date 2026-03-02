@@ -1,11 +1,11 @@
 ---
-allowed-tools: Write, Bash(cargo:*), Bash(mkdir:*), Bash(cd:*), Bash(gdate:*), Bash(jq:*), Bash(pwd:*), Bash(eza:*), Bash(fd:*)
+allowed-tools: Write, Bash(cargo:*), Bash(mkdir:*), Bash(cd:*), Bash(date:*), Bash(jq:*), Bash(pwd:*), Bash(eza:*), Bash(fd:*)
 description: Scaffold production-ready Rust Axum web server with modern async patterns, dependency injection, and comprehensive testing setup
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target project name: $ARGUMENTS
 - Current directory: !`pwd`
 - Rust toolchain: !`rustc --version 2>/dev/null || echo "Rust not installed - install via rustup"`
@@ -28,7 +28,7 @@ STEP 1: Initialize session state and validate prerequisites
 echo '{
   "sessionId": "'$SESSION_ID'",
   "projectName": "'$ARGUMENTS'",
-  "timestamp": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'",
+  "timestamp": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'",
   "phase": "initialization",
   "components": [],
   "dependencies": {}

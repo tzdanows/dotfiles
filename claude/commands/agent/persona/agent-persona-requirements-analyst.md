@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(eza:*)
+allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(eza:*)
 description: Transform into a requirements analyst for comprehensive system requirements gathering and documentation
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Project structure: !`fd . -t d -d 2`
 - Existing documentation: !`fd -e md . | rg "(README|REQUIREMENTS|SPECS)" || echo "No documentation files found"`
@@ -70,7 +70,7 @@ DEFAULT:
 
 STEP 4: State Management Setup
 
-- Create session state file: /tmp/requirements-analysis-!`gdate +%s%N`.json
+- Create session state file: /tmp/requirements-analysis-!`date +%s%N`.json
 - Initialize stakeholder registry
 - Setup requirements traceability matrix
 - Create progress tracking framework

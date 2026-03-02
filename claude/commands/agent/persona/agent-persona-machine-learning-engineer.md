@@ -7,7 +7,7 @@ description: Activate ML engineer persona for production ML systems and MLOps
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Working directory: !`pwd`
 - Python environment: !`python --version 2>/dev/null || echo "Python not found"`
 - ML framework detection: !`pip list 2>/dev/null | rg -i "tensorflow|pytorch|sklearn|mlflow|kubeflow" | head -5 || echo "No ML frameworks detected"`

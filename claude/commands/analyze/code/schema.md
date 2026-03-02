@@ -5,7 +5,7 @@ description: Analyze and manage database schema, generate migrations, CRUD code,
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Git status: !`git status --porcelain || echo "Not a git repository"`
 - Project files: !`ls -la | grep -E "(deno\.json|package\.json|Cargo\.toml|go\.mod)" || echo "No common project files found"`

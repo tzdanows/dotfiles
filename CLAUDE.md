@@ -82,7 +82,7 @@ Each installation creates timestamped backups and provides rollback capability.
 ## Development Notes
 
 - All scripting uses Deno with JSR imports (@std/* packages)
-- Cross-platform compatibility is maintained for macOS, Linux, and Windows
+- Designed for Windows 11 with Warp terminal (Git Bash + PowerShell)
 
 ## Zed Editor Tasks
 
@@ -105,7 +105,7 @@ Zed tasks are commands that run in the integrated terminal. Tasks can be defined
   "use_new_terminal": false,
   "allow_concurrent_runs": false,
   "reveal": "always",
-  "shell": "zsh"
+  "shell": "bash"
 }
 ```
 
@@ -118,7 +118,7 @@ Zed tasks are commands that run in the integrated terminal. Tasks can be defined
 
 ### Running Tasks
 
-- `cmd-shift-p` → `task: spawn` - Run a task
+- `ctrl-shift-p` → `task: spawn` - Run a task
 - `task: rerun` - Rerun last task
 - Custom keybindings can trigger specific tasks
 
@@ -568,7 +568,7 @@ FOR EACH component in the directory:
 
 ```yaml
 ## Context
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Previous state: @/tmp/analysis-state-$SESSION_ID.json
 - Iteration count: !`jq .iteration < /tmp/state-$SESSION_ID.json`
 
@@ -601,12 +601,12 @@ FINALLY:
 
 ```yaml
 ---
-allowed-tools: Read, Write, Bash(jq:*), Bash(gdate:*)
+allowed-tools: Read, Write, Bash(jq:*), Bash(date:*)
 description: Workflow with state transitions
 ---
 
 ## Context
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - State file: /tmp/workflow-state-$SESSION_ID.json
 
 ## State Definition
@@ -647,7 +647,7 @@ Stage 3: Generate artifacts
 
 ```yaml
 ## Context
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 
 ## Your task
 1. CHECKPOINT: Save current progress to /tmp/checkpoint-$SESSION_ID.json
@@ -675,13 +675,13 @@ Stage 3: Generate artifacts
 **3. Unique Temporary File Names**
 
 - **CRITICAL**: Always use nanosecond precision timestamps to prevent file conflicts
-- **GOOD**: `/tmp/state-$(gdate +%s%N).json` → `/tmp/state-1751703298807183000.json`
+- **GOOD**: `/tmp/state-$(date +%s%N).json` → `/tmp/state-1751703298807183000.json`
 - **BAD**: `/tmp/state.json` (will cause conflicts with concurrent sessions)
-- **Platform Note**: Use `gdate` on macOS (from coreutils), `date` on Linux
+- **Platform Note**: Git Bash on Windows includes GNU date from MSYS2, so `date +%s%N` works directly.
 
 ```yaml
 ## Context
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - State file: @/tmp/workflow-state-$SESSION_ID.json
 - Checkpoint: @/tmp/checkpoint-$SESSION_ID.json
 
@@ -719,12 +719,12 @@ CALL cleanup_temp_files()
 
 ```yaml
 ---
-allowed-tools: Task, Read, Write, Bash(jq:*), Bash(rg:*), Bash(gdate:*)
+allowed-tools: Task, Read, Write, Bash(jq:*), Bash(rg:*), Bash(date:*)
 description: Automated refactoring workflow with checkpoints
 ---
 
 ## Context
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 
 ## Program Definition
 INPUT: target_directory = $ARGUMENTS

@@ -5,7 +5,7 @@ description: Analyze and design data processing pipelines with automatic source 
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Project structure: !`fd . -t d -d 3 | head -20`
 - Data-related files: !`fd -e json -e csv -e sql -e py -e rs -e go -e java . | rg "(data|etl|pipeline|stream|batch)" | head -10 || echo "No data processing files detected"`

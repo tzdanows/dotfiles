@@ -1,11 +1,11 @@
 ---
-allowed-tools: Bash(git:*), Bash(gh:*), Read, Write, Edit, MultiEdit, Task, Bash(gdate:*)
+allowed-tools: Bash(git:*), Bash(gh:*), Read, Write, Edit, MultiEdit, Task, Bash(date:*)
 description: Systematic bug investigation and fix workflow with GitHub integration
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Git status: !`git status --porcelain || echo "Not a git repository"`
 - Current branch: !`git branch --show-current 2>/dev/null || echo "No git repository"`

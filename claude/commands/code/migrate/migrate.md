@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Task, Bash(gdate:*), Bash(date:*), Bash(pwd:*), Bash(fd:*), Bash(rg:*), Bash(git:*)
+allowed-tools: Read, Write, Task, Bash(date:*), Bash(date:*), Bash(pwd:*), Bash(fd:*), Bash(rg:*), Bash(git:*)
 description: Create comprehensive migration strategy with automated implementation plans
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N`
 - Current directory: !`pwd`
 - Project files: !`fd "(go\.mod|Cargo\.toml|pom\.xml|package\.json|deno\.json)" --max-depth 2 | head -5 || echo "No project files found"`
 - Migration directories: !`fd "migrations?" --type d | head -5 || echo "No migration directories found"`

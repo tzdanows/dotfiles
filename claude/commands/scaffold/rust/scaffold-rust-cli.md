@@ -1,11 +1,11 @@
 ---
-allowed-tools: Bash(cargo:*), Write, Read, Bash(mkdir:*), Bash(fd:*), Bash(rg:*), Bash(gdate:*)
+allowed-tools: Bash(cargo:*), Write, Read, Bash(mkdir:*), Bash(fd:*), Bash(rg:*), Bash(date:*)
 description: Generate production-ready Rust CLI application with modern architecture and comprehensive scaffolding
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target CLI name: $ARGUMENTS
 - Current directory: !`pwd`
 - Rust toolchain: !`rustc --version 2>/dev/null || echo "Rust not found - will provide installation guidance"`

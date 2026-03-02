@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Bash(hyperfine:*), Bash(rg:*), Bash(fd:*), Bash(wrk:*), Bash(k6:*), Bash(perf:*), Bash(jq:*), Bash(gdate:*), Bash(cargo:*), Bash(go:*), Bash(mvn:*), Bash(deno:*), Bash(valgrind:*), Bash(time:*), Bash(docker:*), Bash(curl:*), Bash(psql:*), Bash(dragonfly-cli:*), Bash(stress:*), Read, Write
+allowed-tools: Task, Bash(hyperfine:*), Bash(rg:*), Bash(fd:*), Bash(wrk:*), Bash(k6:*), Bash(perf:*), Bash(jq:*), Bash(date:*), Bash(cargo:*), Bash(go:*), Bash(mvn:*), Bash(deno:*), Bash(valgrind:*), Bash(time:*), Bash(docker:*), Bash(curl:*), Bash(psql:*), Bash(dragonfly-cli:*), Bash(stress:*), Read, Write
 description: Comprehensive performance analysis and optimization orchestrator with parallel benchmarking capabilities
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Benchmark target: $ARGUMENTS
 - Project type: !`fd "(Cargo.toml|go.mod|package.json|pom.xml|deno.json)" . -d 2 | head -3 || echo "No build files detected"`
 - Available performance tools: !`echo "hyperfine: $(which hyperfine >/dev/null && echo  || echo ) | wrk: $(which wrk >/dev/null && echo  || echo ) | k6: $(which k6 >/dev/null && echo  || echo ) | perf: $(which perf >/dev/null && echo  || echo )"`
@@ -824,7 +824,7 @@ cat > /tmp/performance-report-$SESSION_ID.md << EOF
 
 **Session ID:** $SESSION_ID  
 **Target:** $ARGUMENTS  
-**Timestamp:** $(gdate -Iseconds 2>/dev/null || date -Iseconds)  
+**Timestamp:** $(date -Iseconds 2>/dev/null || date -Iseconds)  
 **System:** $(uname -s) $(uname -m)  
 
 ## Executive Summary
@@ -873,7 +873,7 @@ echo " Performance report generated: /tmp/performance-report-$SESSION_ID.md"
 
 ```bash
 # Update session state with final results
-jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" \
+jq --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" \
    --arg phase "completed" \
    '.currentPhase = $phase | .completedAt = $timestamp | .status = "success"' \
    /tmp/benchmark-session-$SESSION_ID.json > /tmp/benchmark-session-$SESSION_ID.tmp && \

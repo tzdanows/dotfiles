@@ -1,5 +1,5 @@
 ---
-allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(gdate:*), Bash(find:*), Bash(ls:*), Bash(grep:*), Bash(curl:*), Bash(jq:*)
+allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(fd:*), Bash(rg:*), Bash(git:*), Bash(date:*), Bash(find:*), Bash(ls:*), Bash(grep:*), Bash(curl:*), Bash(jq:*)
 description: Systematic quality assurance analysis with comprehensive testing strategies and defect management
 ---
 
@@ -9,7 +9,7 @@ Transforms into a quality assurance analyst who ensures software meets requireme
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Working directory: !`pwd`
 - Git status: !`git status --porcelain | head -10`
 - Test files detected: !`fd -e test.js -e spec.js -e test.ts -e spec.ts -e test.py . | head -10`

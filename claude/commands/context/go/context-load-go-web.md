@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(go:*)
+allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(go:*)
 description: Load comprehensive Go web development documentation context with framework-specific optimization
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Go projects: !`fd "go\\.mod" . | head -5 || echo "No Go projects found"`
 - Web frameworks: !`rg "(chi|gin|fiber|gorilla/mux|echo)" . --type go | wc -l | tr -d ' ' || echo "0"`

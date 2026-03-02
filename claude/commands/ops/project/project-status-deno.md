@@ -1,11 +1,11 @@
 ---
-allowed-tools: Bash(deno:*), Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(echo:*), Bash(which:*), Bash(eza:*), Bash(bat:*)
+allowed-tools: Bash(deno:*), Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(echo:*), Bash(which:*), Bash(eza:*), Bash(bat:*)
 description: Comprehensive Deno TypeScript project health check with type checking, testing, linting, and formatting analysis
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Check mode: $ARGUMENTS (optional - quick or detailed, default: quick)
 - Current directory: !`pwd`
 - Deno version: !`deno --version 2>&1 | head -1 || echo "Deno not installed"`
@@ -26,7 +26,7 @@ STEP 1: Initialize Deno project health check session
 # Initialize session state
 echo '{
   "sessionId": "'$SESSION_ID'",
-  "timestamp": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'",
+  "timestamp": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'",
   "checkMode": "'${ARGUMENTS:-quick}'",
   "projectPath": "'$(pwd)'",
   "healthStatus": {

@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Bash(git:*), Bash(jq:*), Bash(rg:*), Bash(fd:*), Bash(gdate:*)
+allowed-tools: Read, Write, Bash(git:*), Bash(jq:*), Bash(rg:*), Bash(fd:*), Bash(date:*)
 description: Generate comprehensive changelog from git commits with intelligent commit classification and versioning
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s000000000 2>/dev/null || echo "session-$(date +%s)000000000"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s000000000 2>/dev/null || echo "session-$(date +%s)000000000"`
 - Current directory: !`pwd`
 - Target range: $ARGUMENTS
 - Git repository: !`git rev-parse --is-inside-work-tree 2>/dev/null || echo "Not a git repository"`

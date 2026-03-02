@@ -1,11 +1,11 @@
 ---
-allowed-tools: TodoWrite, TodoRead, Bash(git:*), Bash(deno:task:*), Bash(jq:*), Bash(gdate:*), Read, Write, Task, Grep, Glob, Edit, MultiEdit
+allowed-tools: TodoWrite, TodoRead, Bash(git:*), Bash(deno:task:*), Bash(jq:*), Bash(date:*), Read, Write, Task, Grep, Glob, Edit, MultiEdit
 description: Intelligent workflow orchestration with state management, error recovery, and sub-agent coordination
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Target task: $ARGUMENTS
 - Current git status: !`git status --porcelain 2>/dev/null || echo "No git repository"`
 - Current branch: !`git branch --show-current 2>/dev/null || echo "unknown"`
@@ -30,7 +30,7 @@ echo '{
   "sessionId": "'$SESSION_ID'",
   "targetTask": "'$ARGUMENTS'",
   "state": "initializing",
-  "startTime": "'$(gdate -Iseconds 2>/dev/null || date -Iseconds)'",
+  "startTime": "'$(date -Iseconds 2>/dev/null || date -Iseconds)'",
   "checkpoints": [],
   "filesModified": [],
   "commitsCreated": 0,
@@ -233,7 +233,7 @@ validate_progress() {
   
   # Update session state with validation results
   jq --arg status "$([ $validation_status -eq 0 ] && echo 'passing' || echo 'failing')" \
-     --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" \
+     --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" \
      '.lastValidation = {"timestamp": $timestamp, "status": $status} | .checkpoints += [$timestamp]' \
      /tmp/start-session-$SESSION_ID.json > /tmp/start-session-$SESSION_ID.tmp && \
   mv /tmp/start-session-$SESSION_ID.tmp /tmp/start-session-$SESSION_ID.json
@@ -256,7 +256,7 @@ create_checkpoint() {
   
   # Update session state
   jq --arg checkpoint "$checkpoint_name" \
-     --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" \
+     --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" \
      '.checkpoints += [{"name": $checkpoint, "timestamp": $timestamp}]' \
      /tmp/start-session-$SESSION_ID.json > /tmp/start-session-$SESSION_ID.tmp && \
   mv /tmp/start-session-$SESSION_ID.tmp /tmp/start-session-$SESSION_ID.json
@@ -392,7 +392,7 @@ Session: $SESSION_ID"
   TodoWrite --complete-task "$selected_task" --session-id "$SESSION_ID"
   
   # Update session state
-  jq --arg timestamp "$(gdate -Iseconds 2>/dev/null || date -Iseconds)" \
+  jq --arg timestamp "$(date -Iseconds 2>/dev/null || date -Iseconds)" \
      '.state = "completed" | .completedAt = $timestamp | .commitsCreated += 1' \
      /tmp/start-session-$SESSION_ID.json > /tmp/start-session-$SESSION_ID.tmp && \
   mv /tmp/start-session-$SESSION_ID.tmp /tmp/start-session-$SESSION_ID.json
@@ -437,7 +437,7 @@ FINALLY:
 echo " Workflow session completed successfully"
 echo " Session: $SESSION_ID"
 echo " Task: $selected_task"
-echo "⏱️ Duration: $(jq -r '.completedAt' /tmp/start-session-$SESSION_ID.json | xargs -I {} bash -c 'echo $(( $(gdate -d {} +%s) - $(gdate -d "$(jq -r .startTime /tmp/start-session-$SESSION_ID.json)" +%s) ))') seconds"
+echo "⏱️ Duration: $(jq -r '.completedAt' /tmp/start-session-$SESSION_ID.json | xargs -I {} bash -c 'echo $(( $(date -d {} +%s) - $(date -d "$(jq -r .startTime /tmp/start-session-$SESSION_ID.json)" +%s) ))') seconds"
 echo " Files modified: $(jq -r '.filesModified | length' /tmp/start-session-$SESSION_ID.json)"
 echo " Commits created: $(jq -r '.commitsCreated' /tmp/start-session-$SESSION_ID.json)"
 echo " Final test status: $(jq -r '.testsStatus' /tmp/start-session-$SESSION_ID.json)"

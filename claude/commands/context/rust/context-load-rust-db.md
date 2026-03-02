@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(cargo:*), Task
+allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(cargo:*), Task
 description: Load comprehensive Rust database documentation context with project-specific ORM optimization
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Rust projects: !`fd "Cargo\\.toml" . | head -5 || echo "No Rust projects found"`
 - Database crates: !`rg "(sqlx|diesel|sea-orm|tokio-postgres|rusqlite)" . --type rust | wc -l | tr -d ' ' || echo "0"`

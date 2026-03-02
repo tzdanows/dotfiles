@@ -1,11 +1,11 @@
 ---
-allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebFetch, Write, Bash(gdate:*)
+allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebFetch, Write, Bash(date:*)
 description: Load comprehensive Java Spring Framework documentation context for development
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Java projects: !`fd "(pom\.xml|build\.gradle)" --max-depth 3 | head -5 || echo "No Java projects found"`
 - Spring usage: !`rg "(spring-boot|springframework)" . --type java --type xml | wc -l | tr -d ' ' || echo "0"`

@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, WebSearch, WebFetch, Write, Bash(gdate:*), Bash(pwd:*), Bash(fd:*), Bash(rg:*), Bash(git:*)
+allowed-tools: Task, WebSearch, WebFetch, Write, Bash(date:*), Bash(pwd:*), Bash(fd:*), Bash(rg:*), Bash(git:*)
 description: Comprehensive parallel web research with multi-agent analysis and synthesis
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Project type: !`fd -e json -e toml -e xml . | rg "(deno\.json|package\.json|Cargo\.toml|pom\.xml|requirements\.txt)" | head -3 || echo "No project files detected"`
 - Technology stack: !`fd -e json . | head -3 | xargs -I {} rg "(react|vue|angular|typescript|python|rust|go|java|kubernetes|docker)" {} | head -5 || echo "No stack detected"`

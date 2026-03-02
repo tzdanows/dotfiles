@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(mmdc:*), Bash(gdate:*), Agent
+allowed-tools: Read, Write, Bash(fd:*), Bash(rg:*), Bash(mmdc:*), Bash(date:*), Agent
 description: Generate architecture and flow diagrams with ASCII art and Mermaid
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Project files: !`fd -t f -e ts -e js -e rs -e go -e java -e py . | head -20`
 - Main entry points: !`fd "^(main|index|app)\\.(ts|js|rs|go|java|py)$" . | head -10`
 - Package info: !`fd "^(package\\.json|Cargo\\.toml|go\\.mod|pom\\.xml|requirements\\.txt)$" . | head -5`

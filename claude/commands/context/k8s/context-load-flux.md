@@ -1,5 +1,5 @@
 ---
-allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebFetch, Write, Read, Bash(fd:*), Bash(rg:*), Bash(kubectl:*), Bash(gdate:*)
+allowed-tools: mcp__context7__resolve-library-id, mcp__context7__get-library-docs, WebFetch, Write, Read, Bash(fd:*), Bash(rg:*), Bash(kubectl:*), Bash(date:*)
 description: Load comprehensive Flux GitOps documentation context with intelligent project analysis and state management
 ---
 
@@ -7,7 +7,7 @@ description: Load comprehensive Flux GitOps documentation context with intellige
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Kubernetes configs: !`fd "(kustomization\.yaml|\.yaml|\.yml)$" . | rg "(apiVersion|kind)" | head -10 || echo "No Kubernetes manifests found"`
 - Flux resources: !`fd "\.yaml$" . -x rg -l "(fluxcd\.io|GitRepository|Kustomization|HelmRelease|HelmRepository)" | head -5 || echo "No Flux resources found"`

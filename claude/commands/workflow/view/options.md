@@ -1,11 +1,11 @@
 ---
-allowed-tools: Task, Read, Bash(rg:*), Bash(fd:*), Bash(gdate:*), Bash(jq:*), Bash(bat:*)
+allowed-tools: Task, Read, Bash(rg:*), Bash(fd:*), Bash(date:*), Bash(jq:*), Bash(bat:*)
 description: Strategic decision analysis framework with multi-approach evaluation and recommendation scoring
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
+- Session ID: !`date +%s%N 2>/dev/null || date +%s%N 2>/dev/null || echo "$(date +%s)$(jot -r 1 100000 999999 2>/dev/null || shuf -i 100000-999999 -n 1 2>/dev/null || echo $RANDOM$RANDOM)"`
 - Analysis target: $ARGUMENTS
 - Current project context: !`pwd`
 - Available resources: !`eza -la . 2>/dev/null | head -5 || fd . -d 1 | head -5`

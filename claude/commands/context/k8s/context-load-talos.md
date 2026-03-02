@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(kubectl:*), Bash(talosctl:*), Bash(jq:*), Bash(gdate:*)
+allowed-tools: Read, WebFetch, Bash(fd:*), Bash(rg:*), Bash(kubectl:*), Bash(talosctl:*), Bash(jq:*), Bash(date:*)
 description: Load comprehensive Talos Linux Kubernetes documentation with environment-specific optimization
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Kubernetes configs: !`fd "(kubeconfig|config)" ~/.kube /etc/kubernetes . | head -3 || echo "No K8s configs found"`
 - Talos configs: !`fd "talosconfig" ~ . | head -3 || echo "No Talos configs found"`

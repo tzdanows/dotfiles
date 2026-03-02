@@ -1,11 +1,11 @@
 ---
-allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(gdate:*), Bash(wc:*)
+allowed-tools: Read, Write, Edit, MultiEdit, Task, Bash(fd:*), Bash(rg:*), Bash(jq:*), Bash(date:*), Bash(wc:*)
 description: Generate interactive data visualizations and dashboards with intelligent chart selection and real-time updates
 ---
 
 ## Context
 
-- Session ID: !`gdate +%s%N`
+- Session ID: !`date +%s%N`
 - Current directory: !`pwd`
 - Data files: !`fd "\.(csv|json|xlsx|parquet|tsv|xml)$" --max-depth 3 | head -10 || echo "No data files found"`
 - Database configs: !`fd "(knex|prisma|typeorm|sequelize|deno\.json|package\.json)" --max-depth 2 | head -5 || echo "No database configs found"`
