@@ -41,7 +41,7 @@ IMPORTANT: I am primarily a backend developer and prefer these languages and fra
 
 #### Scripting & Automation
 
-**YOU MUST** use Deno for all scripting tasks instead of Bash(potentially occasionally) or makefiles or Python:
+**YOU MUST** use Deno for all scripting tasks instead of Bash or makefiles or Python:
 
 - Create `deno.json` in project root with tasks for common operations
 - Use JSR imports: `import { walk } from "@std/fs";` NOT `https://deno.land/...`
@@ -57,7 +57,7 @@ Use [Deno Fresh](https://fresh.deno.dev/) with these practices:
 - Mock external dependencies for fast, reliable tests
 - Use fresh-testing-library for component/handler testing
 
-#### Fresh 2.0 Essentials
+#### Fresh Essentials
 
 Fresh 2.0 (alpha) is production-ready but has rough edges. Use fallback strategies for styling, proxy patterns for APIs, and pre-built Docker approaches for reliable deployments.
 
@@ -98,14 +98,12 @@ Fresh 2.0 (alpha) is production-ready but has rough edges. Use fallback strategi
 
 ## Infrastructure Choices
 
-IMPORTANT: I run a Talos Linux Kubernetes Cluster. Use these modern alternatives:
+IMPORTANT: I run a Fedora Linux Mini PC. Use these modern alternatives:
 
 - **Database**: Postgres (NOT MySQL)
-- **Cache**: DragonflyDB (NOT Redis)
+- **Cache**: DragonflyDB or Redis
 - **Streaming**: RedPanda (NOT Kafka)
 - **NoSQL**: ScyllaDB (NOT Cassandra)
-
-NOTE: some of my devices run on Fedora Linux. So when we're not working with kubernetes, assume the OS is Fedora Linux or MacOS.
 
 ## Modern Development Tools
 

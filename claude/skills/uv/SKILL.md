@@ -1,7 +1,7 @@
 ---
 name: uv
 description: UV Python package manager and project tool expert. Auto-loads when working with uv, pyproject.toml, Python project setup, inline script metadata (PEP 723), uv run, uv init, uv add, uv lock, uv sync, uvx, uv tool, Python dependency management, virtual environments, workspaces, or UV-based scripting suites. Keywords: uv, python, pyproject, pip, venv, dependencies, scripts, packaging.
-allowed-tools: Read, Grep, Glob, Bash, Write, Edit
+  allowed-tools: Read, Grep, Glob, Bash, Write, Edit
 ---
 
 # UV — Python Package & Project Manager
